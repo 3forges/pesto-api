@@ -48,9 +48,9 @@ export class PestoContentTypeController {
   @HttpCode(204)
   // async create(@Req() req: RawBodyRequest<FastifyRequest>) {
   async create(@Body() createPestoContentType: CreatePestoContentTypeDto) {
-    const raw = createPestoContentType; // returns a `Buffer`.
+    const jsonPayload = createPestoContentType; // returns a `Buffer`.
     console.log(` >>>>>>>>>>>>>>>> DEBUT JSON RECU: `);
-    console.log(raw);
+    console.log(jsonPayload);
     console.log(` >>>>>>>>>>>>>>>> FIN`);
     console.log(createPestoContentType.identifier);
     console.log(createPestoContentType.description);
@@ -60,19 +60,20 @@ export class PestoContentTypeController {
 
   /**
    * @param id l'Id du type de contenu à modifier
-   * @param updateTodoDto la payload de la requête reçue
+   * @param updatePestoContentType la payload de la requête reçue
    * @returns Le type de conteu modifié
    */
   @Put(':id')
   async update(
     @Param('id') id: string,
-    @Body() updateTodoDto: UpdatePestoContentTypeDto,
+    @Body() updatePestoContentType: UpdatePestoContentTypeDto,
   ) {
-    return await this.service.update(id, updateTodoDto);
+    return await this.service.update(id, updatePestoContentType);
   }
 
   @Delete(':id')
   async delete(@Param('id') id: string) {
+    console.log(`Ouais ok c'est le DELETE [${id}]`)
     return await this.service.delete(id);
   }
 }

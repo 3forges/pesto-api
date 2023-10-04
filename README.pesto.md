@@ -1,6 +1,17 @@
 # The `Pesto API`
 
 ## Run the `Pesto API` locally
+
+* Mongo FQDN
+
+```bash
+export IPADDR_OF_YOUR_VM="192.168.230.82"
+export PESTO_MONGO_HOST=mongo.pesto.io
+echo "# ---- " | sudo tee -a /etc/hosts
+echo "${IPADDR_OF_YOUR_VM}      ${PESTO_MONGO_HOST}" | sudo tee -a /etc/hosts
+```
+
+
 * First, you need to run a mongodb service on a VM of you choice:
 
 ```bash
@@ -51,6 +62,16 @@ curl -iv -X GET -H 'Accept: application/json' http://localhost:3000/pesto-conten
 # "Pesto Content Type", with a curl : 
 curl -iv -X POST -H 'Content-Type: application/json' -d '{ "title" : "robe", "description" : "un autre type de contenu pour mon blog", "identifier" : "robe"}' -H 'Accept: application/json' http://localhost:3000/pesto-content-type | tail -n 1 | jq .
 
+
+# ---
+# This is how to create a new
+# "Pesto Content Type", with a curl : 
+export PESTO_CT_ID="651cc18610e7a46f36293572"
+
+curl -iv -X DELETE -G \
+     -d "id=${PESTO_CT_ID}" \
+     "http://localhost:3000/pesto-content-type/${PESTO_CT_ID}" | tail -n 1 | jq .
+
 ```
 
 ## How it was spawned
@@ -60,6 +81,7 @@ curl -iv -X POST -H 'Content-Type: application/json' -d '{ "title" : "robe", "de
 # ---
 # first install nest cli 
 # (does not work with pnpm - 03/10/2023)
+# sudo npm install -g @nestjs/cli
 npm install -g @nestjs/cli
 
 
@@ -191,7 +213,7 @@ EOF
 
 ```
 
-* Then  i modified the sorurce code to pick a  first env.  var. : 
+* Then I modified the sorurce code to pick a  first env.  var. :
 
 ```bash
 export PESTO_DBNAME=pesto
