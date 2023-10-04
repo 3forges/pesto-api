@@ -1,0 +1,110 @@
+---
+interface Props {
+	title?: string;
+	body?: string;
+	href?: string;
+    channel?: string;
+    parent?: string;
+}
+/**
+ * https://developers.google.com/youtube/player_parameters?hl=fr
+ */
+const { href, title, body, channel = 'monstercat', parent = 'streamernews.example.com' } = Astro.props;
+---
+
+
+
+
+  
+<iframe width="560"
+height="315"
+id="yellowplayer"
+src="https://www.youtube.com/embed/gvhZW5E3CpY?si=E6x6FeCNEPJoxBjX?enablejsapi=1&origin=http://localhost"
+title="YouTube video player"
+frameborder="0"
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+</iframe>
+
+<script type="text/javascript">
+  
+    function onPlayerReady(event) {
+      console.log(` Appel de [onPlayerReady(event)] `)
+      event.target.setVolume(100);
+      event.target.playVideo();
+    }
+
+    /*
+    function docReady(fn) {
+        console.log(` Appel de [docReady(fn)] `)
+        let player = document.getElementById("yellowplayer")
+        // see if DOM is already available
+        if (player.readyState === "complete" || document.readyState === "interactive") {
+            // call on next available tick
+            setTimeout(fn, 1);
+        } else {
+            player.addEventListener("DOMContentLoaded", fn);
+        }
+    } */
+    // docReady(onPlayerReady)
+    function bootstrapPlayer() {
+        console.log(` Appel de [docReady(fn)] `)
+        let player = document.getElementById("yellowplayer")
+        // see if DOM is already available
+        if (player.readyState === "complete" || document.readyState === "interactive") {
+            // call on next available tick
+            // setTimeout(fn, 1);
+            console.log(` The Youtube Player is ready! `)
+            player.setVolume(100);
+            player.playVideo();
+            
+        } else {
+            console.log(` The Youtube Player is not ready! `)
+            // player.addEventListener("DOMContentLoaded", fn);
+        }
+    }
+    bootstrapPlayer()
+</script>
+<!--
+
+
+    <iframe id="player" type="text/html" width="640" height="360"
+      src="http://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1&origin=http://example.com"
+      frameborder="0"></iframe>
+
+      
+    <div id="ytplayer"></div>
+    
+    <script>
+        // Load the IFrame Player API code asynchronously.
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/player_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        
+        // Replace the 'ytplayer' element with an <iframe> and
+            // YouTube player after the API code downloads.
+            var player;
+            function onYouTubePlayerAPIReady() {
+                player = new YT.Player('ytplayer', {
+                    height: '360',
+              width: '640',
+              videoId: 'M7lc1UVf-VE'
+            });
+        }
+    </script>
+-->
+
+
+
+
+
+
+
+
+
+<iframe
+    src="https://player.twitch.tv/?${channel}&parent=${parent}"
+    height="800"
+    width="600"
+    allowfullscreen>
+</iframe>
