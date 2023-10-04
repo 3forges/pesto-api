@@ -28,20 +28,18 @@ source ./.env.sh
 docker-compose up -d
 ```
 
-* Then you can start the rest api from the `./pesto-api` folder : 
+* Then you can start the rest api from the `./nest-pnpm-docker` folder:
 
 ```bash
-pnpm i 
 
-export PESTO_MONGO_HOST=mongo.pesto.io
-source ./.env.sh
+# ---
+# First, install the nestjs cli
+npm install -g @nestjs/cli
 
-pnpm start
-```
-* Then you can run the 
-```
+#---
+# 
+cd ./nest-pnpm-docker
 
-```bash
 pnpm i 
 
 export PESTO_MONGO_HOST=mongo.pesto.io
@@ -55,6 +53,8 @@ pnpm start
 ```bash
 curl -iv -X GET -H 'Accept: application/json' http://localhost:3000/ | tail -n 1 | jq .
 
+# ---
+# List all Entity instances 
 curl -iv -X GET -H 'Accept: application/json' http://localhost:3000/pesto-content-type | tail -n 1 | jq .
 
 # ---
@@ -62,15 +62,24 @@ curl -iv -X GET -H 'Accept: application/json' http://localhost:3000/pesto-conten
 # "Pesto Content Type", with a curl : 
 curl -iv -X POST -H 'Content-Type: application/json' -d '{ "title" : "robe", "description" : "un autre type de contenu pour mon blog", "identifier" : "robe"}' -H 'Accept: application/json' http://localhost:3000/pesto-content-type | tail -n 1 | jq .
 
+# ---
+# List all Entity instances 
+curl -iv -X GET -H 'Accept: application/json' http://localhost:3000/pesto-content-type | tail -n 1 | jq .
+
 
 # ---
-# This is how to create a new
-# "Pesto Content Type", with a curl : 
+# This is how to delete a 
+# "Pesto Content Type", using 
+# its ID, and curl command : 
 export PESTO_CT_ID="651cc18610e7a46f36293572"
 
 curl -iv -X DELETE -G \
      -d "id=${PESTO_CT_ID}" \
      "http://localhost:3000/pesto-content-type/${PESTO_CT_ID}" | tail -n 1 | jq .
+
+# ---
+# List all Entity instances 
+curl -iv -X GET -H 'Accept: application/json' http://localhost:3000/pesto-content-type | tail -n 1 | jq .
 
 ```
 
@@ -81,7 +90,6 @@ curl -iv -X DELETE -G \
 # ---
 # first install nest cli 
 # (does not work with pnpm - 03/10/2023)
-# sudo npm install -g @nestjs/cli
 npm install -g @nestjs/cli
 
 
