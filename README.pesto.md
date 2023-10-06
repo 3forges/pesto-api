@@ -2,13 +2,36 @@
 
 ## Run the `Pesto API` locally
 
-* Mongo FQDN
+* Mongo FQDN:
+
+  * on Windows, in git bash:
+
+```bash
+export IPADDR_OF_YOUR_VM="192.168.230.82"
+export PESTO_MONGO_HOST=mongo.pesto.io
+echo "# ---- " | sudo tee -a /etc/hosts
+echo "${IPADDR_OF_YOUR_VM}      ${PESTO_MONGO_HOST}" | sudo tee -a /c/Windows/System32/drivers/etc/hosts
+
+# ---
+# if you're dhcp
+export OLD_IPADDR_OF_YOUR_VM="192.168.230.82"
+export IPADDR_OF_YOUR_VM="192.168.230.82"
+sudo sed -i "s##${IPADDR_OF_YOUR_VM}#g" /c/Windows/System32/drivers/etc/hosts
+sed -i "s#${OLD_IPADDR_OF_YOUR_VM}#${IPADDR_OF_YOUR_VM}#g" /c/Windows/System32/drivers/etc/hosts
+```
+
+  * on GNU/Linux, in bash shell:
 
 ```bash
 export IPADDR_OF_YOUR_VM="192.168.230.82"
 export PESTO_MONGO_HOST=mongo.pesto.io
 echo "# ---- " | sudo tee -a /etc/hosts
 echo "${IPADDR_OF_YOUR_VM}      ${PESTO_MONGO_HOST}" | sudo tee -a /etc/hosts
+
+
+export OLD_IPADDR_OF_YOUR_VM="192.168.230.82"
+export IPADDR_OF_YOUR_VM="192.168.230.82"
+sed -i "s#${OLD_IPADDR_OF_YOUR_VM}#${IPADDR_OF_YOUR_VM}#g" /etc/hosts
 ```
 
 
@@ -28,7 +51,7 @@ source ./.env.sh
 docker-compose up -d
 ```
 
-* Then you can start the rest api from the `./nest-pnpm-docker` folder:
+* Then you can start the rest api from the `./pesto-api` folder:
 
 ```bash
 
@@ -38,7 +61,7 @@ npm install -g @nestjs/cli
 
 #---
 # 
-cd ./nest-pnpm-docker
+cd ./pesto-api
 
 pnpm i 
 

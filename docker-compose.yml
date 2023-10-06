@@ -13,6 +13,32 @@ services:
 #     networks:
 #       - pesto_net
 
+  pesto_dev:
+    build:
+      context: ./pesto-api/
+      dockerfile: dev.Dockerfile
+      # dockerfile: prod.Dockerfile
+      args:
+        PESTO_HOME: /usr/src/ops
+        PNPM_VERSION: 8.7.4
+    volumes:
+      - $PWD:/usr/src/app:ro
+    restart: always
+    stdin_open: true 
+    tty: true
+    environment:
+      - PESTO_HOME=/usr/src/ops
+    ports:
+        - '0.0.0.0:3000:3000'
+        - '0.0.0.0:9229:9229'
+    networks:
+      pesto_net:
+        aliases:
+          - api.pesto.io
+          - pesto.io
+    depends_on:
+      - mongodb
+
   mongodb:
     image: mongodb/mongodb-community-server:6.0-ubi8
     restart: always
@@ -33,7 +59,10 @@ services:
     volumes:
       - pesto_data:/data/db
     networks:
-      - pesto_net
+      pesto_net:
+        aliases:
+          - mongo.pesto.io
+          - db.pesto.io
 
 volumes:
   pesto_data:
