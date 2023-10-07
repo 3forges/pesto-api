@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreatePestoContentTypeDto } from 'src/content/dto/create-pesto-content-type.dto';
-import { UpdatePestoContentTypeDto } from 'src/content/dto/update-pesto-content-type.dto';
+import { CreatePestoContentTypeDto } from './dto/create-pesto-content-type.dto';
+import { UpdatePestoContentTypeDto } from './dto/update-pesto-content-type.dto';
 import {
   PestoContentTypeDocument,
   PestoContentType,
-} from 'src/content/schemas/PestoContentType.schema';
+} from './schemas/PestoContentType.schema';
 
 @Injectable()
 export class PestoContentTypeService {

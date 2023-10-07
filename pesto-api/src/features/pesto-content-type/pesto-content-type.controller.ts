@@ -10,9 +10,9 @@ import {
   // RawBodyRequest,
   // Req,
 } from '@nestjs/common';
-import { CreatePestoContentTypeDto } from 'src/content/dto/create-pesto-content-type.dto';
-import { UpdatePestoContentTypeDto } from 'src/content/dto/update-pesto-content-type.dto';
-import { PestoContentTypeService } from 'src/pesto-content-type/pesto-content-type.service';
+import { CreatePestoContentTypeDto } from './dto/create-pesto-content-type.dto';
+import { UpdatePestoContentTypeDto } from './dto/update-pesto-content-type.dto';
+import { PestoContentTypeService } from './pesto-content-type.service';
 //import { Request } from 'express';
 // import { FastifyRequest } from 'fastify';
 
@@ -28,6 +28,11 @@ export class PestoContentTypeController {
   @Get(':id')
   async find(@Param('id') id: string) {
     return await this.service.findOne(id);
+  }
+
+  @Get('/project/:project_id')
+  async findByProject(@Param('project_id') project_id: string) {
+    return await this.service.findByProject(project_id);
   }
 
   /**
@@ -51,7 +56,7 @@ export class PestoContentTypeController {
     const jsonPayload = createPestoContentType; // returns a `Buffer`.
     console.log(` >>>>>>>>>>>>>>>> DEBUT JSON RECU: `);
     console.log(jsonPayload);
-    console.log(` >>>>>>>>>>>>>>>> FIN`);
+    console.log(` >>>>>>>>>>>>>>>> FIN JSON PAYLOAD`);
     console.log(createPestoContentType.identifier);
     console.log(createPestoContentType.description);
     console.log(createPestoContentType.title);
@@ -73,7 +78,7 @@ export class PestoContentTypeController {
 
   @Delete(':id')
   async delete(@Param('id') id: string) {
-    console.log(`Ouais ok c'est le DELETE [${id}]`)
+    console.log(`Ouais ok c'est le DELETE [${id}]`);
     return await this.service.delete(id);
   }
 }

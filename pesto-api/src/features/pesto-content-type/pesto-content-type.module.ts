@@ -5,7 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import {
   PestoContentType,
   PestoContentTypeSchema,
-} from 'src/content/schemas/PestoContentType.schema';
+} from './schemas/PestoContentType.schema';
 
 @Module({
   controllers: [PestoContentTypeController],
