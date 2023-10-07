@@ -1,5 +1,6 @@
 #!/bin/bash
 
+SHELL=/bin/bash
 export PNPM_VERSION=${PNPM_VERSION:-"8.7.4"}
 echo ""
 echo "# --- # --- # --- # --- # --- # --- #"
