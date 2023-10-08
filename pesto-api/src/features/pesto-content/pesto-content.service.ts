@@ -122,6 +122,11 @@ export class PestoContentService {
         ],
       })
       .exec();
+
+    console.log(
+      `PESTO-CONTENT DATA SERVICE [CREATE] method - Found record [didIFindOne]:`,
+      didIFindOneType,
+    );
     const numberOfPestoCTs = await didIFindOneType.collection.countDocuments();
     if (!(didIFindOneType && numberOfPestoCTs > 0)) {
       const errMsg = `PESTO-CONTENT DATA SERVICE [CREATE] method - No new [PestoContent] was created: No PestoContentType of with content_type_id = [${createPestoContentDto.content_type_id}] was found. A PestoContent cannot be created without an existing content-type.`;
@@ -138,6 +143,10 @@ export class PestoContentService {
         ],
       })
       .exec();
+    console.log(
+      `PESTO-CONTENT DATA SERVICE [CREATE] method - Found record [didIFindOnePrj]:`,
+      didIFindOnePrj,
+    );
     const numberOfPestoPrjs = await didIFindOnePrj.collection.countDocuments();
     if (!(didIFindOnePrj && numberOfPestoPrjs > 0)) {
       const errMsg = `PESTO-CONTENT DATA SERVICE [CREATE] method - No new [PestoContent] was created: No [PestoProject] of project_id = [${createPestoContentDto.project_id}] was found. A PestoContent cannot be created without an existing [PestoProject].`;
@@ -156,14 +165,7 @@ export class PestoContentService {
       `PESTO-CONTENT DATA SERVICE [CREATE] method - Found record [didIFindOne]:`,
       didIFindOne,
     );
-    console.log(
-      `PESTO-CONTENT DATA SERVICE [CREATE] method - Found record [didIFindOnePrj]:`,
-      didIFindOnePrj,
-    );
-    console.log(
-      `PESTO-CONTENT DATA SERVICE [CREATE] method - Found record [didIFindOne]:`,
-      didIFindOneType,
-    );
+
     if (didIFindOne) {
       const errMsg = `PESTO-CONTENT DATA SERVICE [CREATE] method - No new [PestoContent] was created. A PestoContent named [${didIFindOne.name}] already exists with name = [${createPestoContentDto.name}], and with project_id = [${createPestoContentDto.project_id}] `;
       // throw `${errMsg}`;
