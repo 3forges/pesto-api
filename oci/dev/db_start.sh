@@ -7,4 +7,4 @@ echo "  env:"
 env
 echo "# --- # --- # --- # --- # --- # --- #"
 echo ""
-docker-compose up -d
+docker-compose up -d mongodb
