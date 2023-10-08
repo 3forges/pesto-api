@@ -107,6 +107,12 @@ export class PestoContentTypeService {
     }
     // return createPestoContentTypeDto;
   }
+
+  /**
+   * Creates a new PestoContentType
+   * @param createPestoContentTypeDto the dto sent by client request
+   * @returns nothing...?
+   */
   async create(
     createPestoContentTypeDto: CreatePestoContentTypeDto,
   ): Promise<PestoContentType> {

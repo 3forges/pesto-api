@@ -9,12 +9,30 @@ import {
 } from './schemas/PestoContent.schema';
 import { HttpException } from '@nestjs/common/exceptions';
 import { HttpStatus } from '@nestjs/common';
+/**
+ * From PestoContentType
+ */
+// import { CreatePestoContentTypeDto } from './../pesto-content-type/dto/create-pesto-content-type.dto';
+// import { UpdatePestoContentTypeDto } from './../pesto-content-type/dto/update-pesto-content-type.dto';
+
+import {
+  PestoContentType,
+  PestoContentTypeDocument,
+} from '../pesto-content-type/schemas/PestoContentType.schema';
+import {
+  PestoProject,
+  PestoProjectDocument,
+} from '../pesto-project/schemas/PestoProject.schema';
 
 @Injectable()
 export class PestoContentService {
   constructor(
     @InjectModel(PestoContent.name)
     private readonly model: Model<PestoContentDocument>,
+    @InjectModel(PestoContentType.name)
+    private readonly typesModel: Model<PestoContentTypeDocument>,
+    @InjectModel(PestoProject.name)
+    private readonly projectsModel: Model<PestoProjectDocument>,
   ) {}
   /*
   constructor(
@@ -52,11 +70,11 @@ export class PestoContentService {
         return selectedList;
       });
     console.log(
-      `PESTO-CONTENT-TYPE DATA SERVICE [GET PestoContentType BY PROJECT ID] method - Tried to find [PestoContentType]'s with Project ID [${project_id}], here are the results of the Mongoose Query : `,
+      `PESTO-CONTENT DATA SERVICE [GET PestoContentType BY PROJECT ID] method - Tried to find [PestoContentType]'s with Project ID [${project_id}], here are the results of the Mongoose Query : `,
       didIFindSome,
     );
     if (!didIFindSome) {
-      const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [GET PestoContentType BY PROJECT ID] method - Failed to find any [PestoContentType] with Project ID [${project_id}]`;
+      const errMsg = `PESTO-CONTENT DATA SERVICE [GET PestoContentType BY PROJECT ID] method - Failed to find any [PestoContentType] with Project ID [${project_id}]`;
       // throw `${errMsg}`;
       console.warn(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
@@ -72,6 +90,11 @@ export class PestoContentService {
     }
   }
 
+  /**
+   * Creates a new PestoContent
+   * @param createPestoContentDto the dto sent by client request
+   * @returns nothing...?
+   */
   async create(
     createPestoContentDto: CreatePestoContentDto,
   ): Promise<PestoContent> {
@@ -81,23 +104,68 @@ export class PestoContentService {
         $and: [
           { name: createPestoContentDto.name },
           { project_id: createPestoContentDto.project_id },
+          { content_type_id: createPestoContentDto.content_type_id },
           // { description: createPestoContentDto.description },
         ],
       })
       .exec();
+    /**
+     * we need here to use the
+     */
+
+    const didIFindOneType = await this.typesModel
+      .findOne({
+        // $or: [{ name: createPestoContentDto.name }, { description: products.description }],
+        $and: [
+          { _id: createPestoContentDto.content_type_id },
+          // { description: createPestoContentDto.description },
+        ],
+      })
+      .exec();
+    const numberOfPestoCTs = await didIFindOneType.collection.countDocuments();
+    if (!(didIFindOneType && numberOfPestoCTs > 0)) {
+      const errMsg = `PESTO-CONTENT DATA SERVICE [CREATE] method - No new [PestoContent] was created: No PestoContentType of with content_type_id = [${createPestoContentDto.content_type_id}] was found. A PestoContent cannot be created without an existing content-type.`;
+      // throw `${errMsg}`;
+      console.warn(`${errMsg}`);
+      throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
+    }
+    const didIFindOnePrj = await this.projectsModel
+      .findOne({
+        // $or: [{ name: createPestoContentDto.name }, { description: products.description }],
+        $and: [
+          { _id: createPestoContentDto.project_id },
+          // { description: createPestoContentDto.description },
+        ],
+      })
+      .exec();
+    const numberOfPestoPrjs = await didIFindOnePrj.collection.countDocuments();
+    if (!(didIFindOnePrj && numberOfPestoPrjs > 0)) {
+      const errMsg = `PESTO-CONTENT DATA SERVICE [CREATE] method - No new [PestoContent] was created: No [PestoProject] of project_id = [${createPestoContentDto.project_id}] was found. A PestoContent cannot be created without an existing [PestoProject].`;
+      // throw `${errMsg}`;
+      console.warn(`${errMsg}`);
+      throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
+    }
     console.log(
-      `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] method - [${JSON.stringify(
+      `PESTO-CONTENT DATA SERVICE [CREATE] method - [${JSON.stringify(
         createPestoContentDto,
         null,
         4,
       )}]`,
     );
     console.log(
-      `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] method - Found record [didIFindOne]:`,
+      `PESTO-CONTENT DATA SERVICE [CREATE] method - Found record [didIFindOne]:`,
       didIFindOne,
     );
+    console.log(
+      `PESTO-CONTENT DATA SERVICE [CREATE] method - Found record [didIFindOnePrj]:`,
+      didIFindOnePrj,
+    );
+    console.log(
+      `PESTO-CONTENT DATA SERVICE [CREATE] method - Found record [didIFindOne]:`,
+      didIFindOneType,
+    );
     if (didIFindOne) {
-      const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] method - No new [PestoContent] was created. A PestoContent named [${didIFindOne.name}] already exists with name = [${createPestoContentDto.name}], and with project_id = [${createPestoContentDto.project_id}] `;
+      const errMsg = `PESTO-CONTENT DATA SERVICE [CREATE] method - No new [PestoContent] was created. A PestoContent named [${didIFindOne.name}] already exists with name = [${createPestoContentDto.name}], and with project_id = [${createPestoContentDto.project_id}] `;
       // throw `${errMsg}`;
       console.warn(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
@@ -128,14 +196,14 @@ export class PestoContentService {
   ): Promise<PestoContent> {
     const didIFindOne = await this.findOne(id);
     console.log(
-      `PESTO-CONTENT-TYPE DATA SERVICE [UPDATE BY ID] method - [${JSON.stringify(
+      `PESTO-CONTENT DATA SERVICE [UPDATE BY ID] method - [${JSON.stringify(
         updatePestoContentDto,
         null,
         4,
       )}]`,
     );
     console.log(
-      `PESTO-CONTENT-TYPE DATA SERVICE [UPDATE BY ID] method - Found record [didIFindOne]:`,
+      `PESTO-CONTENT DATA SERVICE [UPDATE BY ID] method - Found record [didIFindOne]:`,
       didIFindOne,
     );
     if (didIFindOne) {
