@@ -10,12 +10,18 @@ import {
 import { HttpException } from '@nestjs/common/exceptions';
 import { HttpStatus } from '@nestjs/common';
 import FRONTMATTER_FORMAT from './schemas/frontmatter.format';
+import {
+  PestoProject,
+  PestoProjectDocument,
+} from '../pesto-project/schemas/PestoProject.schema';
 
 @Injectable()
 export class PestoContentTypeService {
   constructor(
     @InjectModel(PestoContentType.name)
     private readonly model: Model<PestoContentTypeDocument>,
+    @InjectModel(PestoProject.name)
+    private readonly projectsModel: Model<PestoProjectDocument>,
   ) {}
   /*
   constructor(
@@ -128,6 +134,23 @@ export class PestoContentTypeService {
         { project_id: createPestoContentTypeDto.project_id }, // two different projects can use same identifier
       ],
     });
+
+    const didIFindOnePrj = await this.projectsModel
+      .findOne({
+        // $or: [{ name: createPestoContentDto.name }, { description: products.description }],
+        $and: [
+          { _id: createPestoContentTypeDto.project_id },
+          // { description: createPestoContentDto.description },
+        ],
+      })
+      .exec();
+    const numberOfPestoPrjs = await didIFindOnePrj.collection.countDocuments();
+    if (!(didIFindOnePrj && numberOfPestoPrjs > 0)) {
+      const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] method - No new [PestoContentType] was created: No [PestoProject] of project_id = [${createPestoContentTypeDto.project_id}] was found. A PestoContentType cannot be created without an existing [PestoProject].`;
+      // throw `${errMsg}`;
+      console.warn(`${errMsg}`);
+      throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
+    }
     console.log(
       `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] method createPestoContentTypeDto - [${JSON.stringify(
         createPestoContentTypeDto,
