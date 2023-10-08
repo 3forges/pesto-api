@@ -14,13 +14,17 @@ export class PestoContent {
   _id: mongoose.Schema.Types.ObjectId;
 
   @Prop({ required: true, unique: true })
-  title: string;
+  name: string;
 
   /**
    * Foreign key in relation with the {@PestoProject } Object primary key '_id'
    * following example pattern at https://gist.github.com/jmora2612/6f82c537eb957102e925a433ae9f9a4c#file-products-schema-ts-L19
    */
   // @Prop({ type: mongoose.Types.ObjectId, required: true, index: true })
+  /**
+   * Relation to the [PestoProject] this
+   * [PestoContent] belongs to.
+   */
   @Prop({
     type: mongoose.Types.ObjectId,
     required: true,
@@ -28,7 +32,19 @@ export class PestoContent {
     auto: false,
   })
   project_id: mongoose.Types.ObjectId;
+  /**
+   * Relation to a [PestoContentType]
+   */
+  @Prop({
+    type: mongoose.Types.ObjectId,
+    required: true,
+    index: true,
+    auto: false,
+  })
+  content_type_id: mongoose.Types.ObjectId;
 
+  @Prop({ required: true })
+  text: string;
   @Prop()
   description?: string;
 

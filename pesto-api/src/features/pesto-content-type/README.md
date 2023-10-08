@@ -21,3 +21,4 @@ Tutorials on how to work with yaml files, and yaml schemas :
 * Using `AJV` in `TypeScript`: <https://ajv.js.org/guide/typescript.html>
 * How to use enums in a `NestJs` DTO, also with `@nestjs/swagger` : <https://stackoverflow.com/questions/68544666/nestjs-swagger-show-all-enum-values>
 * In this one i found how to reference Class instances instead of just primary types, and how to build  : https://medium.com/@haadbaig/composite-compound-keys-in-mongodb-using-mongoose-in-nestjs-bc82e5f500d9
+* examples to filter results by date ranges : https://stackoverflow.com/questions/74514799/in-nestjs-mongoose-how-to-filter-year-field-string-type-with-a-certain-range

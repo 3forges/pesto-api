@@ -5,6 +5,9 @@ const ajv = new Ajv({ allErrors: true }); // options can be passed, e.g. {allErr
 import YAML from 'yaml';
 // import fs from 'fs';
 
+/**
+ * A Utility class to validate frontmatters
+ */
 export class PestoContentTypeValidator {
   // constructor(private readonly frontmatter_schema: string) {}
 

@@ -80,8 +80,8 @@ export class PestoContentController {
       createPestoContent.text,
     );
     console.log(
-      `${logs_prefix} [POST] method - title: `,
-      createPestoContent.title,
+      `${logs_prefix} [POST] method - name: `,
+      createPestoContent.name,
     );
     return await this.service.create(createPestoContent);
   }

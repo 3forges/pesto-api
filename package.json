@@ -6,8 +6,8 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "db:start": "bash -c ./pesto-api/oci/dev/db_start.sh",
-    "db:scratch": "bash -c ./pesto-api/oci/dev/db_scratch.sh"
+    "db:start": "bash -c ./oci/dev/db_start.sh",
+    "db:scratch": "bash -c ./oci/dev/db_scratch.sh"
   },
   "dependencies": {
   },

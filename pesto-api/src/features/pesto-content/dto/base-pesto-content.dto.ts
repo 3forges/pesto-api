@@ -12,12 +12,16 @@ export class BasePestoContentDto {
    */
   _id?: mongoose.Types.ObjectId;
   /**
-   * project_id is the foreign key to the project it is related to
+   * [project_id] is the foreign key to the project it is related to
    */
   // project_id: string | mongoose.Types.ObjectId;
   project_id: string;
+  /**
+   * [content_type_id] is the foreign key to the content-type it is related to
+   */
+  // content_type_id: string | mongoose.Types.ObjectId;
   content_type_id: string;
-  title: string;
+  name: string;
   description?: string;
   /**
    * The text of the contentA

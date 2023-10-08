@@ -3,7 +3,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppService } from './app.service';
 import { AppController } from './app.controller';
 import { PestoContentTypeModule } from 'src/features/pesto-content-type/pesto-content-type.module';
-import { PestoProjectModule } from 'src/features/pesto-project/pesto-project.module';
+import { PestoContentModule } from './features/pesto-content/pesto-content.module';
+import { PestoProjectModule } from './features/pesto-project/pesto-project.module';
 
 const mongooseUrl: string =
   `${process.env.PESTO_MONGODB_URL}` || 'mongodb://localhost/nest';
@@ -13,6 +14,7 @@ console.log(` PESTO_MONGODB_URL = [${mongooseUrl}]`);
   imports: [
     MongooseModule.forRoot(mongooseUrl),
     PestoContentTypeModule,
+    PestoContentModule,
     PestoProjectModule,
   ],
   // imports: [PestoContentTypeModule],
