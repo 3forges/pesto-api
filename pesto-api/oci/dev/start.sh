@@ -1,5 +1,7 @@
 #!/bin/bash
 
+SHELL=/bin/bash
+
 export PESTO_HOME=${PESTO_HOME:-"/usr/src/app/"}
 echo ""
 echo "# --- # --- # --- # --- # --- # --- #"
