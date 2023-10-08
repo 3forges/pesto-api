@@ -127,12 +127,20 @@ export class PestoContentService {
       `PESTO-CONTENT DATA SERVICE [CREATE] method - Found record [didIFindOne]:`,
       didIFindOneType,
     );
-    const numberOfPestoCTs = await didIFindOneType.collection.countDocuments();
-    if (!(didIFindOneType && numberOfPestoCTs > 0)) {
+    if (!didIFindOneType) {
       const errMsg = `PESTO-CONTENT DATA SERVICE [CREATE] method - No new [PestoContent] was created: No PestoContentType of with content_type_id = [${createPestoContentDto.content_type_id}] was found. A PestoContent cannot be created without an existing content-type.`;
       // throw `${errMsg}`;
       console.warn(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
+    } else {
+      const numberOfPestoCTs =
+        await didIFindOneType.collection.countDocuments();
+      if (!(numberOfPestoCTs > 0)) {
+        const errMsg = `PESTO-CONTENT DATA SERVICE [CREATE] method - No new [PestoContent] was created: No PestoContentType of with content_type_id = [${createPestoContentDto.content_type_id}] was found. A PestoContent cannot be created without an existing content-type.`;
+        // throw `${errMsg}`;
+        console.warn(`${errMsg}`);
+        throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
+      }
     }
     const didIFindOnePrj = await this.projectsModel
       .findOne({
@@ -147,12 +155,20 @@ export class PestoContentService {
       `PESTO-CONTENT DATA SERVICE [CREATE] method - Found record [didIFindOnePrj]:`,
       didIFindOnePrj,
     );
-    const numberOfPestoPrjs = await didIFindOnePrj.collection.countDocuments();
-    if (!(didIFindOnePrj && numberOfPestoPrjs > 0)) {
+    if (!didIFindOnePrj) {
       const errMsg = `PESTO-CONTENT DATA SERVICE [CREATE] method - No new [PestoContent] was created: No [PestoProject] of project_id = [${createPestoContentDto.project_id}] was found. A PestoContent cannot be created without an existing [PestoProject].`;
       // throw `${errMsg}`;
       console.warn(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
+    } else {
+      const numberOfPestoPrjs =
+        await didIFindOnePrj.collection.countDocuments();
+      if (!(numberOfPestoPrjs > 0)) {
+        const errMsg = `PESTO-CONTENT DATA SERVICE [CREATE] method - No new [PestoContent] was created: No [PestoProject] of project_id = [${createPestoContentDto.project_id}] was found. A PestoContent cannot be created without an existing [PestoProject].`;
+        // throw `${errMsg}`;
+        console.warn(`${errMsg}`);
+        throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
+      }
     }
     console.log(
       `PESTO-CONTENT DATA SERVICE [CREATE] method - [${JSON.stringify(

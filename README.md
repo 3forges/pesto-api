@@ -7,28 +7,28 @@
   - on Windows, in git bash:
 
 ```bash
-export IPADDR_OF_YOUR_VM="192.168.172.202"
+export IPADDR_OF_YOUR_VM="192.168.138.202"
 export PESTO_MONGO_HOST=mongo.pesto.io
 echo "# ---- " | sudo tee -a /etc/hosts
 echo "${IPADDR_OF_YOUR_VM}      ${PESTO_MONGO_HOST}" | sudo tee -a /c/Windows/System32/drivers/etc/hosts
 
 # ---
 # if you're dhcp
-export OLD_IPADDR_OF_YOUR_VM="192.168.172.202"
-export IPADDR_OF_YOUR_VM="192.168.138.202"
+export OLD_IPADDR_OF_YOUR_VM="192.168.138.202"
+export IPADDR_OF_YOUR_VM="192.168.250.202"
 sed -i "s#${OLD_IPADDR_OF_YOUR_VM}#${IPADDR_OF_YOUR_VM}#g" /c/Windows/System32/drivers/etc/hosts
 ```
 
 - on GNU/Linux, in bash shell:
 
 ```bash
-export IPADDR_OF_YOUR_VM="192.168.172.202"
+export IPADDR_OF_YOUR_VM="192.168.138.202"
 export PESTO_MONGO_HOST=mongo.pesto.io
 echo "# ---- " | sudo tee -a /etc/hosts
 echo "${IPADDR_OF_YOUR_VM}      ${PESTO_MONGO_HOST}" | sudo tee -a /etc/hosts
 
 
-export OLD_IPADDR_OF_YOUR_VM="192.168.172.202"
+export OLD_IPADDR_OF_YOUR_VM="192.168.138.202"
 export IPADDR_OF_YOUR_VM="192.168.138.202"
 sudo sed -i "s#${OLD_IPADDR_OF_YOUR_VM}#${IPADDR_OF_YOUR_VM}#g" /etc/hosts
 ```
@@ -95,13 +95,13 @@ curl -iv -X GET -H 'Accept: application/json' http://localhost:3000/pesto-projec
 export PESTO_PRJ_GIT_SSH_URI='git@github.com:3forges/poc-redux-thunk.git'
 export GIT_SSH_URI_URL_ENCODED='git%40github.com%3A3forges%2Fpoc-redux-thunk.git'
 
-curl -iv -X POST -H 'Content-Type: application/json' -d "{ \"name\" : \"astroproject1\", \"description\" : \"un premier projet pesto sur une base de projet astro, mon site portfolio\", \"git_ssh_uri\" : \"${GIT_SSH_URI_URL_ENCODED}\"}" -H 'Accept: application/json' http://localhost:3000/pesto-project | tail -n 1 | jq .
+curl -iv -X POST -H 'Content-Type: application/json' -d "{ \"name\" : \"astroproject1\", \"description\" : \"un premier projet pesto sur une base de projet astro, mon site portfolio\", \"git_ssh_uri\" : \"${PESTO_PRJ_GIT_SSH_URI}\"}" -H 'Accept: application/json' http://localhost:3000/pesto-project | tail -n 1 | jq .
 
 
 export PESTO_PRJ_GIT_SSH_URI='git@github.com:3forges/pesto-docs.git'
 export GIT_SSH_URI_URL_ENCODED='git%40github.com%3A3forges%2Fpesto-docs.git'
 
-curl -iv -X POST -H 'Content-Type: application/json' -d "{ \"name\" : \"astroprojectTwo2\", \"description\" : \"The pesto project documentation static website\", \"git_ssh_uri\" : \"${GIT_SSH_URI_URL_ENCODED}\"}" -H 'Accept: application/json' http://localhost:3000/pesto-project | tail -n 1 | jq .
+curl -iv -X POST -H 'Content-Type: application/json' -d "{ \"name\" : \"astroprojectTwo2\", \"description\" : \"The pesto project documentation static website\", \"git_ssh_uri\" : \"${PESTO_PRJ_GIT_SSH_URI}\"}" -H 'Accept: application/json' http://localhost:3000/pesto-project | tail -n 1 | jq .
 
 export GIT_SSH_URI_URL_ENCODED='git%40github.com%3A3forges%2Fawesome-obs.git'
 export PESTO_PRJ_GIT_SSH_URI='git@github.com:3forges/awesome-obs.git'
@@ -272,6 +272,210 @@ curl -iv -X GET -H 'Accept: application/json' "http://localhost:3000/pesto-conte
 export PESTO_PRJ_ID="652180e1b90cf34b86350aa9"
 curl -iv -X GET -H 'Accept: application/json' "http://localhost:3000/pesto-content-type/project/${PESTO_PRJ_ID}" | tail -n 1 | jq .
 
+```
+
+* And finally we can create `PestoContent`:
+
+```bash
+
+# ---
+# list all content types, to
+# choose among them or not
+# ---
+curl -iv -X GET -H 'Accept: application/json' http://localhost:3000/pesto-content-type | tail -n 1 | jq .
+# ---
+# list all projects types, to
+# choose among them or not
+# ---
+curl -iv -X GET -H 'Accept: application/json' http://localhost:3000/pesto-project | tail -n 1 | jq .
+# ---
+# list all content, to
+# choose among them or not
+# ---
+curl -iv -X GET -H 'Accept: application/json' http://localhost:3000/pesto-content | tail -n 1 | jq .
+# ---
+#  >>> I THEN CREATE PESTO CONTENT 
+#      THAT ARE RELATED TO EXISTING
+#      PESTO PROJECTS
+#
+export PESTO_PRJ_ID="rubbishprojectid1"
+# ---
+# the one below is wrong
+export PESTO_PRJ_ID="65221b6358151424a778bab0"
+# ---
+# the one below is good
+export PESTO_PRJ_ID="652269f22d466869b4a40d73"
+
+# ---
+# the one below is wrong
+export PESTO_CT_ID='652180e1b81cf34b44350bb9'
+# ---
+# the one below is good
+export PESTO_CT_ID='65221b6358376870a825bab0'
+
+export PESTO_CONTENT_TEXT="# Mon premer markdown un premier contenu pour mon site de e-commerce"
+export PESTO_CONTENT_NAME="Mon premier article sur mon site enfin"
+# ---
+#  required properties:
+#   + name
+#   + project_id
+#   + content_type_id
+# ---
+#  optional properties:
+#   + text :  the markdown content as a string
+# -
+
+export REQ_PAYLOAD="{ \"name\" : \"${PESTO_CONTENT_NAME}\", \"text\" : \"${PESTO_CONTENT_TEXT}\", \"content_type_id\" : \"${PESTO_CT_ID}\", \"project_id\" : \"${PESTO_PRJ_ID}\"}"
+
+curl -iv -X POST -H 'Content-Type: application/json' -d "${REQ_PAYLOAD}" -H 'Accept: application/json' http://localhost:3000/pesto-content | tail -n 1 | jq .
+
+# ---
+# List all Entity instances, after creation
+curl -iv -X GET -H 'Accept: application/json' http://localhost:3000/pesto-content | tail -n 1 | jq .
+
+```
+* And you cancheck the constraints to create a PestoContent, by running : 
+
+```bash
+# ---
+#  >>> I CREATE PESTO CONTENT 
+#      THAT ARE RELATED TO EITHER :
+#       - NON-EXISTING PESTO PROJECT
+#       - EXISTING PESTO CONTENT TYPE
+#
+export PESTO_PRJ_ID="rubbishprojectid1"
+# ---
+# the one below is good
+export PESTO_PRJ_ID="652269f22d466869b4a40d73"
+# ---
+# the one below is wrong
+export PESTO_PRJ_ID="65221b6358151424a778bab0"
+
+# ---
+# the one below is wrong
+export PESTO_CT_ID='652180e1b81cf34b44350bb9'
+# ---
+# the one below is good
+export PESTO_CT_ID='65221b6358376870a825bab0'
+
+export PESTO_CONTENT_TEXT="# Mon deuxieme markdown un deuxieme contenu pour mon site de e-commerce, qui ne sera pas enregistre, car soit le [project_id], soit le [content_type_id] ne sont pas corrects (exitants ds la base)"
+export PESTO_CONTENT_NAME="Mon deuxieme article sur mon site"
+# ---
+#  required properties:
+#   + name
+#   + project_id
+#   + content_type_id
+# ---
+#  optional properties:
+#   + text :  the markdown content as a string
+# -
+
+export REQ_PAYLOAD="{ \"name\" : \"${PESTO_CONTENT_NAME}\", \"text\" : \"${PESTO_CONTENT_TEXT}\", \"content_type_id\" : \"${PESTO_CT_ID}\", \"project_id\" : \"${PESTO_PRJ_ID}\"}"
+
+curl -iv -X POST -H 'Content-Type: application/json' -d "${REQ_PAYLOAD}" -H 'Accept: application/json' http://localhost:3000/pesto-content | tail -n 1 | jq .
+
+# --- # --- # --- # --- # --- # --- # --- #
+# --- # EXPECTED:
+# --- # --- # --- # --- # --- # --- # --- #
+# < HTTP/1.1 406 Not Acceptable
+# < content-type: application/json; charset=utf-8
+# < content-length: 261
+# < Date: Sun, 08 Oct 2023 08:58:10 GMT
+# < Connection: keep-alive
+# < Keep-Alive: timeout=72
+# <
+# { [261 bytes data]
+# 100   610  100   261  100   349  13118  17541 # --:--:-- --:--:-- --:--:-- 32105
+# * Connection #0 to host localhost left intact
+# {
+# "statusCode": 406,
+# "message": "PESTO-CONTENT DATA SERVICE [CREATE] method - No new [PestoContent] was created: No PestoProject of with project_id = [652180e1b81cf34b44350bb9] was found. A PestoContent cannot be created without an existing PestoProject."
+# }
+# 
+# --- # --- # --- # --- # --- # --- # --- #
+# --- # --- # --- # --- # --- # --- # --- #
+
+# ---
+# List all Entity instances, after creation
+curl -iv -X GET -H 'Accept: application/json' http://localhost:3000/pesto-content | tail -n 1 | jq .
+
+
+
+# ---
+#  >>> I CREATE PESTO CONTENT 
+#      THAT ARE RELATED TO EITHER :
+#       - EXISTING PESTO PROJECT
+#       - NON-EXISTING PESTO CONTENT TYPE
+#
+export PESTO_PRJ_ID="rubbishprojectid1"
+# ---
+# the one below is wrong
+export PESTO_PRJ_ID="65221b6358151424a778bab0"
+# ---
+# the one below is good
+export PESTO_PRJ_ID="652269f22d466869b4a40d73"
+
+# ---
+# the one below is good
+export PESTO_CT_ID='65221b6358376870a825bab0'
+# ---
+# the one below is wrong
+export PESTO_CT_ID='652180e1b81cf34b44350bb9'
+
+export PESTO_CONTENT_TEXT="# Mon deuxieme markdown \n un deuxieme contenu pour mon site de e-commerce, qui ne sera pas enregistre, car soit le [project_id], soit le [content_type_id] ne sont pas corrects (exitants ds la base)"
+export PESTO_CONTENT_NAME="Mon deuxieme article sur mon site"
+# ---
+#  required properties:
+#   + name
+#   + project_id
+#   + content_type_id
+# ---
+#  optional properties:
+#   + text :  the markdown content as a string
+# -
+
+export REQ_PAYLOAD="{ \"name\" : \"${PESTO_CONTENT_NAME}\", \"text\" : \"${PESTO_CONTENT_TEXT}\", \"content_type_id\" : \"${PESTO_CT_ID}\", \"project_id\" : \"${PESTO_PRJ_ID}\"}"
+
+curl -iv -X POST -H 'Content-Type: application/json' -d "${REQ_PAYLOAD}" -H 'Accept: application/json' http://localhost:3000/pesto-content | tail -n 1 | jq .
+
+# --- # --- # --- # --- # --- # --- # --- #
+# --- # EXPECTED:
+# --- # --- # --- # --- # --- # --- # --- #
+# < HTTP/1.1 406 Not Acceptable
+# < content-type: application/json; charset=utf-8
+# < content-length: 261
+# < Date: Sun, 08 Oct 2023 08:58:10 GMT
+# < Connection: keep-alive
+# < Keep-Alive: timeout=72
+# <
+# { [261 bytes data]
+# 100   610  100   261  100   349  13118  17541 # --:--:-- --:--:-- --:--:-- 32105
+# * Connection #0 to host localhost left intact
+# {
+# "statusCode": 406,
+# "message": "PESTO-CONTENT DATA SERVICE [CREATE] method - No new [PestoContent] was created: No PestoContentType of with content_type_id = [652180e1b81cf34b44350bb9] was found. A PestoContent cannot be created without an existing content-type."
+# }
+# 
+# --- # --- # --- # --- # --- # --- # --- #
+# --- # --- # --- # --- # --- # --- # --- #
+
+# --- 
+# List all Entity instances, after creation
+curl -iv -X GET -H 'Accept: application/json' http://localhost:3000/pesto-content | tail -n 1 | jq .
+
+```
+
+* Left TODO:
+
+```bash
+# ---
+# Left TODO : 
+#  + GET ALL BY PROJECT ID: cccc
+#  + UPDATE: cccc
+#  + DELETE: cccc
+# 
+# --- 
+# 
 ```
 
 ### Testing the API with FK/PK relationship

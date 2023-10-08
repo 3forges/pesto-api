@@ -13,7 +13,8 @@ export class PestoContent {
   @Prop({ type: mongoose.Schema.Types.ObjectId, auto: true })
   _id: mongoose.Schema.Types.ObjectId;
 
-  @Prop({ required: true, unique: true })
+  // @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   name: string;
 
   /**

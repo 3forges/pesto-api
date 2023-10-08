@@ -6,14 +6,38 @@ import {
   PestoContent,
   PestoContentSchema,
 } from './schemas/PestoContent.schema';
+import { PestoProjectService } from './../pesto-project/pesto-project.service';
+import { PestoProjectModule } from './../pesto-project/pesto-project.module';
+import { PestoContentTypeService } from './../pesto-content-type/pesto-content-type.service';
+import { PestoContentTypeModule } from './../pesto-content-type/pesto-content-type.module';
+import {
+  PestoContentType,
+  PestoContentTypeSchema,
+} from '../pesto-content-type/schemas/PestoContentType.schema';
+import {
+  PestoProject,
+  PestoProjectSchema,
+} from '../pesto-project/schemas/PestoProject.schema';
 
 @Module({
   controllers: [PestoContentController],
-  providers: [PestoContentService],
+  providers: [
+    PestoContentService,
+    PestoContentTypeService,
+    PestoProjectService,
+  ],
   imports: [
-    // registers the contorller into the module
+    // registers the controller into the module
     MongooseModule.forFeature([
       { name: PestoContent.name, schema: PestoContentSchema },
+    ]),
+    PestoProjectModule,
+    PestoContentTypeModule,
+    MongooseModule.forFeature([
+      { name: PestoProject.name, schema: PestoProjectSchema },
+    ]),
+    MongooseModule.forFeature([
+      { name: PestoContentType.name, schema: PestoContentTypeSchema },
     ]),
   ],
 })

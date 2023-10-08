@@ -11,7 +11,7 @@ import {
   controllers: [PestoProjectController],
   providers: [PestoProjectService],
   imports: [
-    // registers the contorller into the module
+    // registers the controller into the module
     MongooseModule.forFeature([
       { name: PestoProject.name, schema: PestoProjectSchema },
     ]),
