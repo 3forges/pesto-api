@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "init": "pnpm i",
+    "init": "bash -c 'chmod a+x oci/dev/db_s*.sh && pnpm i'",
     "db:start": "bash -c ./oci/dev/db_start.sh",
     "db:scratch": "bash -c ./oci/dev/db_scratch.sh"
   },
