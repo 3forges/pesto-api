@@ -14,6 +14,7 @@ async function bootstrap() {
     // rawBody: false,
     bodyParser: true,
   });*/
+  
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter(),
@@ -22,6 +23,7 @@ async function bootstrap() {
       bodyParser: false,
     },
   );
+  app.enableCors();
   /**
    * app.useBodyParser('text');
    * */
