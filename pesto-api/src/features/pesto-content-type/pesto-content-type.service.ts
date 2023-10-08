@@ -144,6 +144,10 @@ export class PestoContentTypeService {
         ],
       })
       .exec();
+    console.log(
+      `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] method - Found record [didIFindOnePrj]:`,
+      didIFindOnePrj,
+    );
     const numberOfPestoPrjs = await didIFindOnePrj.collection.countDocuments();
     if (!(didIFindOnePrj && numberOfPestoPrjs > 0)) {
       const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] method - No new [PestoContentType] was created: No [PestoProject] of project_id = [${createPestoContentTypeDto.project_id}] was found. A PestoContentType cannot be created without an existing [PestoProject].`;
@@ -162,6 +166,7 @@ export class PestoContentTypeService {
       `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] method - Found record [didIFindOne]:`,
       didIFindOne,
     );
+
     if (didIFindOne) {
       const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] method - No new [PestoContentType] was created. A PestoContentType already exists with identifier = [${createPestoContentTypeDto.identifier}] and project_id = [${createPestoContentTypeDto.project_id}]`;
       // throw `${errMsg}`;
