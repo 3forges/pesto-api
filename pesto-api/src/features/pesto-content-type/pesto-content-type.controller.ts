@@ -7,6 +7,8 @@ import {
   Post,
   Put,
   HttpCode,
+  UsePipes,
+  ValidationPipe,
   // RawBodyRequest,
   // Req,
 } from '@nestjs/common';
@@ -35,31 +37,27 @@ export class PestoContentTypeController {
     return await this.service.findByProject(project_id);
   }
 
-  /**
   @Post()
   @HttpCode(204)
-  async create(@Body() createPestoContentType: CreatePestoContentTypeDto) {
-    console.log(
-      `Et voici le body reçu dans le [[/pesto-content-type] POST] : [${createPestoContentType}] `,
-    );
-    console.log(createPestoContentType);
-    return await this.service.create(createPestoContentType);
-  }
-
-
-  */
-
-  @Post()
-  @HttpCode(204)
+  @UsePipes(new ValidationPipe({ transform: true }))
   // async create(@Req() req: RawBodyRequest<FastifyRequest>) {
   async create(@Body() createPestoContentType: CreatePestoContentTypeDto) {
-    const jsonPayload = createPestoContentType; // returns a `Buffer`.
+    // const jsonPayload = createPestoContentType; // returns a `Buffer`.
     console.log(` >>>>>>>>>>>>>>>> DEBUT JSON RECU: `);
-    console.log(jsonPayload);
+    console.log(createPestoContentType);
     console.log(` >>>>>>>>>>>>>>>> FIN JSON PAYLOAD`);
     console.log(createPestoContentType.identifier);
     console.log(createPestoContentType.description);
     console.log(createPestoContentType.title);
+    console.log(
+      `frontmatter_format`,
+      createPestoContentType.frontmatter_format,
+    );
+    console.log(
+      `frontmatter_schema`,
+      createPestoContentType.frontmatter_schema,
+    );
+
     return await this.service.create(createPestoContentType);
   }
 

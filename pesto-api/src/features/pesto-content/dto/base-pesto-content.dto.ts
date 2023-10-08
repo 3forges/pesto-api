@@ -1,8 +1,5 @@
 import mongoose from 'mongoose';
-import { ApiProperty } from '@nestjs/swagger';
-import FRONTMATTER_FORMAT from '../schemas/frontmatter.format';
-
-export class BasePestoContentTypeDto {
+export class BasePestoContentDto {
   /**
    * _id can be defined as optional in DTO, because
    * The corresponding property in the
@@ -19,18 +16,11 @@ export class BasePestoContentTypeDto {
    */
   // project_id: string | mongoose.Types.ObjectId;
   project_id: string;
-
-  @ApiProperty({
-    enum: FRONTMATTER_FORMAT,
-    enumName: `FRONTMATTER_FORMAT`,
-    isArray: false,
-    // example: [FRONTMATTER_FORMAT.JSON, FRONTMATTER_FORMAT.YAML],
-    example: FRONTMATTER_FORMAT.YAML,
-  })
-  frontmatter_format?: FRONTMATTER_FORMAT;
-  frontmatter_schema?: string;
-
+  content_type_id: string;
   title: string;
-  identifier: string;
   description?: string;
+  /**
+   * The text of the contentA
+   */
+  text: string;
 }

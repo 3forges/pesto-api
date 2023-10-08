@@ -7,6 +7,8 @@ import {
   Post,
   Put,
   HttpCode,
+  UsePipes,
+  ValidationPipe,
   // RawBodyRequest,
   // Req,
 } from '@nestjs/common';
@@ -32,6 +34,11 @@ export class PestoProjectController {
   @Get('/name/:name')
   async findByName(@Param('name') name: string) {
     return await this.service.findOneByName(name);
+  }
+
+  @Get('/uri/:git_ssh_uri')
+  async findByURI(@Param('git_ssh_uri') git_ssh_uri: string) {
+    return await this.service.findOneByGitSshUri(git_ssh_uri);
   }
 
   /**
@@ -70,6 +77,7 @@ export class PestoProjectController {
    * @returns Le type de conteu modifié
    */
   @Put(':id')
+  @UsePipes(new ValidationPipe({ transform: true }))
   async update(
     @Param('id') id: string,
     @Body() updatePestoProject: UpdatePestoProjectDto,

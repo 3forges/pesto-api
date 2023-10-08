@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model } from 'mongoose';
+import { Model } from 'mongoose';
 import { CreatePestoContentTypeDto } from './dto/create-pesto-content-type.dto';
 import { UpdatePestoContentTypeDto } from './dto/update-pesto-content-type.dto';
 import {
@@ -9,6 +9,7 @@ import {
 } from './schemas/PestoContentType.schema';
 import { HttpException } from '@nestjs/common/exceptions';
 import { HttpStatus } from '@nestjs/common';
+import FRONTMATTER_FORMAT from './schemas/frontmatter.format';
 
 @Injectable()
 export class PestoContentTypeService {
@@ -26,22 +27,43 @@ export class PestoContentTypeService {
   }
 
   async findOne(id: string): Promise<PestoContentType> {
+    if (id == ``) {
+      const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [GET PestoContentType BY ID] method - It is impossible to find any [PestoContentType] with an empty string as ID, the provided ID is the empty string: /pesto-content-type/:id = [${id}]`;
+      // throw `${errMsg}`;
+      console.warn(`${errMsg}`);
+      throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
+    }
     return await this.model.findById(id).exec();
   }
-  async findByProject(project_id: string): Promise<PestoContentType> {
-    const didIFindOne = await this.model.findOne({
-      // $or: [{ identifier: createPestoContentTypeDto.identifier }, { description: products.description }],
-      $or: [
-        { project_id: project_id },
-        // { description: createPestoContentTypeDto.description },
-      ],
-    });
+
+  async findByProject(project_id: string): Promise<PestoContentType[]> {
+    if (project_id == ``) {
+      const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [GET PestoContentType BY PROJECT ID] method - It is impossible to find any [PestoContentType] with an empty string as PROJECT ID, the provided PROJECT ID is the empty string: /pesto-content-type/project/:id = [${project_id}]`;
+      // throw `${errMsg}`;
+      console.warn(`${errMsg}`);
+      throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
+    }
+    const didIFindOne = await this.model
+      .find<PestoContentType>({
+        // $or: [{ identifier: createPestoContentTypeDto.identifier }, { description: products.description }],
+        $or: [
+          { project_id: project_id },
+          // { description: createPestoContentTypeDto.description },
+        ],
+      })
+      .exec()
+      .then((selectedList) => {
+        /**
+         * @description
+         */
+        return selectedList;
+      });
     console.log(
-      `PESTO-CONTENT-TYPE DATA SERVICE [GET BY PROJECT ID] method - Tried to find [PestoContentType]'s with Project ID [${project_id}], here are the results of the Mongoose Query : `,
+      `PESTO-CONTENT-TYPE DATA SERVICE [GET PestoContentType BY PROJECT ID] method - Tried to find [PestoContentType]'s with Project ID [${project_id}], here are the results of the Mongoose Query : `,
       didIFindOne,
     );
     if (!didIFindOne) {
-      const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [GET BY PROJECT ID] method - Failed to find any [PestoContentType] with Project ID [${project_id}]`;
+      const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [GET PestoContentType BY PROJECT ID] method - Failed to find any [PestoContentType] with Project ID [${project_id}]`;
       // throw `${errMsg}`;
       console.warn(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
@@ -51,21 +73,57 @@ export class PestoContentTypeService {
        * not already exist, then only we create it:
        * No update is done through this method
        */
+      // const toReturn: Promise<PestoContentType> = didIFindOne;
+      // return toReturn;
       return didIFindOne;
     }
+  }
+  applyDefaultValues(
+    createPestoContentTypeDto: CreatePestoContentTypeDto,
+  ) /*: CreatePestoContentTypeDto*/ {
+    if (!createPestoContentTypeDto.frontmatter_format) {
+      createPestoContentTypeDto.frontmatter_format = FRONTMATTER_FORMAT.JSON;
+    }
+
+    if (!createPestoContentTypeDto.frontmatter_format) {
+      createPestoContentTypeDto.frontmatter_format == FRONTMATTER_FORMAT.JSON;
+    }
+
+    if (!createPestoContentTypeDto.frontmatter_schema) {
+      if (
+        createPestoContentTypeDto.frontmatter_format == FRONTMATTER_FORMAT.JSON
+      ) {
+        createPestoContentTypeDto.frontmatter_schema = `{}`;
+      } else if (
+        createPestoContentTypeDto.frontmatter_format == FRONTMATTER_FORMAT.YAML
+      ) {
+        createPestoContentTypeDto.frontmatter_schema = ``;
+      } else {
+        const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] - [applyDefaultValues(createPestoContentTypeDto: CreatePestoContentTypeDto)] method - The frontmatter_format = [${createPestoContentTypeDto.frontmatter_format}] matches none of the {@FRONTMATTER_FORMAT} Enum values.`;
+        // throw `${errMsg}`;
+        console.warn(`${errMsg}`);
+        throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
+      }
+    }
+    // return createPestoContentTypeDto;
   }
   async create(
     createPestoContentTypeDto: CreatePestoContentTypeDto,
   ): Promise<PestoContentType> {
+    this.applyDefaultValues(createPestoContentTypeDto);
+    console.log(
+      `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] method - After Applying default values to the DTO : `,
+      createPestoContentTypeDto,
+    );
     const didIFindOne = await this.model.findOne({
       // $or: [{ identifier: createPestoContentTypeDto.identifier }, { description: products.description }],
-      $or: [
+      $and: [
         { identifier: createPestoContentTypeDto.identifier },
-        // { description: createPestoContentTypeDto.description },
+        { project_id: createPestoContentTypeDto.project_id }, // two different projects can use same identifier
       ],
     });
     console.log(
-      `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] method - [${JSON.stringify(
+      `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] method createPestoContentTypeDto - [${JSON.stringify(
         createPestoContentTypeDto,
         null,
         4,
@@ -76,7 +134,7 @@ export class PestoContentTypeService {
       didIFindOne,
     );
     if (didIFindOne) {
-      const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] method - No new [PestoContentType] was created. A PestoContentType already exists with identifier = [${createPestoContentTypeDto.identifier}] or description = [${createPestoContentTypeDto.description}]`;
+      const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] method - No new [PestoContentType] was created. A PestoContentType already exists with identifier = [${createPestoContentTypeDto.identifier}] and project_id = [${createPestoContentTypeDto.project_id}]`;
       // throw `${errMsg}`;
       console.warn(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
@@ -105,6 +163,12 @@ export class PestoContentTypeService {
     id: string,
     updatePestoContentTypeDto: UpdatePestoContentTypeDto,
   ): Promise<PestoContentType> {
+    if (id == ``) {
+      const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [UPDATE PestoContentType BY ID] method - It is impossible to update any [PestoContentType] with an empty string as ID, the provided ID is the empty string: /pesto-content-type/:id = [${id}]`;
+      // throw `${errMsg}`;
+      console.warn(`${errMsg}`);
+      throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
+    }
     const didIFindOne = await this.findOne(id);
     console.log(
       `PESTO-CONTENT-TYPE DATA SERVICE [UPDATE BY ID] method - [${JSON.stringify(
@@ -135,50 +199,13 @@ export class PestoContentTypeService {
     }
   }
 
-  /**
-   * DO NOT USE THIS METHOD, THIS IS JUST AN EXPERIMENT, ONLY _ID SHOULD BE TAKEN AS PARAM FOR ANY CRUD OPS - because it acts as primary key PRIMARY KEY
-   * Tries to update a unique PestoContentType from its identifier
-   * @param updatePestoContentTypeDto the DTO created from received from HTTP client request payload, to upadte the record in MongoDB
-   * @returns a Promise<mongoose.UpdateWriteOpResult> Object (could not yet find a way to return a {@Promise<PestoContentType> } Object )
-   */
-  async updateByIdentifier(
-    updatePestoContentTypeDto: UpdatePestoContentTypeDto,
-  ): Promise<mongoose.UpdateWriteOpResult> {
-    const didIFindOne = await this.model.findOne({
-      // $or: [{ identifier: createPestoContentTypeDto.identifier }, { description: products.description }],
-      $or: [
-        { identifier: updatePestoContentTypeDto.identifier },
-        // { description: updatePestoContentTypeDto.description },
-      ],
-    });
-    if (didIFindOne) {
-      /**
-       * Then I update the database from the DTO:
-       * The question here is how do I update only one object, by a custom property (here by 'identifier')
-       */
-      /**/
-      return await this.model
-        .updateOne(
-          {
-            $or: [{ identifier: updatePestoContentTypeDto.identifier }],
-          },
-          updatePestoContentTypeDto,
-        )
-        .exec();
-      /*
-      return await this.model
-      .findByIdAndUpdate(updatePestoContentTypeDto.identifier, updatePestoContentTypeDto)
-      .exec();
-      */
-    } else {
-      const errMsg = `DATA SERVICE [UPDATE BY IDENTIFIER] - No [PestoContentType] with identifier = [${updatePestoContentTypeDto.identifier}]  was found in the database: Cannot update non-existing record !`;
+  async delete(id: string): Promise<PestoContentType> {
+    if (id == ``) {
+      const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [DELETE PestoContentType BY ID] method - It is impossible to delete any [PestoContentType] with an empty string as ID, the provided ID is the empty string: /pesto-content-type/:id = [${id}]`;
       // throw `${errMsg}`;
       console.warn(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
     }
-  }
-
-  async delete(id: string): Promise<PestoContentType> {
     return await this.model.findByIdAndDelete(id).exec();
   }
 }

@@ -1,5 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
+import FRONTMATTER_FORMAT from './frontmatter.format';
+
 /*
 import {
   PestoProjectDocument,
@@ -29,10 +31,27 @@ export class PestoContentType {
   })
   project_id: mongoose.Types.ObjectId;
 
+  /**
+   * frontmatter schema of this content type:
+   * - either a JSON Shcema, in JSON schema format.
+   * - or a YAML Schema, in YAML format.
+   * default value: '{}'
+   */
+  @Prop()
+  frontmatter_schema?: string;
+  /**
+   * frontmatter format of this content type:
+   * - either JSON format.
+   * - or a YAML format.
+   * default value: FRONTMATTER_FORMAT.JSON
+   */
+  @Prop()
+  frontmatter_format?: FRONTMATTER_FORMAT;
+
   @Prop()
   description?: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   identifier: string;
 
   @Prop()
@@ -44,6 +63,18 @@ export class PestoContentType {
   @Prop()
   deletedAt?: Date;
 }
-
+/*
+export const PestoContentTypeSchema =
+  SchemaFactory.createForClass(PestoContentType);
+PestoContentTypeSchema.index(
+  { identifier: 1, project_id: 1 },
+  { unique: true },
+);
+*/
+/*
+export const PestoContentTypeSchema = SchemaFactory.createForClass(
+  PestoContentType,
+).index({ identifier: 1, project_id: 1 }, { unique: true });
+*/
 export const PestoContentTypeSchema =
   SchemaFactory.createForClass(PestoContentType);

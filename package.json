@@ -1,0 +1,16 @@
+{
+  "name": "@pesto/api-parent",
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "db:start": "bash -c ./pesto-api/oci/dev/db_start.sh",
+    "db:scratch": "bash -c ./pesto-api/oci/dev/db_scratch.sh"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}
