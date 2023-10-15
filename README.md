@@ -7,29 +7,29 @@
   - on Windows, in git bash:
 
 ```bash
-export IPADDR_OF_YOUR_VM="192.168.250.202"
+export IPADDR_OF_YOUR_VM="192.168.101.202"
 export PESTO_MONGO_HOST=mongo.pesto.io
 echo "# ---- " | sudo tee -a /etc/hosts
 echo "${IPADDR_OF_YOUR_VM}      ${PESTO_MONGO_HOST}" | sudo tee -a /c/Windows/System32/drivers/etc/hosts
 
 # ---
 # if you're dhcp
-export OLD_IPADDR_OF_YOUR_VM="192.168.250.202"
-export IPADDR_OF_YOUR_VM="192.168.101.202"
+export OLD_IPADDR_OF_YOUR_VM="192.168.101.202"
+export IPADDR_OF_YOUR_VM="192.168.5.202"
 sed -i "s#${OLD_IPADDR_OF_YOUR_VM}#${IPADDR_OF_YOUR_VM}#g" /c/Windows/System32/drivers/etc/hosts
 ```
 
 - on GNU/Linux, in bash shell:
 
 ```bash
-export IPADDR_OF_YOUR_VM="192.168.250.202"
+export IPADDR_OF_YOUR_VM="192.168.101.202"
 export PESTO_MONGO_HOST=mongo.pesto.io
 echo "# ---- " | sudo tee -a /etc/hosts
 echo "${IPADDR_OF_YOUR_VM}      ${PESTO_MONGO_HOST}" | sudo tee -a /etc/hosts
 
 
-export OLD_IPADDR_OF_YOUR_VM="192.168.250.202"
-export IPADDR_OF_YOUR_VM="192.168.250.202"
+export OLD_IPADDR_OF_YOUR_VM="192.168.101.202"
+export IPADDR_OF_YOUR_VM="192.168.101.202"
 sudo sed -i "s#${OLD_IPADDR_OF_YOUR_VM}#${IPADDR_OF_YOUR_VM}#g" /etc/hosts
 ```
 
