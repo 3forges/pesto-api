@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { ApiProperty } from '@nestjs/swagger';
+// import { ApiProperty } from '@nestjs/swagger';
 import FRONTMATTER_FORMAT from '../schemas/frontmatter.format';
 
 export class BasePestoContentTypeDto {
