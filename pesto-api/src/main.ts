@@ -47,16 +47,6 @@ async function bootstrap() {
     .addTag('cats')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  /**
-   * BEGIN GENERATE OPENAPI JSON
-   */
-  // const outputPath = path.resolve(process.cwd(), 'openapi.json.json');
-  const outputPath = './openapi.json';
-  const stringifiedDocument = JSON.stringify(document, null, 4);
-  writeFileSync(outputPath, stringifiedDocument, { encoding: 'utf8' });
-  /**
-   * END GENERATE OPENAPI.JSON
-   */
   SwaggerModule.setup('api', app, document);
 
   await app.listen(3000);
