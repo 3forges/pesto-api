@@ -7,8 +7,6 @@ import {
 import { AppModule } from './app.module';
 
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-// import path from 'path';
-import { writeFileSync } from 'fs';
 
 async function bootstrap() {
   /*
