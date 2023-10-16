@@ -20,13 +20,6 @@ export class BasePestoContentTypeDto {
   // project_id: string | mongoose.Types.ObjectId;
   project_id: string;
 
-  @ApiProperty({
-    enum: FRONTMATTER_FORMAT,
-    enumName: `FRONTMATTER_FORMAT`,
-    isArray: false,
-    // example: [FRONTMATTER_FORMAT.JSON, FRONTMATTER_FORMAT.YAML],
-    example: FRONTMATTER_FORMAT.YAML,
-  })
   frontmatter_format?: FRONTMATTER_FORMAT;
   frontmatter_schema?: string;
 

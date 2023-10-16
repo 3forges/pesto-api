@@ -15,6 +15,8 @@ import {
 import { CreatePestoContentTypeDto } from './dto/create-pesto-content-type.dto';
 import { UpdatePestoContentTypeDto } from './dto/update-pesto-content-type.dto';
 import { PestoContentTypeService } from './pesto-content-type.service';
+import { ApiResponse } from '@nestjs/swagger';
+import { PestoContentType } from './schemas/PestoContentType.schema';
 //import { Request } from 'express';
 // import { FastifyRequest } from 'fastify';
 
@@ -22,6 +24,13 @@ import { PestoContentTypeService } from './pesto-content-type.service';
 export class PestoContentTypeController {
   constructor(private readonly service: PestoContentTypeService) {}
 
+  @ApiResponse({
+    status: 200,
+    description: 'Returns al of the PestoContentType s ',
+    // type: Array<PestoContentType>,
+    type: PestoContentType,
+    isArray: true,
+  })
   @Get()
   async index() {
     return await this.service.findAll();

@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
 import FRONTMATTER_FORMAT from './frontmatter.format';
+import { ApiProperty } from '@nestjs/swagger';
 
 /*
 import {
@@ -31,6 +32,13 @@ export class PestoContentType {
   })
   project_id: mongoose.Types.ObjectId;
 
+  @ApiProperty({
+    description: `The schema of the frontmatter, specified with an example (stringified) JSON, will be converted to a JSON Schema by the [quicktypes] framework`,
+    type: typeof String,
+    isArray: false,
+    // example: [FRONTMATTER_FORMAT.JSON, FRONTMATTER_FORMAT.YAML],
+    example: `{ "prix" 45, devise: "eur", tailles_dispos: [{ "xs": "Extra-small", "s": "small", "M": "medium", "L": "Large", "XL": "Extra-Large", "XXL": "Extra-Extra-Large"  }] }`,
+  })
   /**
    * frontmatter schema of this content type:
    * - either a JSON Shcema, in JSON schema format.
@@ -39,6 +47,15 @@ export class PestoContentType {
    */
   @Prop()
   frontmatter_schema?: string;
+
+  @ApiProperty({
+    description: `The format of the frontmatter, either JSON, or YAML, for the PestoContentType`,
+    enum: FRONTMATTER_FORMAT,
+    enumName: `FRONTMATTER_FORMAT`,
+    isArray: false,
+    // example: [FRONTMATTER_FORMAT.JSON, FRONTMATTER_FORMAT.YAML],
+    example: FRONTMATTER_FORMAT.YAML,
+  })
   /**
    * frontmatter format of this content type:
    * - either JSON format.
@@ -48,9 +65,23 @@ export class PestoContentType {
   @Prop()
   frontmatter_format?: FRONTMATTER_FORMAT;
 
+  @ApiProperty({
+    description: `The description of this PestoContentType`,
+    type: typeof String,
+    isArray: false,
+    // example: [FRONTMATTER_FORMAT.JSON, FRONTMATTER_FORMAT.YAML],
+    example: `This Content Type represents a pair of shoe, with its size, its color, its price, the trademark, the model.`,
+  })
   @Prop()
   description?: string;
 
+  @ApiProperty({
+    description: `The <code>identifier</code> to use as value of 'type: <identifier>' in the frontmatter of a markdown`,
+    type: typeof String,
+    isArray: false,
+    // example: [FRONTMATTER_FORMAT.JSON, FRONTMATTER_FORMAT.YAML],
+    example: `trousers`,
+  })
   @Prop({ required: true })
   identifier: string;
 
