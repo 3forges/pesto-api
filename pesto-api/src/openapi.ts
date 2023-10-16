@@ -7,7 +7,7 @@ import {
 import { AppModule } from './app.module';
 
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-// import path from 'path';
+
 import { writeFileSync } from 'fs';
 
 async function bootstrap() {
@@ -59,6 +59,6 @@ async function bootstrap() {
    */
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(3000);
+  await app.close();
 }
 bootstrap();

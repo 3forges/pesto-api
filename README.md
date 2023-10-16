@@ -502,6 +502,18 @@ _**Scenario 1**_
   - all `PestoContentType` of a given `PestoProject` project.
   - all `PestoContent` of a given `PestoContentType`, in a given `PestoProject` project.
 
+## GEnerate OpenAPI Docs
+
+Run:
+
+```bash
+pnpm run generate:docs
+```
+
+You will get : 
+- The `openapi.jspn`
+- A well enriched markdown file, `./pesto-api\pesto.widdershins.md`, compatible with widdershins and reslate / eleventy
+
 ## References
 
 - The first tutorial I followed to spin the app : <https://dev.to/carlomigueldy/building-a-restful-api-with-nestjs-and-mongodb-mongoose-2165>

@@ -1,0 +1,473 @@
+{
+    "openapi": "3.0.0",
+    "paths": {
+        "/": {
+            "get": {
+                "operationId": "AppController_getHello",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/pesto-content-type": {
+            "get": {
+                "operationId": "PestoContentTypeController_index",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Returns al of the PestoContentType s ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PestoContentType"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "operationId": "PestoContentTypeController_create",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreatePestoContentTypeDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/pesto-content-type/{id}": {
+            "get": {
+                "operationId": "PestoContentTypeController_find",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            },
+            "put": {
+                "operationId": "PestoContentTypeController_update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdatePestoContentTypeDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "PestoContentTypeController_delete",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/pesto-content-type/project/{project_id}": {
+            "get": {
+                "operationId": "PestoContentTypeController_findByProject",
+                "parameters": [
+                    {
+                        "name": "project_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/pesto-project": {
+            "get": {
+                "operationId": "PestoProjectController_index",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            },
+            "post": {
+                "operationId": "PestoProjectController_create",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreatePestoProjectDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/pesto-project/{id}": {
+            "get": {
+                "operationId": "PestoProjectController_find",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            },
+            "put": {
+                "operationId": "PestoProjectController_update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdatePestoProjectDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "PestoProjectController_delete",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/pesto-project/name/{name}": {
+            "get": {
+                "operationId": "PestoProjectController_findByName",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/pesto-project/uri/{git_ssh_uri}": {
+            "get": {
+                "operationId": "PestoProjectController_findByURI",
+                "parameters": [
+                    {
+                        "name": "git_ssh_uri",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/pesto-content": {
+            "get": {
+                "operationId": "PestoContentController_index",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            },
+            "post": {
+                "operationId": "PestoContentController_create",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreatePestoContentDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/pesto-content/{id}": {
+            "get": {
+                "operationId": "PestoContentController_find",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            },
+            "put": {
+                "operationId": "PestoContentController_update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdatePestoContentDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "PestoContentController_delete",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/pesto-content/project/{project_id}": {
+            "get": {
+                "operationId": "PestoContentController_findByProject",
+                "parameters": [
+                    {
+                        "name": "project_id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        }
+    },
+    "info": {
+        "title": "Cats example",
+        "description": "The cats API description",
+        "version": "1.0",
+        "contact": {}
+    },
+    "tags": [
+        {
+            "name": "cats",
+            "description": ""
+        }
+    ],
+    "servers": [],
+    "components": {
+        "schemas": {
+            "FRONTMATTER_FORMAT": {
+                "type": "string",
+                "enum": [
+                    "JSON",
+                    "YAML"
+                ]
+            },
+            "PestoContentType": {
+                "type": "object",
+                "properties": {
+                    "frontmatter_schema": {
+                        "type": "function",
+                        "description": "The schema of the frontmatter, specified with an example (stringified) JSON, will be converted to a JSON Schema by the [quicktypes] framework",
+                        "example": "{ \"prix\" 45, devise: \"eur\", tailles_dispos: [{ \"xs\": \"Extra-small\", \"s\": \"small\", \"M\": \"medium\", \"L\": \"Large\", \"XL\": \"Extra-Large\", \"XXL\": \"Extra-Extra-Large\"  }] }"
+                    },
+                    "frontmatter_format": {
+                        "description": "The format of the frontmatter, either JSON, or YAML, for the PestoContentType",
+                        "example": "YAML",
+                        "$ref": "#/components/schemas/FRONTMATTER_FORMAT"
+                    },
+                    "description": {
+                        "type": "function",
+                        "description": "The description of this PestoContentType",
+                        "example": "This Content Type represents a pair of shoe, with its size, its color, its price, the trademark, the model."
+                    },
+                    "identifier": {
+                        "type": "function",
+                        "description": "The <code>identifier</code> to use as value of 'type: <identifier>' in the frontmatter of a markdown",
+                        "example": "trousers"
+                    }
+                },
+                "required": [
+                    "frontmatter_schema",
+                    "frontmatter_format",
+                    "description",
+                    "identifier"
+                ]
+            },
+            "CreatePestoContentTypeDto": {
+                "type": "object",
+                "properties": {}
+            },
+            "UpdatePestoContentTypeDto": {
+                "type": "object",
+                "properties": {}
+            },
+            "CreatePestoProjectDto": {
+                "type": "object",
+                "properties": {}
+            },
+            "UpdatePestoProjectDto": {
+                "type": "object",
+                "properties": {}
+            },
+            "CreatePestoContentDto": {
+                "type": "object",
+                "properties": {}
+            },
+            "UpdatePestoContentDto": {
+                "type": "object",
+                "properties": {}
+            }
+        }
+    }
+}
