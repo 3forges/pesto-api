@@ -146,7 +146,6 @@ jobs:
               echo ' ------------------------------------------------------- '
               echo " Your deployment is ready at https://pesto_api-${PR_BRANCH_NAME_SANITIZED}.surge.sh "
               echo ' ------------------------------------------------------- '
-tools and system dependencies installation"
               
 workflows:
   version: 2.1
