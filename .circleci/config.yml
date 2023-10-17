@@ -80,8 +80,10 @@ jobs:
           command: |
               source $BASH_ENV
               apt-get update -y && apt-get install -y  bash curl jq wget
-              # install pnpm
-              bash -c 'curl -fsSL https://get.pnpm.io/install.sh | sh -'
+              # --- 
+              #  Install pnpm
+              # --
+              # bash -c 'curl -fsSL https://get.pnpm.io/install.sh | sh -'
               # PNPM_VERSION: 7.5.1
               bash -c "curl -fsSL https://get.pnpm.io/install.sh | env PNPM_VERSION=${PNPM_VERSION} sh -"
               cat ./.circleci/assets/pnpm/.bashrc.addon | tee -a /root/.bashrc
@@ -124,7 +126,6 @@ jobs:
           command: |
               cd ./pesto-api/
               pwd
-              pnpm run "generate:docs"
               ls -alh ${CI_WORKSPACE_ROOT}/pesto-api/build/
               echo ' ------------------------------------------------------- '
               echo "   "
@@ -149,7 +150,7 @@ jobs:
               echo ' ------------------------------------------------------- '
 
 workflows:
-  version: '2.1'
+  version: "2.1"
   pull_requests:
     # when: 
     #   not: << pipeline.parameters.dockerize_me >> 
@@ -195,16 +196,12 @@ workflows:
       #           - /^[0-9]+.[0-9]+.[0-9]+-beta/
       #     requires:
       #       - approve_deployment
-
-
-
-
-# -------------------------------------
-#  Workspaces
-# https://circleci.com/docs/workspaces/
-# -------------------------------------
-# -------------------------------------
-# CI Container Images
-#  https://hub.docker.com/r/cimg/node/tags
-#  https://hub.docker.com/_/node/tags?page=1&name=book
-# -------------------------------------
+      # -------------------------------------
+      #  Workspaces
+      # https://circleci.com/docs/workspaces/
+      # -------------------------------------
+      # -------------------------------------
+      # CI Container Images
+      #  https://hub.docker.com/r/cimg/node/tags
+      #  https://hub.docker.com/_/node/tags?page=1&name=book
+      # -------------------------------------
