@@ -33,9 +33,9 @@ parameters:
     default: "pesto"
 
 jobs:
-    # --- 
-    # Generate and publish API Docs to vercel ?
-    api_docs:
+  # --- 
+  # Generate and publish API Docs to vercel ?
+  api_docs:
     # <<: *pesto-jobs-common
     docker:
       # ---
