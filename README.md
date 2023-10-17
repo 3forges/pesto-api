@@ -7,10 +7,13 @@
   - on Windows, in git bash:
 
 ```bash
-export IPADDR_OF_YOUR_VM="192.168.101.202"
+export IPADDR_OF_YOUR_VM="192.168.5.202"
 export PESTO_MONGO_HOST=mongo.pesto.io
 echo "# ---- " | sudo tee -a /etc/hosts
-echo "${IPADDR_OF_YOUR_VM}      ${PESTO_MONGO_HOST}" | sudo tee -a /c/Windows/System32/drivers/etc/hosts
+echo "${IPADDR_OF_YOUR_VM}      ${PESTO_MONGO_HOST}" | tee -a /c/Windows/System32/drivers/etc/hosts
+export PESTO_AZ_PERIODIC_TABLE_FQDN=azperiodic.pesto.io
+echo "# ---- " | sudo tee -a /etc/hosts
+echo "${IPADDR_OF_YOUR_VM}      ${PESTO_AZ_PERIODIC_TABLE_FQDN}" | tee -a /c/Windows/System32/drivers/etc/hosts
 
 # ---
 # if you're dhcp
