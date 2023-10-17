@@ -33,7 +33,6 @@ parameters:
     type: string
     default: "pesto"
 
-
 jobs:
     # --- 
     # Generate and publish API Docs to vercel ?
@@ -74,7 +73,6 @@ jobs:
               export API_DOCS_BUILD_DIR="${CI_WORKSPACE_ROOT}/pesto-api/build/"
               echo "export API_DOCS_BUILD_DIR=${API_DOCS_BUILD_DIR}" >> "$BASH_ENV"
               echo ""
-              
       - checkout
       - run:
           name: "Install CI Job dependencies"
@@ -105,55 +103,58 @@ jobs:
               #  ERR_PNPM_OUTDATED_LOCKFILE  Cannot install with "frozen-lockfile" because pnpm-lock.yaml is not up-to-date with package.json
               # 
               # Note that in CI environments this setting is true by default. If you still need to run install in such cases, use "pnpm install --no-frozen-lockfile"
-              # pnpm i
-              pnpm i --no-frozen-lockfile
+              pnpm i
+              # pnpm i --no-frozen-lockfile
       - run:
           name: "Run Unit Tests"
           command: |
               cd ./pesto-api/
               pwd
-              pnpm run test || true
+              pnpm run test
       - run:
           name: "Generate API Docs"
           command: |
               cd ./pesto-api/
               pwd
-              pnpm run "generate:docs" || true
+              pnpm run generate:docs
               ls -alh ${CI_WORKSPACE_ROOT}/pesto-api/build/
       - run:
           name: "Deploy API Docs to Vercel"
           command: |
               cd ./pesto-api/
               pwd
-              pnpm run "generate:docs" || true
+              pnpm run "generate:docs"
               ls -alh ${CI_WORKSPACE_ROOT}/pesto-api/build/
               echo ' ------------------------------------------------------- '
               echo "   "
               # echo pesto_api-${PR_BRANCH_NAME}-*.vercel.app > CNAME
-              ls -alh ${API_DOCS_BUILD_DIR} || true
+              ls -alh ${API_DOCS_BUILD_DIR}
               echo " PR_BRANCH_NAME = [${PR_BRANCH_NAME}]"
               export PR_BRANCH_NAME_SANITIZED=$(echo "${PR_BRANCH_NAME}" | sed "s#/#-#g" | sed "s#_#-#g")
               echo " PR_BRANCH_NAME_SANITIZED = [${PR_BRANCH_NAME_SANITIZED}]"
-              export VERCEL_DEPLOYMENT_DIR=$(mktemp -d -t XXXXXXX_VERCEL_DEPLOYMENT_DIR)
-              mkdir -p ${VERCEL_DEPLOYMENT_DIR}/pesto_api-${PR_BRANCH_NAME_SANITIZED}
-              export VERCEL_DEPLOYMENT_DIR=${VERCEL_DEPLOYMENT_DIR}/pesto_api-${PR_BRANCH_NAME_SANITIZED}
-              echo " VERCEL_DEPLOYMENT_DIR = [${VERCEL_DEPLOYMENT_DIR}]"
-              cp -fr ${API_DOCS_BUILD_DIR}/* ${VERCEL_DEPLOYMENT_DIR}
-              vercel deploy ${VERCEL_DEPLOYMENT_DIR} --token ${VERCEL_TOKEN} --yes > ./VERCEL_DEPLOYMENT.out
-              export VERCEL_DEPLOYMENT_URL=$(cat ./VERCEL_DEPLOYMENT.out | grep vercel | awk '{print $1}')
-              echo " VERCEL_DEPLOYMENT_URL=${VERCEL_DEPLOYMENT_URL}"
+              export API_DOCS_VERCEL_DEPLOYMENT_DIR=$(mktemp -d -t XXXXXXX_API_DOCS_VERCEL_DEPLOYMENT_DIR)
+              mkdir -p ${API_DOCS_VERCEL_DEPLOYMENT_DIR}/pesto_api-${PR_BRANCH_NAME_SANITIZED}
+              export API_DOCS_VERCEL_DEPLOYMENT_DIR=${API_DOCS_VERCEL_DEPLOYMENT_DIR}/pesto_api-${PR_BRANCH_NAME_SANITIZED}
+              echo " API_DOCS_VERCEL_DEPLOYMENT_DIR = [${API_DOCS_VERCEL_DEPLOYMENT_DIR}]"
+              cp -fr ${API_DOCS_BUILD_DIR}/* ${API_DOCS_VERCEL_DEPLOYMENT_DIR}
+              vercel deploy ${API_DOCS_VERCEL_DEPLOYMENT_DIR} --token ${API_DOCS_VERCEL_TOKEN} --yes > ./API_DOCS_VERCEL_DEPLOYMENT.out
+              export API_DOCS_VERCEL_DEPLOYMENT_URL=$(cat ./API_DOCS_VERCEL_DEPLOYMENT.out | grep vercel | awk '{print $1}')
+              echo " API_DOCS_VERCEL_DEPLOYMENT_URL=${API_DOCS_VERCEL_DEPLOYMENT_URL}"
               echo "   "
+              echo ' ------------------------------------------------------- '
+              echo ' --- . API DOCS '
               echo ' ------------------------------------------------------- '
               echo " Your deployment is ready at https://pesto_api-${PR_BRANCH_NAME_SANITIZED}.surge.sh "
               echo ' ------------------------------------------------------- '
-              
+
 workflows:
-  version: 2.1
+  version: '2.1'
   pull_requests:
     # when: 
     #   not: << pipeline.parameters.dockerize_me >> 
     jobs:
-      - api_docs
+      - api_docs:
+          context: pesto_api
       # - pr_api_build:
       #     context: pesto_api
       #     requires:
@@ -170,9 +171,7 @@ workflows:
       #     context: pesto_api
       #     requires:
       #       - approve_deployment
-
-
-
+      # ---------
       # - pr_deployment:
       #     context: pesto_api
       #     filters:
