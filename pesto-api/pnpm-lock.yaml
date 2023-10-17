@@ -49,9 +49,6 @@ dependencies:
     version: 2.3.2
 
 devDependencies:
-  '@nestjs-addons/in-memory-db':
-    specifier: ^3.0.3
-    version: 3.0.3(@nestjs/common@10.2.6)(@nestjs/core@10.2.6)(reflect-metadata@0.1.13)(rxjs@7.8.1)
   '@nestjs/cli':
     specifier: ^10.0.0
     version: 10.1.18
@@ -124,9 +121,6 @@ devDependencies:
   typescript:
     specifier: ^5.1.3
     version: 5.2.2
-  uuid:
-    specifier: ^9.0.1
-    version: 9.0.1
   widdershins:
     specifier: ^4.0.1
     version: 4.0.1(ajv@8.12.0)(mkdirp@0.5.6)
@@ -994,20 +988,6 @@ packages:
       sparse-bitfield: 3.0.3
     dev: true
     optional: true
-
-  /@nestjs-addons/in-memory-db@3.0.3(@nestjs/common@10.2.6)(@nestjs/core@10.2.6)(reflect-metadata@0.1.13)(rxjs@7.8.1):
-    resolution: {integrity: sha512-E+/7ivsddNwXo+5c0CDBBlnDS7jhMlseOOOApkgxEB79siGeOEqvIIshlSCZF8gc27N4xSJ8WqpFhFZXVJB4Qw==}
-    peerDependencies:
-      '@nestjs/common': ^6.7.0 || ^7.0.0
-      '@nestjs/core': ^6.7.0 || ^7.0.0
-      reflect-metadata: ^0.1.12
-      rxjs: ^6.0.0
-    dependencies:
-      '@nestjs/common': 10.2.6(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1)
-      '@nestjs/core': 10.2.6(@nestjs/common@10.2.6)(@nestjs/platform-express@10.2.6)(reflect-metadata@0.1.13)(rxjs@7.8.1)
-      reflect-metadata: 0.1.13
-      rxjs: 7.8.1
-    dev: true
 
   /@nestjs/cli@10.1.18:
     resolution: {integrity: sha512-jQtG47keLsACt7b4YwJbTBYRm90n82gJpMaiR1HGAyQ9pccbctjSYu592eT4bxqkUWxPgBE3mpNynXj7dWAfrw==}
@@ -6376,11 +6356,6 @@ packages:
   /utils-merge@1.0.1:
     resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
-
-  /uuid@9.0.1:
-    resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
-    hasBin: true
-    dev: true
 
   /v8-compile-cache-lib@3.0.1:
     resolution: {integrity: sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==}

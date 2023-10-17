@@ -1,6 +1,11 @@
 import { Module } from '@nestjs/common';
 // import { MongooseModule } from '@nestjs/mongoose';
-import { InMemoryDBModule } from '@nestjs-addons/in-memory-db';
+// import { InMemoryDBModule } from '@nestjs-addons/in-memory-db';
+import {
+  // closeInMongodConnection,
+  rootMongooseTestModule,
+} from './openapi.db.module';
+
 import { AppService } from './app.service';
 import { AppController } from './app.controller';
 import { PestoContentTypeModule } from 'src/features/pesto-content-type/pesto-content-type.module';
@@ -16,7 +21,13 @@ console.log(` PESTO_MONGODB_URL = [${mongooseUrl}]`);
 @Module({
   imports: [
     // MongooseModule.forRoot(mongooseUrl),
-    InMemoryDBModule.forRoot({}),
+    // InMemoryDBModule.forRoot({}),
+    rootMongooseTestModule({
+      auth: {
+        username: `${process.env.PESTO_USER}`,
+        password: `${process.env.PESTO_SECRET}`,
+      },
+    }),
     PestoContentTypeModule,
     PestoContentModule,
     PestoProjectModule,
