@@ -85,10 +85,10 @@ jobs:
               # bash -c 'curl -fsSL https://get.pnpm.io/install.sh | sh -'
               # PNPM_VERSION: 7.5.1
               bash -c "curl -fsSL https://get.pnpm.io/install.sh | env PNPM_VERSION=${PNPM_VERSION} sh -"
-              cat ./.circleci/assets/pnpm/.bashrc.addon | tee -a /root/.bashrc
-              cat ./.circleci/assets/pnpm/.bashrc.addon | tee -a ~/.bashrc
-              cat ./.circleci/assets/pnpm/.bashrc.addon | tee -a /root/.profile
-              cat ./.circleci/assets/pnpm/.bashrc.addon | tee -a ~/.profile
+              cat ./.circleci/assets/pnpm/.bashrc.addon | sudo tee -a /root/.bashrc
+              cat ./.circleci/assets/pnpm/.bashrc.addon | sudo tee -a ~/.bashrc
+              cat ./.circleci/assets/pnpm/.bashrc.addon | sudo tee -a /root/.profile
+              cat ./.circleci/assets/pnpm/.bashrc.addon | sudo tee -a ~/.profile
               cat ./.circleci/assets/pnpm/.bashrc.addon >> "$BASH_ENV"
               # install surge
               source $BASH_ENV
