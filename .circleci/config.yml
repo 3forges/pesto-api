@@ -145,7 +145,7 @@ jobs:
               cd ./pesto-api
               pwd
               export PESTO_MONGO_HOST=mongo.pesto.io
-              source ./.env.sh
+              source ./../.env.sh
               pnpm run generate:docs
               ls -alh ${CI_WORKSPACE_ROOT}/pesto-api/build/
       - run:
