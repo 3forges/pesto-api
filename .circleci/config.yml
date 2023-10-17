@@ -154,22 +154,25 @@ workflows:
     #   not: << pipeline.parameters.dockerize_me >> 
     jobs:
       - api_docs
-      - pr_api_build:
-          context: pesto_api
-          requires:
-            - pr_unit_tests
-      - e2e_tests_pesto_api:
-          context: pesto_api
-          requires:
-            - pr_api_build
-      - approve_deployment: # <<< A job that will require manual approval in the CircleCI web application.
-          type: approval # <<< This key-value pair will set your workflow to a status of "On Hold"
-          requires:
-            - e2e_tests_pesto_api
-      - pr_deployment:
-          context: pesto_api
-          requires:
-            - approve_deployment
+      # - pr_api_build:
+      #     context: pesto_api
+      #     requires:
+      #       - pr_unit_tests
+      # - e2e_tests_pesto_api:
+      #     context: pesto_api
+      #     requires:
+      #       - pr_api_build
+      # - approve_deployment: # <<< A job that will require manual approval in the CircleCI web application.
+      #     type: approval # <<< This key-value pair will set your workflow to a status of "On Hold"
+      #     requires:
+      #       - e2e_tests_pesto_api
+      # - pr_deployment:
+      #     context: pesto_api
+      #     requires:
+      #       - approve_deployment
+
+
+
       # - pr_deployment:
       #     context: pesto_api
       #     filters:
