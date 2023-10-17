@@ -10,8 +10,7 @@ parameters:
     default: false
   runner_oci_tag:
     type: string
-    # default: "18.17.1"
-    default: "stable-20.04"
+    default: stable-20.04
   ci_workspace_root:
     type: string
     default: "/.ci.workspace"
