@@ -124,7 +124,7 @@ jobs:
       - run:
           name: "Resolve Project Dependencies"
           command: |
-              cd ${CI_WORKSPACE_ROOT}/
+              cd ${CI_WORKSPACE_ROOT}/pesto-api
               # Lockfile is up-to-date, resolution step is skipped
               #  ERR_PNPM_OUTDATED_LOCKFILE  Cannot install with "frozen-lockfile" because pnpm-lock.yaml is not up-to-date with package.json
               # 
@@ -134,20 +134,20 @@ jobs:
       - run:
           name: "Run Unit Tests"
           command: |
-              cd ${CI_WORKSPACE_ROOT}/
+              cd ${CI_WORKSPACE_ROOT}/pesto-api
               pwd
               pnpm run test
       - run:
           name: "Generate API Docs"
           command: |
-              cd ${CI_WORKSPACE_ROOT}/
+              cd ${CI_WORKSPACE_ROOT}/pesto-api
               pwd
               pnpm run generate:docs
               ls -alh ${CI_WORKSPACE_ROOT}/pesto-api/build/
       - run:
           name: "Deploy API Docs to Vercel"
           command: |
-              cd ${CI_WORKSPACE_ROOT}/
+              cd ${CI_WORKSPACE_ROOT}/pesto-api
               pwd
               ls -alh ${CI_WORKSPACE_ROOT}/pesto-api/build/
               echo ' ------------------------------------------------------- '
