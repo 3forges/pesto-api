@@ -4,7 +4,7 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 
-import { AppModule } from './app.module';
+import { AppModule } from './openapi.module';
 
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
