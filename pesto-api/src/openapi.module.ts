@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 // import { MongooseModule } from '@nestjs/mongoose';
+import { InMemoryDBModule } from '@nestjs-addons/in-memory-db';
 import { AppService } from './app.service';
 import { AppController } from './app.controller';
 import { PestoContentTypeModule } from 'src/features/pesto-content-type/pesto-content-type.module';
@@ -15,6 +16,7 @@ console.log(` PESTO_MONGODB_URL = [${mongooseUrl}]`);
 @Module({
   imports: [
     // MongooseModule.forRoot(mongooseUrl),
+    InMemoryDBModule.forRoot({}),
     PestoContentTypeModule,
     PestoContentModule,
     PestoProjectModule,
