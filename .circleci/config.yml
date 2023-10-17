@@ -8,10 +8,10 @@ parameters:
   dockerize_me:
     type: boolean
     default: false
-  pesto_nodejs_version:
+  runner_oci_tag:
     type: string
     # default: "18.17.1"
-    default: "lts-bookworm"
+    default: "stable-20.04"
   ci_workspace_root:
     type: string
     default: "/.ci.workspace"
@@ -43,8 +43,9 @@ jobs:
       #  https://hub.docker.com/r/cimg/node/tags
       # ---
       # - image: cimg/go:<< pipeline.parameters.pesto_golang_version >>
-      # - image: cimg/node:<< pipeline.parameters.pesto_nodejs_version >>
-      - image: node:<< pipeline.parameters.pesto_nodejs_version >>
+      # - image: cimg/node:<< pipeline.parameters.runner_oci_tag >>
+      # - image: node:<< pipeline.parameters.runner_oci_tag >>
+      - image: cimg/base:<<pipeline.parameters.runner_oci_tag>>
       
     # resource_class: pestoio/podman-small1
     environment:
