@@ -44,7 +44,7 @@ jobs:
       # - image: cimg/go:<< pipeline.parameters.pesto_golang_version >>
       # - image: cimg/node:<< pipeline.parameters.runner_oci_tag >>
       # - image: node:<< pipeline.parameters.runner_oci_tag >>
-      - image: cimg/base:<<pipeline.parameters.runner_oci_tag>>
+      - image: cimg/base:<< pipeline.parameters.runner_oci_tag >>
       
     # resource_class: pestoio/podman-small1
     environment:
