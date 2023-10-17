@@ -103,7 +103,7 @@ jobs:
               # PNPM_VERSION: 7.5.1
               
               export PNPM_HOME="${HOME}/.local/share/pnpm"
-              sudo mkdir -p ${PNPM_HOME}
+              mkdir -p ${PNPM_HOME}
               bash -c "curl -fsSL https://get.pnpm.io/install.sh | env PNPM_VERSION=${PNPM_VERSION} sh -"
               cat ./.circleci/assets/pnpm/.bashrc.addon | sudo tee -a /root/.bashrc
               cat ./.circleci/assets/pnpm/.bashrc.addon | sudo tee -a ~/.bashrc
