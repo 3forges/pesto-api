@@ -58,7 +58,7 @@ jobs:
       - run:
           name: "Resolve System dependencies"
           command: |
-              apt-get update -y && apt-get install -y  bash curl jq wget
+              sudo apt-get update -y && sudo apt-get install -y  bash curl jq wget
       - run:
           name: "Env Setup"
           command: |
