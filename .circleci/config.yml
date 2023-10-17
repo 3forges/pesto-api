@@ -78,7 +78,7 @@ jobs:
           name: "Install CI Job dependencies"
           command: |
               source $BASH_ENV
-              apt-get update -y && apt-get install -y  bash curl jq wget
+              sudo apt-get update -y && sudo apt-get install -y  bash curl jq wget
               # --- 
               #  Install pnpm
               # --
