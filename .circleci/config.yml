@@ -152,6 +152,9 @@ jobs:
               source ./../.env.sh
               chmod +x ./oci/*.sh
               pnpm run generate:docs
+              ls -alh .
+              ehco "  + BEFORE SLATE :->: check[./pesto.widdershins.md] "
+              ls -alh ./pesto.widdershins.md
               pnpm run slate:docs:build
               ls -alh ../docs_dist/
       - run:
