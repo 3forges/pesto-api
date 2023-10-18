@@ -147,7 +147,7 @@ jobs:
               export PESTO_MONGO_HOST=mongo.pesto.io
               source ./../.env.sh
               pnpm run generate:docs
-              ls -alh ./build/
+              ls -alh ./
       - run:
           name: "Deploy API Docs to Vercel"
           command: |
