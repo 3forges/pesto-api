@@ -171,8 +171,8 @@ jobs:
               export PR_BRANCH_NAME_SANITIZED=$(echo "${PR_BRANCH_NAME}" | sed "s#/#-#g" | sed "s#_#-#g")
               echo " PR_BRANCH_NAME_SANITIZED = [${PR_BRANCH_NAME_SANITIZED}]"
               export API_DOCS_VERCEL_DEPLOYMENT_DIR=$(mktemp -d -t XXXXXXX_API_DOCS_VERCEL_DEPLOYMENT_DIR)
-              mkdir -p ${API_DOCS_VERCEL_DEPLOYMENT_DIR}/pesto_api-${PR_BRANCH_NAME_SANITIZED}
-              export API_DOCS_VERCEL_DEPLOYMENT_DIR=${API_DOCS_VERCEL_DEPLOYMENT_DIR}/pesto_api-${PR_BRANCH_NAME_SANITIZED}
+              mkdir -p ${API_DOCS_VERCEL_DEPLOYMENT_DIR}/pesto-api-${PR_BRANCH_NAME_SANITIZED}
+              export API_DOCS_VERCEL_DEPLOYMENT_DIR=${API_DOCS_VERCEL_DEPLOYMENT_DIR}/pesto-api-${PR_BRANCH_NAME_SANITIZED}
               echo " API_DOCS_VERCEL_DEPLOYMENT_DIR = [${API_DOCS_VERCEL_DEPLOYMENT_DIR}]"
               cp -fr ${API_DOCS_BUILD_DIR}/* ${API_DOCS_VERCEL_DEPLOYMENT_DIR}
               cp ./package.json ./package.dev.json 
@@ -185,7 +185,7 @@ jobs:
               echo ' ------------------------------------------------------- '
               echo ' --- . API DOCS '
               echo ' ------------------------------------------------------- '
-              echo " Your deployment is ready at https://pesto_api-${PR_BRANCH_NAME_SANITIZED}.surge.sh "
+              echo " Your deployment is ready at [${API_DOCS_VERCEL_DEPLOYMENT_URL}] "
               echo ' ------------------------------------------------------- '
 
 workflows:
@@ -195,26 +195,26 @@ workflows:
     #   not: << pipeline.parameters.dockerize_me >> 
     jobs:
       - api_docs:
-          context: pesto_api
+          context: pesto-api
       # - pr_api_build:
-      #     context: pesto_api
+      #     context: pesto-api
       #     requires:
       #       - pr_unit_tests
-      # - e2e_tests_pesto_api:
-      #     context: pesto_api
+      # - e2e_tests_pesto-api:
+      #     context: pesto-api
       #     requires:
       #       - pr_api_build
       # - approve_deployment: # <<< A job that will require manual approval in the CircleCI web application.
       #     type: approval # <<< This key-value pair will set your workflow to a status of "On Hold"
       #     requires:
-      #       - e2e_tests_pesto_api
+      #       - e2e_tests_pesto-api
       # - pr_deployment:
-      #     context: pesto_api
+      #     context: pesto-api
       #     requires:
       #       - approve_deployment
       # ---------
       # - pr_deployment:
-      #     context: pesto_api
+      #     context: pesto-api
       #     filters:
       #       branches:
       #         only:
