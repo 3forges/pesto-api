@@ -15,7 +15,7 @@
     "start:prod": "node dist/main",
     "clean:docs": "bash -c \"if [ -f ./openapi.json ]; then rm ./openapi.json; fi; if [ -f ./pesto.widdershins.md ]; then rm ./pesto.widdershins.md; fi;\"",
     "generate:docs": "bash -c \"pnpm run \"clean:docs\" && pnpm build && node \"dist/openapi\" && pnpm run \"widdershins:docs\" \"",
-    "widdershins:docs": "widdershins --search true --language_tabs 'typescript:TypeScript' 'ruby:Ruby' 'python:Python' --summary ./openapi.json -o ./pesto.widdershins.md",
+    "widdershins:docs": "widdershins --search true --language_tabs 'shell:Shell' 'typescript:TypeScript' 'ruby:Ruby' 'python:Python' --summary ./openapi.json -o ./pesto.widdershins.md",
     "slate:docs:build": "bash -c ./oci/slate.sh",
     "slate:docs:serve": "bash -c ./oci/slate.serve.sh",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
