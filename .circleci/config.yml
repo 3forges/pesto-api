@@ -72,7 +72,7 @@ jobs:
               echo 'export SHELL=/bin/bash' >> "$BASH_ENV"
               echo 'export GIT_SHA1="$CIRCLE_SHA1"' >> "$BASH_ENV"
               echo "export PR_BRANCH_NAME=${CIRCLE_BRANCH}" >> "$BASH_ENV"
-              export API_DOCS_BUILD_DIR="./pesto-api/dist/"
+              export API_DOCS_BUILD_DIR="./pesto-api./docs_dist/"
               echo "export API_DOCS_BUILD_DIR=${API_DOCS_BUILD_DIR}" >> "$BASH_ENV"
               echo ""
       - checkout
@@ -149,13 +149,14 @@ jobs:
               export PESTO_MONGO_HOST=mongo.pesto.io
               source ./../.env.sh
               pnpm run generate:docs
-              ls -alh ./dist/
+              pnpm run slate:docs:build
+              ls -alh ../docs_dist/
       - run:
           name: "Deploy API Docs to Vercel"
           command: |
               # cd ./pesto-api
               pwd
-              ls -alh ./pesto-api/dist/
+              ls -alh ./pesto-api./docs_dist/
               echo ' ------------------------------------------------------- '
               echo "   "
               # echo pesto-api-docs-${PR_BRANCH_NAME}-*.vercel.app > CNAME
@@ -168,7 +169,7 @@ jobs:
               export API_DOCS_VERCEL_DEPLOYMENT_DIR=${API_DOCS_VERCEL_DEPLOYMENT_DIR}/pesto_api-${PR_BRANCH_NAME_SANITIZED}
               echo " API_DOCS_VERCEL_DEPLOYMENT_DIR = [${API_DOCS_VERCEL_DEPLOYMENT_DIR}]"
               cp -fr ${API_DOCS_BUILD_DIR}/* ${API_DOCS_VERCEL_DEPLOYMENT_DIR}
-              vercel deploy ${API_DOCS_VERCEL_DEPLOYMENT_DIR} --token ${API_DOCS_VERCEL_TOKEN} --yes > ./API_DOCS_VERCEL_DEPLOYMENT.out
+              vercel deploy --local-config ./vercel.docs.json ${API_DOCS_VERCEL_DEPLOYMENT_DIR} --token ${API_DOCS_VERCEL_TOKEN} --yes > ./API_DOCS_VERCEL_DEPLOYMENT.out
               export API_DOCS_VERCEL_DEPLOYMENT_URL=$(cat ./API_DOCS_VERCEL_DEPLOYMENT.out | grep vercel | awk '{print $1}')
               echo " API_DOCS_VERCEL_DEPLOYMENT_URL=${API_DOCS_VERCEL_DEPLOYMENT_URL}"
               echo "   "
