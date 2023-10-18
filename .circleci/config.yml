@@ -71,7 +71,7 @@ jobs:
               touch $BASH_ENV
               echo 'export SHELL=/bin/bash' >> "$BASH_ENV"
               echo 'export GIT_SHA1="$CIRCLE_SHA1"' >> "$BASH_ENV"
-              export API_DOCS_BUILD_DIR="./pesto-api/build/"
+              export API_DOCS_BUILD_DIR="./pesto-api/dist/"
               echo "export API_DOCS_BUILD_DIR=${API_DOCS_BUILD_DIR}" >> "$BASH_ENV"
               echo ""
       - checkout
@@ -147,16 +147,16 @@ jobs:
               export PESTO_MONGO_HOST=mongo.pesto.io
               source ./../.env.sh
               pnpm run generate:docs
-              ls -alh ./
+              ls -alh ./dist/
       - run:
           name: "Deploy API Docs to Vercel"
           command: |
               # cd ./pesto-api
               pwd
-              ls -alh ./pesto-api/build/
+              ls -alh ./pesto-api/dist/
               echo ' ------------------------------------------------------- '
               echo "   "
-              # echo pesto_api-${PR_BRANCH_NAME}-*.vercel.app > CNAME
+              # echo pesto-api-docs-${PR_BRANCH_NAME}-*.vercel.app > CNAME
               ls -alh ${API_DOCS_BUILD_DIR}
               echo " PR_BRANCH_NAME = [${PR_BRANCH_NAME}]"
               export PR_BRANCH_NAME_SANITIZED=$(echo "${PR_BRANCH_NAME}" | sed "s#/#-#g" | sed "s#_#-#g")
