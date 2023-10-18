@@ -181,7 +181,8 @@ jobs:
               cp ./package.json ./package.dev.json 
               rm ./package.json
               cat  ./package.vercel.json | tee ./package.json
-              vercel deploy --local-config ./vercel.docs.json ${API_DOCS_VERCEL_DEPLOYMENT_DIR} --token ${API_DOCS_VERCEL_TOKEN} --yes > ./API_DOCS_VERCEL_DEPLOYMENT.out
+              # vercel deploy --local-config ./vercel.docs.json ${API_DOCS_VERCEL_DEPLOYMENT_DIR} --token ${API_DOCS_VERCEL_TOKEN} --yes > ./API_DOCS_VERCEL_DEPLOYMENT.out
+              vercel deploy ${API_DOCS_VERCEL_DEPLOYMENT_DIR} --token ${API_DOCS_VERCEL_TOKEN} --yes > ./API_DOCS_VERCEL_DEPLOYMENT.out
               export API_DOCS_VERCEL_DEPLOYMENT_URL=$(cat ./API_DOCS_VERCEL_DEPLOYMENT.out | grep vercel | awk '{print $1}')
               echo " API_DOCS_VERCEL_DEPLOYMENT_URL=${API_DOCS_VERCEL_DEPLOYMENT_URL}"
               echo "   "
