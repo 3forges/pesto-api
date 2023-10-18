@@ -15,18 +15,19 @@ import {
 import { CreatePestoContentTypeDto } from './dto/create-pesto-content-type.dto';
 import { UpdatePestoContentTypeDto } from './dto/update-pesto-content-type.dto';
 import { PestoContentTypeService } from './pesto-content-type.service';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiResponse, ApiOperation } from '@nestjs/swagger';
 import { PestoContentType } from './schemas/PestoContentType.schema';
 //import { Request } from 'express';
 // import { FastifyRequest } from 'fastify';
 
+// 
 @Controller('pesto-content-type')
 export class PestoContentTypeController {
   constructor(private readonly service: PestoContentTypeService) {}
 
   @ApiResponse({
     status: 200,
-    description: 'Returns al of the PestoContentType s ',
+    description: 'Returns all of the PestoContentType s ',
     // type: Array<PestoContentType>,
     type: PestoContentType,
     isArray: true,
@@ -40,7 +41,7 @@ export class PestoContentTypeController {
   async find(@Param('id') id: string) {
     return await this.service.findOne(id);
   }
-
+  @ApiOperation({description: `CREATE a Pesto project --->>> Here`})
   @Get('/project/:project_id')
   async findByProject(@Param('project_id') project_id: string) {
     return await this.service.findByProject(project_id);
