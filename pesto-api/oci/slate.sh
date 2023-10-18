@@ -46,6 +46,7 @@ echo "# --- "
 echo "# --- # --- "
 echo "# --- # --- # --- "
 echo "# --- # --- # --- # --- "
+echo "  HERE THE ISSUE IS THAT YOU CANNOT USE DOCKER VOLUMES INSIDE DOCKER IN DOCKER "
 echo "  HERE IS NOW THE GENERATED STATIC WEBSITE: [$(pwd)/build]"
 ls -alh $(pwd)/build
 echo "# --- "
