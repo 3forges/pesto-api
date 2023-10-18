@@ -60,6 +60,8 @@ jobs:
           name: "Resolve System dependencies"
           command: |
               sudo apt-get update -y && sudo apt-get install -y  bash curl jq wget
+      - setup_remote_docker:
+          version: 20.10.14
       - run:
           name: "Env Setup"
           command: |
@@ -155,9 +157,9 @@ jobs:
       - run:
           name: "Deploy API Docs to Vercel"
           command: |
-              # cd ./pesto-api
+              cd ./pesto-api
               pwd
-              ls -alh ./pesto-api./docs_dist/
+              ls -alh ./docs_dist/
               echo ' ------------------------------------------------------- '
               echo "   "
               # echo pesto-api-docs-${PR_BRANCH_NAME}-*.vercel.app > CNAME
