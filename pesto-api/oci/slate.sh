@@ -5,7 +5,7 @@
 # --
 # 
 export DOCS_DIST="$(pwd)/docs_dist"
-export WIDDERSHINS_MD=${WIDDERSHINS_MD:-"./pesto.widdershins.md"}
+export WIDDERSHINS_MD=${WIDDERSHINS_MD:-"$(pwd)/pesto.widdershins.md"}
 export SLATE_VERSION="2.13.1"
 
 
@@ -30,13 +30,10 @@ if [ -f ./index.html.md ]; then
   rm ./index.html.md
 fi;
 
-
+ls -alh ${WIDDERSHINS_MD} || exit 3
 cp ${WIDDERSHINS_MD} ./index.html.md
-cp ./index.html.md ${DOCS_DIST}/source/
 
-if [ -f ./index.html.md ]; then
-  rm ./index.html.md
-fi;
+
 
 docker pull slatedocs/slate
 
@@ -48,8 +45,8 @@ docker pull slatedocs/slate
 echo " SLATE DOCKER CONTAINER STARTING..."
 docker run --name slate -itd --restart always slatedocs/slate /bin/sh
 echo " SLATE DOCKER CONTAINER STARTED."
-ls -alh ${DOCS_DIST}/index.html.md
-docker cp ${DOCS_DIST}/index.html.md slate:/srv/slate/source/index.html.md
+ls -alh $(pwd)/index.html.md
+docker cp $(pwd)/index.html.md slate:/srv/slate/source/index.html.md
 docker exec -it slate sh -c "ls -alh /srv/slate/source/index.html.md"
 echo " index.html.md copied into SLATE DOCKER CONTAINER: COMPLETED."
 docker exec -it slate sh -c "/srv/slate/slate.sh build"
