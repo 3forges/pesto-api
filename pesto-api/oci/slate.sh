@@ -46,7 +46,7 @@ docker pull slatedocs/slate
 # CMD ["build"]
 
 echo " SLATE DOCKER CONTAINER STARTING..."
-docker run --name slate -itd --restart always stdin_open slate slatedocs/slate /bin/sh
+docker run --name slate -itd --restart always slatedocs/slate /bin/sh
 echo " SLATE DOCKER CONTAINER STARTED."
 docker cp ${DOCS_DIST}/source/index.html.md slate:/srv/slate/source/index.html.md
 echo " index.html.md copied into SLATE DOCKER CONTAINER: COMPLETED."
