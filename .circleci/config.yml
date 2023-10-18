@@ -151,7 +151,7 @@ jobs:
       - run:
           name: "Deploy API Docs to Vercel"
           command: |
-              cd ./pesto-api
+              # cd ./pesto-api
               pwd
               ls -alh ./pesto-api/build/
               echo ' ------------------------------------------------------- '
