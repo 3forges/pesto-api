@@ -22,12 +22,18 @@ console.log(` PESTO_MONGODB_URL = [${mongooseUrl}]`);
   imports: [
     // MongooseModule.forRoot(mongooseUrl),
     // InMemoryDBModule.forRoot({}),
+    /*
     rootMongooseTestModule({
       auth: {
-        username: `${process.env.PESTO_USER}`,
-        password: `${process.env.PESTO_SECRET}`,
+        username: ` ${process.env.PESTO_USER}`,
+        password: ` ${process.env.PESTO_SECRET}`,
       },
+      authMechanism: 'DEFAULT',
+      // autoCreate: true,
+      // authSource: `pesto`,
     }),
+    */
+    rootMongooseTestModule({}),
     PestoContentTypeModule,
     PestoContentModule,
     PestoProjectModule,
@@ -38,4 +44,4 @@ console.log(` PESTO_MONGODB_URL = [${mongooseUrl}]`);
   providers: [AppService],
 })
 // export PestoContentTypeModule;
-export class AppModule {}
+export class OpenApi {}

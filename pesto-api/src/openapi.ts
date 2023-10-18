@@ -4,7 +4,8 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 
-import { AppModule } from './openapi.module';
+import { OpenApi } from './openapi.module';
+import { closeInMongodConnection } from './openapi.db.module';
 
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
@@ -12,7 +13,7 @@ import { writeFileSync } from 'fs';
 
 async function bootstrap() {
   /*
-  const app = await NestFactory.create(AppModule, {
+  const app = await NestFactory.create(OpenApi, {
     // bodyParser: true,
     rawBody: true,
     // rawBody: false,
@@ -20,7 +21,7 @@ async function bootstrap() {
   });*/
 
   const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule,
+    OpenApi,
     new FastifyAdapter(),
     {
       rawBody: true,
@@ -58,7 +59,10 @@ async function bootstrap() {
    * END GENERATE OPENAPI.JSON
    */
   SwaggerModule.setup('api', app, document);
-
   await app.close();
+  console.log(` PESTO + PESTO + PESTO + AVANT DE FERMER LA DB`);
+  await closeInMongodConnection();
+  console.log(` PESTO + PESTO + PESTO + APRES DE FERMER LA DB`);
+  process.exit(0);
 }
 bootstrap();

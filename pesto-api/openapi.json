@@ -392,14 +392,14 @@
         }
     },
     "info": {
-        "title": "Cats example",
-        "description": "The cats API description",
+        "title": "Pesto Example | PestoContentType Example",
+        "description": "The Pesto API description",
         "version": "1.0",
         "contact": {}
     },
     "tags": [
         {
-            "name": "cats",
+            "name": "pesto",
             "description": ""
         }
     ],
