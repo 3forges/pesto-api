@@ -164,9 +164,12 @@ jobs:
               pwd
               ls -alh ./docs_dist/
               echo ' ------------------------------------------------------- '
+              echo "  Content of Deployment:  "
+              echo ' ------------------------------------------------------- '
               echo "   "
               # echo pesto-api-docs-${PR_BRANCH_NAME}-*.vercel.app > CNAME
               ls -alh ${API_DOCS_BUILD_DIR}
+              echo ' ------------------------------------------------------- '
               echo " PR_BRANCH_NAME = [${PR_BRANCH_NAME}]"
               export PR_BRANCH_NAME_SANITIZED=$(echo "${PR_BRANCH_NAME}" | sed "s#/#-#g" | sed "s#_#-#g")
               echo " PR_BRANCH_NAME_SANITIZED = [${PR_BRANCH_NAME_SANITIZED}]"
