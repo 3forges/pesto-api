@@ -41,7 +41,7 @@ export class PestoContentTypeController {
   async find(@Param('id') id: string) {
     return await this.service.findOne(id);
   }
-  @ApiOperation({description: `CREATE a Pesto project --->>> Here`})
+  @ApiOperation({ description: `CREATE a Pesto project --->>> Here` })
   @Get('/project/:project_id')
   async findByProject(@Param('project_id') project_id: string) {
     return await this.service.findByProject(project_id);

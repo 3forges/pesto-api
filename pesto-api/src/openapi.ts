@@ -42,10 +42,13 @@ async function bootstrap() {
    * https://docs.nestjs.com/openapi/introduction
    */
   const config = new DocumentBuilder()
-    .setTitle('Pesto Example | PestoContentType Example')
-    .setDescription('The Pesto API description')
+    .setTitle('Pesto API')
+    .setDescription(
+      'The Pesto API purpose is to manage the content of your website, using the power of headless CMS. Pesto is in the Git-based CMS gang.',
+    )
     .setVersion('1.0')
     .addTag('pesto')
+    .addTag('api')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   /**
