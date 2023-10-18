@@ -119,6 +119,7 @@ jobs:
               pnpm --version
               # install surge
               pnpm add -g surge
+              pnpm add -g vercel
               # bash -c 'pnpm add -g surge'
               pnpm --version
               # bash -c 'pnpm --version'
