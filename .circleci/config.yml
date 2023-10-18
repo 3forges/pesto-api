@@ -148,6 +148,7 @@ jobs:
               pwd
               export PESTO_MONGO_HOST=mongo.pesto.io
               source ./../.env.sh
+              chmod +x ./oci/*.sh
               pnpm run generate:docs
               pnpm run slate:docs:build
               ls -alh ../docs_dist/
