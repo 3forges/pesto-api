@@ -74,7 +74,7 @@ jobs:
               echo 'export SHELL=/bin/bash' >> "$BASH_ENV"
               echo 'export GIT_SHA1="$CIRCLE_SHA1"' >> "$BASH_ENV"
               echo "export PR_BRANCH_NAME=${CIRCLE_BRANCH}" >> "$BASH_ENV"
-              export API_DOCS_BUILD_DIR="./pesto-api./docs_dist/"
+              export API_DOCS_BUILD_DIR="$(pwd)/pesto-api./docs_dist/build"
               echo "export API_DOCS_BUILD_DIR=${API_DOCS_BUILD_DIR}" >> "$BASH_ENV"
               echo ""
       - checkout
@@ -156,7 +156,7 @@ jobs:
               echo "  + BEFORE SLATE :->: check[./pesto.widdershins.md] "
               ls -alh ./pesto.widdershins.md
               pnpm run slate:docs:build
-              ls -alh ../docs_dist/
+              ls -alh ../docs_dist/build
       - run:
           name: "Deploy API Docs to Vercel"
           command: |
