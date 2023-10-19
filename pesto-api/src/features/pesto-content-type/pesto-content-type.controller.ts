@@ -15,16 +15,25 @@ import {
 import { CreatePestoContentTypeDto } from './dto/create-pesto-content-type.dto';
 import { UpdatePestoContentTypeDto } from './dto/update-pesto-content-type.dto';
 import { PestoContentTypeService } from './pesto-content-type.service';
-import { ApiResponse, ApiOperation } from '@nestjs/swagger';
+import {
+  ApiResponse,
+  ApiOperation,
+  // ApiExcludeEndpoint,
+  ApiTags,
+} from '@nestjs/swagger';
+
 import { PestoContentType } from './schemas/PestoContentType.schema';
 //import { Request } from 'express';
 // import { FastifyRequest } from 'fastify';
 
-// 
+@ApiTags('PestoContentType')
 @Controller('pesto-content-type')
 export class PestoContentTypeController {
   constructor(private readonly service: PestoContentTypeService) {}
 
+  @ApiOperation({
+    summary: 'Get all PestoContentTypes',
+  })
   @ApiResponse({
     status: 200,
     description: 'Returns all of the PestoContentType s ',
@@ -37,21 +46,54 @@ export class PestoContentTypeController {
     return await this.service.findAll();
   }
 
+  @ApiOperation({
+    summary: 'Get a PestoContentType by ID ([_id] in MongoDB)',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns ae [PestoContentType] from its ID ([_id] in MongoDB)',
+    // type: Array<PestoContentType>,
+    type: PestoContentType,
+    isArray: true,
+  })
   @Get(':id')
   async find(@Param('id') id: string) {
     return await this.service.findOne(id);
   }
-  @ApiOperation({ description: `CREATE a Pesto project --->>> Here` })
+
+  @ApiOperation({
+    description: `Get all PestoContentType of a given PestoProject`,
+    // response = Promise<PestoContentType[]>,
+    // responses = Promise<PestoContentType[]>,
+    // produces = "application/json",
+    operationId: 'findByProject',
+    requestBody: {
+      required: false,
+      //content:{},
+      content: {},
+    },
+  })
   @Get('/project/:project_id')
   async findByProject(@Param('project_id') project_id: string) {
     return await this.service.findByProject(project_id);
   }
 
+  @ApiOperation({
+    description: `Create a {PestoContentType} of a given {PestoProject}`,
+    requestBody: {
+      required: true,
+      //content:{},
+      content: {},
+    },
+  })
   @Post()
   @HttpCode(204)
   @UsePipes(new ValidationPipe({ transform: true }))
   // async create(@Req() req: RawBodyRequest<FastifyRequest>) {
-  async create(@Body() createPestoContentType: CreatePestoContentTypeDto) {
+  async create(
+    @Body()
+    createPestoContentType: CreatePestoContentTypeDto,
+  ) {
     // const jsonPayload = createPestoContentType; // returns a `Buffer`.
     console.log(` >>>>>>>>>>>>>>>> DEBUT JSON RECU: `);
     console.log(createPestoContentType);
