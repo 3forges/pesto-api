@@ -161,16 +161,17 @@ export class PestoProjectService {
     }
     const didIFindOne = await this.findOne(id);
     console.log(
-      `PESTO-PROJECT DATA SERVICE [UPDATE BY ID] method - [${JSON.stringify(
+      `PESTO-PROJECT DATA SERVICE [before]-[UPDATE BY ID] method - Found record [didIFindOne]:`,
+      didIFindOne,
+    );
+    console.log(
+      `PESTO-PROJECT DATA SERVICE [before]-[UPDATE BY ID] method [updatePestoProjectDto] = - [${JSON.stringify(
         updatePestoProjectDto,
         null,
         4,
       )}]`,
     );
-    console.log(
-      `PESTO-PROJECT DATA SERVICE [UPDATE BY ID] method - Found record [didIFindOne]:`,
-      didIFindOne,
-    );
+
     if (didIFindOne) {
       /**
        * Then I update the database from the DTO:
@@ -178,9 +179,28 @@ export class PestoProjectService {
        * if the record does not exist in the database
        */
       /**/
-      return await this.model
+      const toReturn = await this.model
         .findByIdAndUpdate(id, updatePestoProjectDto)
         .exec();
+      console.info(
+        `PESTO-PROJECT DATA SERVICE [AFTER SUCCESSFULLY]-[UPDATE BY ID] method [toReturn] : - [${JSON.stringify(
+          toReturn,
+          null,
+          4,
+        )}]`,
+      );
+      return {
+        //_id: toReturn.id,
+        _id: toReturn._id,
+        //createdAt: toReturn.createdAt,
+        createdAt: updatePestoProjectDto.createdAt,
+        //name: toReturn.name,
+        name: updatePestoProjectDto.name,
+        //git_ssh_uri: toReturn.git_ssh_uri,
+        git_ssh_uri: updatePestoProjectDto.git_ssh_uri,
+        //git_service_provider: toReturn.git_service_provider,
+        git_service_provider: updatePestoProjectDto.git_service_provider,
+      };
     } else {
       const errMsg = `DATA SERVICE [UPDATE BY ID] - No [PestoProject] with [_id] = [${id}]  was found in the database: Cannot update non-existing record !`;
       // throw `${errMsg}`;
