@@ -74,7 +74,7 @@ export class PestoProjectController {
   /**
    * @param id l'Id du type de contenu à modifier
    * @param updatePestoProject la payload de la requête reçue
-   * @returns Le type de conteu modifié
+   * @returns Un tableau formé du PestoProject modifié
    */
   @Put(':id')
   @UsePipes(new ValidationPipe({ transform: true }))
@@ -82,7 +82,7 @@ export class PestoProjectController {
     @Param('id') id: string,
     @Body() updatePestoProject: UpdatePestoProjectDto,
   ) {
-    return await this.service.update(id, updatePestoProject);
+    return [await this.service.update(id, updatePestoProject)];
   }
 
   @Delete(':id')
