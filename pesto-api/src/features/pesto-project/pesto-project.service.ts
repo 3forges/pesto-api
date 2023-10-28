@@ -183,8 +183,20 @@ export class PestoProjectService {
         .findByIdAndUpdate(id, updatePestoProjectDto)
         .exec();
       console.info(
-        `PESTO-PROJECT DATA SERVICE [AFTER SUCCESSFULLY]-[UPDATE BY ID] method [toReturn] : - [${JSON.stringify(
-          toReturn,
+        `PESTO-PROJECT DATA SERVICE [AFTER SUCCESSFULLY]-[UPDATE BY ID] here is the Object returned by Pesto API : - [${JSON.stringify(
+          {
+            //_id: toReturn.id,
+            _id: toReturn._id,
+            //createdAt: toReturn.createdAt,
+            createdAt: updatePestoProjectDto.createdAt,
+            description: updatePestoProjectDto.description,
+            //name: toReturn.name,
+            name: updatePestoProjectDto.name,
+            //git_ssh_uri: toReturn.git_ssh_uri,
+            git_ssh_uri: updatePestoProjectDto.git_ssh_uri,
+            //git_service_provider: toReturn.git_service_provider,
+            git_service_provider: updatePestoProjectDto.git_service_provider,
+          },
           null,
           4,
         )}]`,
@@ -194,6 +206,7 @@ export class PestoProjectService {
         _id: toReturn._id,
         //createdAt: toReturn.createdAt,
         createdAt: updatePestoProjectDto.createdAt,
+        description: updatePestoProjectDto.description,
         //name: toReturn.name,
         name: updatePestoProjectDto.name,
         //git_ssh_uri: toReturn.git_ssh_uri,
