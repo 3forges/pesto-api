@@ -82,7 +82,7 @@ export class PestoProjectController {
     @Param('id') id: string,
     @Body() updatePestoProject: UpdatePestoProjectDto,
   ) {
-    return [await this.service.update(id, updatePestoProject)];
+    return await this.service.update(id, updatePestoProject);
   }
 
   @Delete(':id')
