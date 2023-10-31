@@ -183,6 +183,13 @@ export class PestoProjectService {
         .findByIdAndUpdate(id, updatePestoProjectDto)
         .exec();
       console.info(
+        `PESTO-PROJECT DATA SERVICE [AFTER SUCCESSFULLY]-[UPDATE BY ID] here is the Object returned by [Mongoose] 's [findByIdAndUpdate] : - [${JSON.stringify(
+          toReturn,
+          null,
+          4,
+        )}]`,
+      );
+      console.info(
         `PESTO-PROJECT DATA SERVICE [AFTER SUCCESSFULLY]-[UPDATE BY ID] here is the Object returned by Pesto API : - [${JSON.stringify(
           {
             //_id: toReturn.id,

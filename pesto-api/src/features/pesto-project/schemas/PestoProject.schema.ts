@@ -20,7 +20,7 @@ export class PestoProject {
   git_ssh_uri: string;
 
   @Prop()
-  git_service_provider: string;
+  git_service_provider?: string;
 
   @Prop()
   description?: string;

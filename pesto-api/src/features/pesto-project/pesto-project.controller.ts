@@ -75,6 +75,22 @@ export class PestoProjectController {
    * @param id l'Id du type de contenu à modifier
    * @param updatePestoProject la payload de la requête reçue
    * @returns Un tableau formé du PestoProject modifié
+   *
+   * @example
+   *       export EG_PAYLOAD='{
+   *           "_id": "6526bb5cf88cd05417311b33",
+   *           "name": "autrement",
+   *           "git_ssh_uri": "git@github.com:fundefinedjskh/rqfxy",
+   *           "description": "msrnjusm juykm yloyrjjli",
+   *           "createdAt": "2023-10-11T15:12:28.604Z"
+   *       }'
+   *       export PRJ_ID="6526bb5cf88cd05417311b33"
+   *       curl -iv \
+   *         -X PUT \
+   *         -H 'Content-Type: application/json' \
+   *         -H 'Accept: application/json' \
+   *         -d "${EG_PAYLOAD}" \
+   *         http://localhost:3000/pesto-project/${PRJ_ID} | tail -n 1 | jq .
    */
   @Put(':id')
   @UsePipes(new ValidationPipe({ transform: true }))
@@ -82,6 +98,10 @@ export class PestoProjectController {
     @Param('id') id: string,
     @Body() updatePestoProject: UpdatePestoProjectDto,
   ) {
+    console.log(
+      ` PESTO PROJECT REST CONTROLLER - PUT - received payload :`,
+      updatePestoProject,
+    );
     return await this.service.update(id, updatePestoProject);
   }
 
