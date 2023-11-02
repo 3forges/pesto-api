@@ -1,0 +1,15 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "docs_dist/build/**",
+            "use": "@vercel/static"
+        }
+    ],
+    "routes":[
+        {
+            "src": "/(.+)",
+            "dest": "docs_dist/build/$1"
+        }
+    ]
+}

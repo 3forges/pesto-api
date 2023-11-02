@@ -1,6 +1,40 @@
 # The `Pesto API`
 
 ## Run the `Pesto API` locally
+
+* Mongo FQDN:
+
+  * on Windows, in git bash:
+
+```bash
+export IPADDR_OF_YOUR_VM="192.168.230.82"
+export PESTO_MONGO_HOST=mongo.pesto.io
+echo "# ---- " | sudo tee -a /etc/hosts
+echo "${IPADDR_OF_YOUR_VM}      ${PESTO_MONGO_HOST}" | sudo tee -a /c/Windows/System32/drivers/etc/hosts
+
+# ---
+# if you're dhcp
+export OLD_IPADDR_OF_YOUR_VM="192.168.230.82"
+export IPADDR_OF_YOUR_VM="192.168.230.82"
+sudo sed -i "s##${IPADDR_OF_YOUR_VM}#g" /c/Windows/System32/drivers/etc/hosts
+sed -i "s#${OLD_IPADDR_OF_YOUR_VM}#${IPADDR_OF_YOUR_VM}#g" /c/Windows/System32/drivers/etc/hosts
+```
+
+  * on GNU/Linux, in bash shell:
+
+```bash
+export IPADDR_OF_YOUR_VM="192.168.230.82"
+export PESTO_MONGO_HOST=mongo.pesto.io
+echo "# ---- " | sudo tee -a /etc/hosts
+echo "${IPADDR_OF_YOUR_VM}      ${PESTO_MONGO_HOST}" | sudo tee -a /etc/hosts
+
+
+export OLD_IPADDR_OF_YOUR_VM="192.168.230.82"
+export IPADDR_OF_YOUR_VM="192.168.230.82"
+sed -i "s#${OLD_IPADDR_OF_YOUR_VM}#${IPADDR_OF_YOUR_VM}#g" /etc/hosts
+```
+
+
 * First, you need to run a mongodb service on a VM of you choice:
 
 ```bash
@@ -17,20 +51,18 @@ source ./.env.sh
 docker-compose up -d
 ```
 
-* Then you can start the rest api from the `./pesto-api` folder : 
+* Then you can start the rest api from the `./pesto-api` folder:
 
 ```bash
-pnpm i 
 
-export PESTO_MONGO_HOST=mongo.pesto.io
-source ./.env.sh
+# ---
+# First, install the nestjs cli
+npm install -g @nestjs/cli
 
-pnpm start
-```
-* Then you can run the 
-```
+#---
+# 
+cd ./pesto-api
 
-```bash
 pnpm i 
 
 export PESTO_MONGO_HOST=mongo.pesto.io
@@ -44,12 +76,33 @@ pnpm start
 ```bash
 curl -iv -X GET -H 'Accept: application/json' http://localhost:3000/ | tail -n 1 | jq .
 
+# ---
+# List all Entity instances 
 curl -iv -X GET -H 'Accept: application/json' http://localhost:3000/pesto-content-type | tail -n 1 | jq .
 
 # ---
 # This is how to create a new
 # "Pesto Content Type", with a curl : 
 curl -iv -X POST -H 'Content-Type: application/json' -d '{ "title" : "robe", "description" : "un autre type de contenu pour mon blog", "identifier" : "robe"}' -H 'Accept: application/json' http://localhost:3000/pesto-content-type | tail -n 1 | jq .
+
+# ---
+# List all Entity instances 
+curl -iv -X GET -H 'Accept: application/json' http://localhost:3000/pesto-content-type | tail -n 1 | jq .
+
+
+# ---
+# This is how to delete a 
+# "Pesto Content Type", using 
+# its ID, and curl command : 
+export PESTO_CT_ID="651cc18610e7a46f36293572"
+
+curl -iv -X DELETE -G \
+     -d "id=${PESTO_CT_ID}" \
+     "http://localhost:3000/pesto-content-type/${PESTO_CT_ID}" | tail -n 1 | jq .
+
+# ---
+# List all Entity instances 
+curl -iv -X GET -H 'Accept: application/json' http://localhost:3000/pesto-content-type | tail -n 1 | jq .
 
 ```
 
@@ -191,7 +244,7 @@ EOF
 
 ```
 
-* Then  i modified the sorurce code to pick a  first env.  var. : 
+* Then I modified the sorurce code to pick a  first env.  var. :
 
 ```bash
 export PESTO_DBNAME=pesto

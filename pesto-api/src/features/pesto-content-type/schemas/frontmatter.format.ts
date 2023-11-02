@@ -1,0 +1,5 @@
+enum FRONTMATTER_FORMAT {
+  JSON = 'JSON',
+  YAML = 'YAML',
+}
+export default FRONTMATTER_FORMAT;

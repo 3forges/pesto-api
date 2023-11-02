@@ -1,0 +1,92 @@
+{
+  "response": [
+    {
+      "_id": "65221b0358376870a825ba9a",
+      "title": "chaussure",
+      "project_id": "rubbishprjid1",
+      "frontmatter_schema": "{}",
+      "frontmatter_format": "JSON",
+      "description": "un autre type de contenu pour mon site de e-commerce",
+      "identifier": "chaussure",
+      "createdAt": "2023-10-08T02:59:15.083Z",
+      "__v": 0
+    },
+    {
+      "_id": "65221b0358376870a825ba9d",
+      "title": "robe",
+      "project_id": "rubbishprjid1",
+      "frontmatter_schema": "{}",
+      "frontmatter_format": "JSON",
+      "description": "un autre type de contenu pour mon site de e-commerce",
+      "identifier": "robe",
+      "createdAt": "2023-10-08T02:59:15.562Z",
+      "__v": 0
+    },
+    {
+      "_id": "65221b0458376870a825baa0",
+      "title": "collier",
+      "project_id": "rubbishprjid1",
+      "frontmatter_schema": "{}",
+      "frontmatter_format": "JSON",
+      "description": "un autre type de contenu pour mon site de e-commerce",
+      "identifier": "collier",
+      "createdAt": "2023-10-08T02:59:16.188Z",
+      "__v": 0
+    },
+    {
+      "_id": "65221b0458376870a825baa3",
+      "title": "chapeau",
+      "project_id": "rubbishprjid7",
+      "frontmatter_schema": "{}",
+      "frontmatter_format": "JSON",
+      "description": "un autre type de contenu pour mon site de e-commerce",
+      "identifier": "chapeau",
+      "createdAt": "2023-10-08T02:59:16.678Z",
+      "__v": 0
+    },
+    {
+      "_id": "65221b2258376870a825baa7",
+      "title": "chaussure",
+      "project_id": "652180e1b90cf34b86350aa9",
+      "frontmatter_schema": "{}",
+      "frontmatter_format": "JSON",
+      "description": "un autre type de contenu pour mon site de e-commerce",
+      "identifier": "chaussure",
+      "createdAt": "2023-10-08T02:59:46.665Z",
+      "__v": 0
+    },
+    {
+      "_id": "65221b3a58376870a825baaa",
+      "title": "robe",
+      "project_id": "652180e1b90cf34b86350aa9",
+      "frontmatter_schema": "{}",
+      "frontmatter_format": "JSON",
+      "description": "un autre type de contenu pour mon site de e-commerce",
+      "identifier": "robe",
+      "createdAt": "2023-10-08T03:00:10.935Z",
+      "__v": 0
+    },
+    {
+      "_id": "65221b4e58376870a825baad",
+      "title": "collier",
+      "project_id": "652180e1b90cf34b86350aa9",
+      "frontmatter_schema": "{}",
+      "frontmatter_format": "JSON",
+      "description": "un autre type de contenu pour mon site de e-commerce",
+      "identifier": "collier",
+      "createdAt": "2023-10-08T03:00:30.600Z",
+      "__v": 0
+    },
+    {
+      "_id": "65221b6358376870a825bab0",
+      "title": "chapeau",
+      "project_id": "652180e1b90cf34b86350aa9",
+      "frontmatter_schema": "{}",
+      "frontmatter_format": "JSON",
+      "description": "un autre type de contenu pour mon site de e-commerce",
+      "identifier": "chapeau",
+      "createdAt": "2023-10-08T03:00:51.440Z",
+      "__v": 0
+    }
+  ]
+}
