@@ -24,7 +24,7 @@ export class BasePestoContentDto {
   name: string;
   description?: string;
   /**
-   * The text of the contentA
+   * The text of the content
    */
   text: string;
 }

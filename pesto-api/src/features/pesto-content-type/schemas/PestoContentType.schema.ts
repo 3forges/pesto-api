@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
 import FRONTMATTER_FORMAT from './frontmatter.format';
 import { ApiProperty } from '@nestjs/swagger';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 
 /*
 import {
@@ -11,11 +12,14 @@ import {
 */
 export type PestoContentTypeDocument = PestoContentType & Document;
 
+@ObjectType('PestoContentType')
 @Schema()
 export class PestoContentType {
+  @Field(() => ID)
   @Prop({ type: mongoose.Schema.Types.ObjectId, auto: true })
   _id: mongoose.Schema.Types.ObjectId;
 
+  @Field()
   @Prop({ required: true })
   title: string;
 
@@ -24,6 +28,7 @@ export class PestoContentType {
    * following example pattern at https://gist.github.com/jmora2612/6f82c537eb957102e925a433ae9f9a4c#file-products-schema-ts-L19
    */
   // @Prop({ type: mongoose.Types.ObjectId, required: true, index: true })
+  @Field(() => ID)
   @Prop({
     type: mongoose.Types.ObjectId,
     required: true,
@@ -32,6 +37,7 @@ export class PestoContentType {
   })
   project_id: mongoose.Types.ObjectId;
 
+  @Field()
   @ApiProperty({
     description: `The schema of the frontmatter, specified with an example (stringified) JSON, will be converted to a JSON Schema by the [quicktypes] framework`,
     type: typeof String,
@@ -45,9 +51,11 @@ export class PestoContentType {
    * - or a YAML Schema, in YAML format.
    * default value: '{}'
    */
+  @Field()
   @Prop()
   frontmatter_schema?: string;
 
+  @Field()
   @ApiProperty({
     description: `The format of the frontmatter, either JSON, or YAML, for the PestoContentType`,
     enum: FRONTMATTER_FORMAT,
@@ -62,9 +70,11 @@ export class PestoContentType {
    * - or a YAML format.
    * default value: FRONTMATTER_FORMAT.JSON
    */
+  @Field()
   @Prop()
   frontmatter_format?: FRONTMATTER_FORMAT;
 
+  @Field()
   @ApiProperty({
     description: `The description of this PestoContentType`,
     type: typeof String,
@@ -72,9 +82,11 @@ export class PestoContentType {
     // example: [FRONTMATTER_FORMAT.JSON, FRONTMATTER_FORMAT.YAML],
     example: `This Content Type represents a pair of shoe, with its size, its color, its price, the trademark, the model.`,
   })
+  @Field()
   @Prop()
   description?: string;
 
+  @Field()
   @ApiProperty({
     description: `The <code>identifier</code> to use as value of 'type: <identifier>' in the frontmatter of a markdown`,
     type: typeof String,
@@ -82,15 +94,19 @@ export class PestoContentType {
     // example: [FRONTMATTER_FORMAT.JSON, FRONTMATTER_FORMAT.YAML],
     example: `trousers`,
   })
+  @Field()
   @Prop({ required: true })
   identifier: string;
 
+  @Field()
   @Prop()
   completedAt?: Date;
 
+  @Field()
   @Prop({ required: true })
   createdAt: Date;
 
+  @Field()
   @Prop()
   deletedAt?: Date;
 }

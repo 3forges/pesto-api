@@ -14,9 +14,10 @@ echo "${IPADDR_OF_YOUR_VM}      ${PESTO_MONGO_HOST}" | sudo tee -a /c/Windows/Sy
 
 # ---
 # if you're dhcp
-export OLD_IPADDR_OF_YOUR_VM="192.168.230.82"
-export IPADDR_OF_YOUR_VM="192.168.230.82"
-sudo sed -i "s##${IPADDR_OF_YOUR_VM}#g" /c/Windows/System32/drivers/etc/hosts
+export OLD_IPADDR_OF_YOUR_VM="192.168.117.202"
+export IPADDR_OF_YOUR_VM="192.168.50.236"
+export IPADDR_OF_YOUR_VM="192.168.50.202"
+# sudo sed -i "s#${OLD_IPADDR_OF_YOUR_VM}#${IPADDR_OF_YOUR_VM}#g" /etc/hosts
 sed -i "s#${OLD_IPADDR_OF_YOUR_VM}#${IPADDR_OF_YOUR_VM}#g" /c/Windows/System32/drivers/etc/hosts
 ```
 

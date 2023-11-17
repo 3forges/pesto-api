@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
+import { ObjectType, Field, ID } from '@nestjs/graphql';
 /*
 import {
   PestoProjectDocument,
@@ -8,11 +9,15 @@ import {
 */
 export type PestoContentDocument = PestoContent & Document;
 
+@ObjectType('PestoContent')
 @Schema()
 export class PestoContent {
+  //@Field()
+  @Field(() => ID)
   @Prop({ type: mongoose.Schema.Types.ObjectId, auto: true })
   _id: mongoose.Schema.Types.ObjectId;
 
+  @Field()
   // @Prop({ required: true, unique: true })
   @Prop({ required: true })
   name: string;
@@ -26,6 +31,7 @@ export class PestoContent {
    * Relation to the [PestoProject] this
    * [PestoContent] belongs to.
    */
+  @Field(() => ID)
   @Prop({
     type: mongoose.Types.ObjectId,
     required: true,
@@ -36,6 +42,7 @@ export class PestoContent {
   /**
    * Relation to a [PestoContentType]
    */
+  @Field(() => ID)
   @Prop({
     type: mongoose.Types.ObjectId,
     required: true,
@@ -43,18 +50,22 @@ export class PestoContent {
     auto: false,
   })
   content_type_id: mongoose.Types.ObjectId;
-
+  @Field()
   @Prop({ required: true })
   text: string;
+
+  @Field()
   @Prop()
   description?: string;
 
   @Prop()
   completedAt?: Date;
 
+  @Field()
   @Prop({ required: true })
   createdAt: Date;
 
+  @Field()
   @Prop()
   deletedAt?: Date;
 }

@@ -17,8 +17,8 @@ echo "${IPADDR_OF_YOUR_VM}      ${PESTO_AZ_PERIODIC_TABLE_FQDN}" | tee -a /c/Win
 
 # ---
 # if you're dhcp
-export OLD_IPADDR_OF_YOUR_VM="192.168.33.202"
-export IPADDR_OF_YOUR_VM="192.168.248.202"
+export OLD_IPADDR_OF_YOUR_VM="192.168.181.202"
+export IPADDR_OF_YOUR_VM="192.168.24.202"
 sed -i "s#${OLD_IPADDR_OF_YOUR_VM}#${IPADDR_OF_YOUR_VM}#g" /c/Windows/System32/drivers/etc/hosts
 ```
 
@@ -31,8 +31,8 @@ echo "# ---- " | sudo tee -a /etc/hosts
 echo "${IPADDR_OF_YOUR_VM}      ${PESTO_MONGO_HOST}" | sudo tee -a /etc/hosts
 
 
-export OLD_IPADDR_OF_YOUR_VM="192.168.5.202"
-export IPADDR_OF_YOUR_VM="192.168.5.202"
+export OLD_IPADDR_OF_YOUR_VM="192.168.181.202"
+export IPADDR_OF_YOUR_VM="192.168.24.202"
 sudo sed -i "s#${OLD_IPADDR_OF_YOUR_VM}#${IPADDR_OF_YOUR_VM}#g" /etc/hosts
 ```
 
@@ -77,7 +77,7 @@ cd ./pesto-api
 pnpm i
 
 export PESTO_MONGO_HOST=mongo.pesto.io
-source ./.env.sh
+source ./../.env.sh
 
 pnpm start
 ```
