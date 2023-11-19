@@ -21,15 +21,19 @@ import { PestoProjectService } from '../pesto-project.service';
 export class PestoProjectsResolver {
   constructor(private pestoProjectService: PestoProjectService) {}
   // private postsService: PostsService,
-
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @Query((returns: any) => PestoProject)
+  @Query((returns: any) => PestoProject, { nullable: true })
   async pestoProject(
     @Args('_id', { type: () => ID }) id: string,
   ): Promise<PestoProject> {
     return this.pestoProjectService.findOne(`${id}`);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  @Query((returns) => [PestoProject])
+  async getAllPestoProjects(): Promise<PestoProject[]> {
+    return this.pestoProjectService.findAll();
+  }
   /*
   @ResolveField()
   async posts(@Parent() pestoProject: PestoProject) {
@@ -47,7 +51,7 @@ export class PestoProjectsResolver {
    **/
   /**
    * Here below an example
-   * @ResolveField : use it on properties that are not primary types [number string boolean]
+   * @ ResolveField : use it on properties that are not primary types [number string boolean]
    * 
     @Resolver(() => User)
     export class UserResolver {

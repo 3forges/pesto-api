@@ -17,9 +17,18 @@ echo "${IPADDR_OF_YOUR_VM}      ${PESTO_AZ_PERIODIC_TABLE_FQDN}" | tee -a /c/Win
 
 # ---
 # if you're dhcp
-export OLD_IPADDR_OF_YOUR_VM="192.168.181.202"
-export IPADDR_OF_YOUR_VM="192.168.24.202"
+# -- IP ADDRESS OF THE VM WHERE MONGO DB RUNS
+export OLD_IPADDR_OF_YOUR_VM="192.168.159.202"
+export IPADDR_OF_YOUR_VM="192.168.56.202"
 sed -i "s#${OLD_IPADDR_OF_YOUR_VM}#${IPADDR_OF_YOUR_VM}#g" /c/Windows/System32/drivers/etc/hosts
+# -- IP ADDRESS OF THE HARDWARRE MACHINE 
+# - WHERE I HAVE MY [VSCODE] and I 
+# - run locally the code in dev mode : 
+# - Pesto API and the frontend
+export OLD_IPADDR_OF_YOUR_VM="192.168.159.236"
+export IPADDR_OF_YOUR_VM="192.168.56.236"
+sed -i "s#${OLD_IPADDR_OF_YOUR_VM}#${IPADDR_OF_YOUR_VM}#g" /c/Windows/System32/drivers/etc/hosts
+
 ```
 
 - on GNU/Linux, in bash shell:

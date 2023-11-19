@@ -18,6 +18,7 @@ import {
   PestoProject,
   PestoProjectSchema,
 } from '../pesto-project/schemas/PestoProject.schema';
+import { PestoContentsResolver } from './schemas/PestoContent.resolver';
 
 @Module({
   controllers: [PestoContentController],
@@ -25,6 +26,7 @@ import {
     PestoContentService,
     PestoContentTypeService,
     PestoProjectService,
+    PestoContentsResolver,
   ],
   imports: [
     // registers the controller into the module

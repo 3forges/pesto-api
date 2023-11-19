@@ -12,35 +12,35 @@ export type PestoProjectDocument = PestoProject & Document;
 @ObjectType('PestoProject')
 @Schema()
 export class PestoProject {
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   @Prop({ type: mongoose.Schema.Types.ObjectId, auto: true })
   _id: mongoose.Schema.Types.ObjectId;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop({ required: true, unique: true })
   name: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop({ required: true, unique: true })
   git_ssh_uri: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop()
   git_service_provider?: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop()
   description?: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop()
   completedAt?: Date;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop({ required: true })
   createdAt: Date;
 
-  @Field()
+  @Field({ nullable: true })
   @Prop()
   deletedAt?: Date;
 }

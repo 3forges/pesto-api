@@ -21,8 +21,8 @@ export class PestoContentsResolver {
   // private postsService: PostsService,
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @Query((returns: any) => PestoContent)
-  async pestoProject(@Args('_id', { type: () => ID }) id: string) {
+  @Query((returns: any) => PestoContent, { nullable: true })
+  async pestoContent(@Args('_id', { type: () => ID }) id: string) {
     return this.pestoContentService.findOne(`${id}`);
   }
 
@@ -43,7 +43,7 @@ export class PestoContentsResolver {
    **/
   /**
    * Here below an example
-   * @ResolveField : use it on properties that are not primary types [number string boolean]
+   * @ ResolveField : use it on properties that are not primary types [number string boolean]
    * 
     @Resolver(() => User)
     export class UserResolver {

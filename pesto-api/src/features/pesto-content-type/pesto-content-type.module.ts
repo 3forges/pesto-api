@@ -12,10 +12,15 @@ import {
   PestoProject,
   PestoProjectSchema,
 } from '../pesto-project/schemas/PestoProject.schema';
+import { PestoContentTypesResolver } from './schemas/PestoContentType.resolver';
 
 @Module({
   controllers: [PestoContentTypeController],
-  providers: [PestoContentTypeService, PestoProjectService],
+  providers: [
+    PestoContentTypeService,
+    PestoProjectService,
+    PestoContentTypesResolver,
+  ],
   imports: [
     PestoProjectModule,
     // registers the controller into the module
