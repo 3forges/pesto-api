@@ -1,0 +1,14 @@
+mutation updateProjectName($id: ID!, $name: String!) {
+  updatePestoProject(projectUpdate: {
+    name: $name,
+    _id: $id,
+    description: "bon on va voir",
+    git_ssh_uri: "git@github.com:3forges/batiment.git",
+    git_service_provider: "github"
+  }) {
+    name: name
+    _id: _id
+    git_ssh_uri: git_ssh_uri
+    description: description
+  }
+}

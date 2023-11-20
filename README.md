@@ -1,5 +1,9 @@
 # The `Pesto API`
 
+The Pesto API has a double face :
+* It's available as a `REST API`,
+* And it's available as a `GraphQL` API,
+
 ## Run the `Pesto API` locally
 
 - Mongo FQDN:
@@ -90,6 +94,183 @@ source ./../.env.sh
 
 pnpm start
 ```
+
+## USing the GraphQL API
+
+Here are the working verified queries : 
+
+#### Pesto Projects
+
+* Get all projects:
+
+```GraphQL
+query GetAllProjectsExample {
+  getAllPestoProjects {
+    _id
+    name
+    git_ssh_uri
+  }
+}
+```
+
+* Get a project by its ID :
+
+```GraphQL
+'''Query'''
+query GetProjectByID($id: ID!) {
+  pestoProject(_id: $id) {
+    name
+    description
+    createdAt
+    deletedAt
+  }
+}
+```
+
+```GraphQL
+'''Query Variables'''
+{ "id": "6526bb5df88cd05417311b3c" }
+```
+
+#### Pesto Content-Types
+
+* Get all Content-Types:
+
+```GraphQL
+query GetAllProjectsExample {
+  getAllPestoProjects {
+    _id
+    name
+    git_ssh_uri
+  }
+}
+```
+* Get a project by its ID (without variable) : 
+
+```GraphQL
+query GetProjectExample {
+  pestoProject(_id: "6526bb5df88cd05417311b3c") {
+    name
+    description
+    createdAt
+    deletedAt
+  }
+}
+```
+
+* Get a project by its ID (with variable) :
+
+```GraphQL
+'''Query'''
+query GetProjectByID($id: ID!) {
+  pestoProject(_id: $id) {
+    name
+    description
+    createdAt
+    deletedAt
+  }
+}
+```
+
+```GraphQL
+'''Query Variables'''
+{ "id": "6526bb5df88cd05417311b3c" }
+```
+
+* Update a Project Name by ID (with variables) :
+
+```GraphQL
+'''Mutation'''
+mutation updateProjectName($id: ID!, $name: String!) {
+  updatePestoProject(projectUpdate: {
+    name: $name,
+    _id: $id,
+    description: "bon on va voir",
+    git_ssh_uri: "git@github.com:3forges/batiment.git",
+    git_service_provider: "github"
+  }) {
+    name: name
+  }
+}
+```
+
+* Vars :
+
+```GraphQL
+'''Mutation Variables'''
+{
+  "id": "6526bb5df88cd05417311b3c",
+  "name": "nouveau nom attribué par mutation GraphQL"
+}
+```
+
+The result of that update in the appollo browser:
+
+![the mutation - apollo browser](./pesto-api/docs/images/graphql/mutations/updateProjectMutation1.PNG)
+
+![verified mutation - apollo browser](./pesto-api/docs/images/graphql/mutations/updateProjectMutation2.PNG)
+
+![verified mutation with richer returned data - apollo browser](./pesto-api/docs/images/graphql/mutations/updateProjectMutation4.PNG)
+
+![verified mutation - pesto frontend](./pesto-api/docs/images/graphql/mutations/updateProjectMutation3.PNG)
+
+* Create a Project (with variables) :
+
+```GraphQL
+'''Mutation'''
+mutation createProject($name: String!, $git_ssh_uri: String!, $description: String!) {
+  createPestoProject(projectToCreate: {
+    name: $name,
+    description: $description,
+    git_ssh_uri: $git_ssh_uri,
+    git_service_provider: "github"
+  }){
+    _id: _id
+    name: name
+    git_ssh_uri: git_ssh_uri
+    description: description
+    git_service_provider: git_service_provider
+  }
+}
+```
+
+```GraphQL
+'''Mutation Variables'''
+{
+  "name": "pendentif",
+  "git_ssh_uri": "git@github.com:3forges/tourdivoire.git",
+  "description": "ce projet pesto a été créé par Mutaiton dan sle Browser apollo"
+}
+```
+
+![the mutation - apollo browser](./pesto-api/docs/images/graphql/mutations/createProjectMutation1.PNG)
+
+![verified mutation - apollo browser](./pesto-api/docs/images/graphql/mutations/createProjectMutation2.PNG)
+
+![verified mutation - pesto frontend](./pesto-api/docs/images/graphql/mutations/createProjectMutation3.PNG)
+
+* Delete a Project Mutation : 
+
+```GraphQL
+'''Mutation'''
+mutation DeleteProjectByID($id: ID!) {
+  deletePestoProject(_id: $id) {
+    name
+    description
+    git_ssh_uri
+    deletedAt
+  }
+}
+```
+
+```GraphQL
+'''Mutation Variables'''
+{
+  "id": "655a9dab747edd9e5fe67c4a"
+}
+```
+
+## Using the REST API
 
 - Then you can test using the `Pesto API`:
   - First, you create a Project:

@@ -1,0 +1,15 @@
+*.tfstate
+.*.tfstate
+*.*.tf.state
+.*.*.tfstate
+
+*.tfvars
+.*.tfvars
+*.*.tfvars
+.*.*.tfvars
+
+
+*.plan
+.*.plan
+*.*.plan
+.*.*.plan

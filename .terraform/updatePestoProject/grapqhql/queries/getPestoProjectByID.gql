@@ -1,0 +1,8 @@
+query GetProjectByID($id: ID!) {
+  pestoProject(_id: $id) {
+    name
+    description
+    createdAt
+    deletedAt
+  }
+}

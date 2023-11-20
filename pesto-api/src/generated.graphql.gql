@@ -50,3 +50,24 @@ type Query {
   getAllPestoProjects: [PestoProject!]!
   pestoContent(_id: ID!): PestoContent
 }
+
+type Mutation {
+  deletePestoProject(_id: ID!): PestoProject
+  updatePestoProject(projectUpdate: UpdatePestoProjectPayload!): PestoProject!
+  createPestoProject(projectToCreate: CreatePestoProjectPayload!): PestoProject!
+}
+
+input UpdatePestoProjectPayload {
+  _id: ID!
+  name: String!
+  description: String!
+  git_ssh_uri: String!
+  git_service_provider: String!
+}
+
+input CreatePestoProjectPayload {
+  name: String!
+  description: String!
+  git_ssh_uri: String!
+  git_service_provider: String!
+}

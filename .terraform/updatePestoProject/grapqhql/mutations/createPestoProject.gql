@@ -1,0 +1,14 @@
+mutation createProject($name: String!, $git_ssh_uri: String!, $description: String!) {
+  createPestoProject(projectToCreate: {
+    name: $name,
+    description: $description,
+    git_ssh_uri: $git_ssh_uri,
+    git_service_provider: "github"
+  }){
+    _id: _id
+    name: name
+    git_ssh_uri: git_ssh_uri
+    description: description
+    git_service_provider: git_service_provider
+  }
+}

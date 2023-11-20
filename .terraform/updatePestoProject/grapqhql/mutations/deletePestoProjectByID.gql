@@ -1,0 +1,8 @@
+mutation DeleteProjectByID($id: ID!) {
+  deletePestoProject(_id: $id) {
+    name
+    description
+    git_ssh_uri
+    deletedAt
+  }
+}
