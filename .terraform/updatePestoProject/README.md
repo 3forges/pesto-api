@@ -37,7 +37,7 @@ J'ai juste qlq changments suppélemtaires à faire qui concernent un certain bâ
 * Le terraorm destroy déclenche la mutation delete
 * Le terraform apply déclenchera une création, ou un update, en fonction de l'état terraform (terraform state).
 
-
+Sur la question, cette issue github est intéressante: https://github.com/sullivtr/terraform-provider-graphql/issues/36
 
 ## References
 
