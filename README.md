@@ -181,15 +181,22 @@ query GetProjectByID($id: ID!) {
 
 ```GraphQL
 '''Mutation'''
-mutation updateProjectName($id: ID!, $name: String!) {
+mutation updateProjectByID($id: ID!, $name: String!, $git_ssh_uri: String!, $description: String!) {
+# mutation updateProjectName($id: ID!, $name: String!) {
   updatePestoProject(projectUpdate: {
-    name: $name,
     _id: $id,
-    description: "bon on va voir",
-    git_ssh_uri: "git@github.com:3forges/batiment.git",
+    name: $name,
+    # description: "bon on va voir",
+    # git_ssh_uri: "git@github.com:3forges/batiment.git",
+    description: $description,
+    git_ssh_uri: $git_ssh_uri,
     git_service_provider: "github"
   }) {
+    _id: _id
     name: name
+    git_ssh_uri: git_ssh_uri
+    description: description
+    git_service_provider: git_service_provider
   }
 }
 ```
@@ -200,7 +207,9 @@ mutation updateProjectName($id: ID!, $name: String!) {
 '''Mutation Variables'''
 {
   "id": "6526bb5df88cd05417311b3c",
-  "name": "nouveau nom attribué par mutation GraphQL"
+  "name": "Troisième test:, Encore nouveau un nom attribué par mutation GraphQL",
+  "git_ssh_uri": "git@github.com:3forges/cuirasse.git",
+  "description": "J'ai mdodifié ce projet par le braowser GraphQL Apollo"
 }
 ```
 

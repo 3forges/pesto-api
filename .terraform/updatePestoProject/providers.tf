@@ -12,8 +12,11 @@ terraform {
 provider "graphql" {
   url = "http://localhost:3000/graphql"
   headers = {
-    "header1" = "header1-value"
-    "header2" = "header2-value"
+    "X-Pesto-Performed-By" = "terraform"
+    "Content-Type" = "application/json"
+    "Accept" = "application/json"
+    # "header1" = "header1-value"
+    # "header2" = "header2-value"
   }
   # oauth2_login_query = "mutation loginAPI($apiKey: String!) {loginAPI(apiKey: $apiKey) {accessToken}}"
   # oauth2_login_query_variables = {
