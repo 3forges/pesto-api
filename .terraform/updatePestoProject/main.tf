@@ -61,6 +61,7 @@ resource "graphql_mutation" "pesto_project_example1" {
     "description"          = "createPestoProject.description"
     "git_service_provider" = "createPestoProject.git_service_provider"
   }
+  
   # --- The response I get with Apollo Browser for a get project query : 
   # {
   #   "data": {
@@ -96,7 +97,6 @@ resource "graphql_mutation" "pesto_project_example1" {
   delete_mutation_variables = {
     "id" = "655bed2110e5a17e9d4fa4de"
   }
-  
   create_mutation = file("./grapqhql/mutations/createPestoProject.gql")
   update_mutation = file("./grapqhql/mutations/updatePestoProjectByID.gql")
   delete_mutation = file("./grapqhql/mutations/deletePestoProjectByID.gql")

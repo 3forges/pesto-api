@@ -6,6 +6,8 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "ci:env": "pnpm run ci:generate:env",
+    "ci:generate:env": "bash -c ./.ci/shell/gen_env.sh",
     "db:start": "bash -c ./oci/dev/db_scratch.sh",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",

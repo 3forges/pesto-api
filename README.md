@@ -1,55 +1,117 @@
 # The `Pesto API`
 
 The Pesto API has a double face :
+
 * It's available as a `REST API`,
 * And it's available as a `GraphQL` API,
 
 ## Run the `Pesto API` locally
 
-- Mongo FQDN:
+### The infrastructure
 
-  - on Windows, in git bash:
+To run `Pesto API`, with the `Pesto UI`, Locally, you need:
+
+* One Hardware Machine, basically your everyday dev machine, on which you will run both `Pesto UI` and `Pesto API`. The `Pesto API` uses a `MongoDB` database, which will run on a different machine than the `Pesto API`, a VirtualBox VM.
+* One VirtualBox VM on which you will run the `MongoDB`, database of the `Pesto API`.
+* To configure 3 DNS names: one DNS name for `Pesto API`, one DNS name for `Pesto UI`, and one DNS name for the `MongoDB` database service.
+
+#### Configuring DNS names
+
+* On the Hardware Machine where you run both  `Pesto API` and  `Pesto API`, if it is Windows, in git bash:
 
 ```bash
-export IPADDR_OF_YOUR_VM="192.168.5.202"
-export PESTO_MONGO_HOST=mongo.pesto.io
-echo "# ---- " | sudo tee -a /etc/hosts
-echo "${IPADDR_OF_YOUR_VM}      ${PESTO_MONGO_HOST}" | tee -a /c/Windows/System32/drivers/etc/hosts
-export PESTO_AZ_PERIODIC_TABLE_FQDN=azperiodic.pesto.io
-echo "# ---- " | sudo tee -a /etc/hosts
-echo "${IPADDR_OF_YOUR_VM}      ${PESTO_AZ_PERIODIC_TABLE_FQDN}" | tee -a /c/Windows/System32/drivers/etc/hosts
 
+# --- 
+# IP address of the VM on which the Mongo DB runs
+export IPADDR_OF_YOUR_VM="192.168.37.202"
+# --- 
+# IP address of the Machine on which the UI and API run
+export IPADDR_OF_YOUR_HWMACHINE="192.168.37.236"
 # ---
-# if you're dhcp
-# -- IP ADDRESS OF THE VM WHERE MONGO DB RUNS
-export OLD_IPADDR_OF_YOUR_VM="192.168.159.202"
-export IPADDR_OF_YOUR_VM="192.168.56.202"
+# Add the host for the machine hosting your MongoDB
+export PESTO_MONGO_HOST=mongo.pesto.io
+echo "# ---- " | sudo tee -a /c/Windows/System32/drivers/etc/hosts
+echo "${IPADDR_OF_YOUR_VM}      ${PESTO_MONGO_HOST}" | tee -a /c/Windows/System32/drivers/etc/hosts
+export PESTO_UI_FQDN=ui.pesto.io
+echo "# ---- " | sudo tee -a /c/Windows/System32/drivers/etc/hosts
+echo "${IPADDR_OF_YOUR_HWMACHINE}      ${PESTO_UI_FQDN}" | tee -a /c/Windows/System32/drivers/etc/hosts
+export PESTO_API_FQDN=api.pesto.io
+echo "# ---- " | sudo tee -a /c/Windows/System32/drivers/etc/hosts
+echo "${IPADDR_OF_YOUR_HWMACHINE}      ${PESTO_API_FQDN}" | tee -a /c/Windows/System32/drivers/etc/hosts
+# ---
+# if you're dhcp, you will need to update the IP Addresses everytime the DHCP server updates the IP Addresses of the machines you run Pesto API and Pesto UI on:  
+
+
+# --- # --- # --- # --- # --- # --- # --- # --- # --- #
+# -- UPDATING IP ADDRESS OF THE VM WHERE MONGO DB RUNS
+# --- # --- # --- # --- 
+# -- 
+export OLD_IPADDR_OF_YOUR_VM="192.168.174.202"
+export IPADDR_OF_YOUR_VM="192.168.37.202"
 sed -i "s#${OLD_IPADDR_OF_YOUR_VM}#${IPADDR_OF_YOUR_VM}#g" /c/Windows/System32/drivers/etc/hosts
-# -- IP ADDRESS OF THE HARDWARRE MACHINE 
+
+# --- # --- # --- # --- # --- # --- # --- # --- # --- #
+# -- UPDATING IP ADDRESS OF THE HARDWARE MACHINE 
+# --- # --- # --- # --- 
 # - WHERE I HAVE MY [VSCODE] and I 
 # - run locally the code in dev mode : 
 # - Pesto API and the frontend
-export OLD_IPADDR_OF_YOUR_VM="192.168.159.236"
-export IPADDR_OF_YOUR_VM="192.168.56.236"
-sed -i "s#${OLD_IPADDR_OF_YOUR_VM}#${IPADDR_OF_YOUR_VM}#g" /c/Windows/System32/drivers/etc/hosts
+export OLD_IPADDR_OF_YOUR_HWMACHINE="192.168.225.236"
+export IPADDR_OF_YOUR_HWMACHINE="192.168.37.236"
+sed -i "s#${OLD_IPADDR_OF_YOUR_HWMACHINE}#${IPADDR_OF_YOUR_HWMACHINE}#g" /c/Windows/System32/drivers/etc/hosts
 
 ```
 
-- on GNU/Linux, in bash shell:
+* On the VirtualBox VM where you run the MongoDB database used by the `Pesto API`, If this machine is a `GNU/Linux`, in bash shell:
 
 ```bash
-export IPADDR_OF_YOUR_VM="192.168.5.202"
+
+# --- 
+# IP address of the VM on which the Mongo DB runs
+export IPADDR_OF_YOUR_VM="192.168.37.202"
+# --- 
+# IP address of the Machine on which the UI and API run
+export IPADDR_OF_YOUR_HWMACHINE="192.168.37.236"
+# ---
+# Add the host for the machine hosting your MongoDB
 export PESTO_MONGO_HOST=mongo.pesto.io
 echo "# ---- " | sudo tee -a /etc/hosts
 echo "${IPADDR_OF_YOUR_VM}      ${PESTO_MONGO_HOST}" | sudo tee -a /etc/hosts
+export PESTO_UI_FQDN=ui.pesto.io
+echo "# ---- " | sudo tee -a /etc/hosts
+echo "${IPADDR_OF_YOUR_HWMACHINE}      ${PESTO_UI_FQDN}" | sudo tee -a /etc/hosts
+export PESTO_API_FQDN=api.pesto.io
+echo "# ---- " | sudo tee -a /etc/hosts
+echo "${IPADDR_OF_YOUR_HWMACHINE}      ${PESTO_API_FQDN}" | sudo tee -a /etc/hosts
+# ---
+# if you're dhcp, you will need to update the IP Addresses everytime the DHCP server updates the IP Addresses of the machines you run Pesto API and Pesto UI on:  
 
 
-export OLD_IPADDR_OF_YOUR_VM="192.168.181.202"
-export IPADDR_OF_YOUR_VM="192.168.24.202"
-sudo sed -i "s#${OLD_IPADDR_OF_YOUR_VM}#${IPADDR_OF_YOUR_VM}#g" /etc/hosts
+# --- # --- # --- # --- # --- # --- # --- # --- # --- #
+# -- UPDATING IP ADDRESS OF THE VM WHERE MONGO DB RUNS
+# --- # --- # --- # --- 
+# -- 
+export OLD_IPADDR_OF_YOUR_VM="192.168.129.202"
+export IPADDR_OF_YOUR_VM="192.168.37.202"
+sed -i "s#${OLD_IPADDR_OF_YOUR_VM}#${IPADDR_OF_YOUR_VM}#g" /etc/hosts
+
+# --- # --- # --- # --- # --- # --- # --- # --- # --- #
+# -- UPDATING IP ADDRESS OF THE HARDWARE MACHINE 
+# --- # --- # --- # --- 
+# - WHERE I HAVE MY [VSCODE] and I 
+# - run locally the code in dev mode : 
+# - Pesto API and the frontend
+export OLD_IPADDR_OF_YOUR_HWMACHINE="192.168.225.202"
+export IPADDR_OF_YOUR_HWMACHINE="192.168.37.236"
+sed -i "s#${OLD_IPADDR_OF_YOUR_HWMACHINE}#${IPADDR_OF_YOUR_HWMACHINE}#g" /etc/hosts
+
 ```
 
-- First, you need to run a mongodb service on a VM of you choice:
+#### Start the database
+
+Before starting `Pesto API` (and then `Pesto UI`), you need to provision a **MongoDB** database service on the VirtualBox VM.
+
+* Git clone this repo in the VirtualBox VM, and run this:
 
 ```bash
 # ---
@@ -65,17 +127,21 @@ sudo sed -i "s#${OLD_IPADDR_OF_YOUR_VM}#${IPADDR_OF_YOUR_VM}#g" /etc/hosts
 
 # ---
 # or just : 
-export PESTO_MONGO_HOST=mongo.myhome.io
+# export PESTO_MONGO_HOST=mongo.myhome.io
+export PESTO_MONGO_HOST=mongo.pesto.io
 pnpm run db:start
 
 # ---
 # To restart with an empty database
-export PESTO_MONGO_HOST=mongo.myhome.io
+# export PESTO_MONGO_HOST=mongo.myhome.io
+export PESTO_MONGO_HOST=mongo.pesto.io
 pnpm run db:scratch
 
 ```
 
-- Then you can start the rest api from the `./pesto-api` folder:
+### Start the Pesto API
+
+* Then you can then start the rest api from the `./pesto-api` folder:
 
 ```bash
 
@@ -90,12 +156,19 @@ cd ./pesto-api
 pnpm i
 
 export PESTO_MONGO_HOST=mongo.pesto.io
-source ./../.env.sh
+export PESTO_API_HOST=api.pesto.io
+
+# source ./../.env.sh
+
+# pnpm run ci:generate:env
+pnpm run ci:env
 
 pnpm start
 ```
 
-## USing the GraphQL API
+Finally, you can now start the Pesto UI, see [the `Pesto UI` reporsitory](https://github.com/3forges/pesto-ui).
+
+## Using the `GraphQL` API
 
 Here are the working verified queries : 
 

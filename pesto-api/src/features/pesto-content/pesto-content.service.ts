@@ -124,8 +124,12 @@ export class PestoContentService {
       .exec();
 
     console.log(
-      `PESTO-CONTENT DATA SERVICE [CREATE] method - Found record [didIFindOne]:`,
+      `PESTO-CONTENT DATA SERVICE [CREATE] method - Found record [didIFindOneType]:`,
       didIFindOneType,
+    );
+    console.log(
+      `PESTO-CONTENT DATA SERVICE [CREATE] method - Found record [didIFindOne]:`,
+      didIFindOne,
     );
     if (!didIFindOneType) {
       const errMsg = `PESTO-CONTENT DATA SERVICE [CREATE] method - No new [PestoContent] was created: No PestoContentType of with content_type_id = [${createPestoContentDto.content_type_id}] was found. A PestoContent cannot be created without an existing content-type.`;

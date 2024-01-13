@@ -50,6 +50,9 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(3000);
+  // const pestoApiHost: string = `${process.env.PESTO_API_HOST}` || '0.0.0.0';
+  const pestoApiHost: string = process.env.PESTO_API_HOST || '0.0.0.0';
+  console.log(` PESTO_API_HOST = [${pestoApiHost}]`);
+  await app.listen(3000, pestoApiHost);
 }
 bootstrap();
