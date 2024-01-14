@@ -14,7 +14,10 @@ import {
 } from '@nestjs/common';
 import { CreatePestoProjectDto } from './dto/create-pesto-project.dto';
 import { UpdatePestoProjectDto } from './dto/update-pesto-project.dto';
-import { PestoProjectService } from './pesto-project.service';
+import {
+  PestoProjectDeletionResponse,
+  PestoProjectService,
+} from './pesto-project.service';
 //import { Request } from 'express';
 // import { FastifyRequest } from 'fastify';
 
@@ -106,7 +109,7 @@ export class PestoProjectController {
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string) {
+  async delete(@Param('id') id: string): Promise<PestoProjectDeletionResponse> {
     console.log(`Ouais ok c'est le DELETE [${id}]`);
     return await this.service.delete(id);
   }

@@ -1,3 +1,4 @@
+"""
 mutation DeleteProjectByID($id: ID!) {
   deletePestoProject(_id: $id) {
     _id
@@ -5,5 +6,12 @@ mutation DeleteProjectByID($id: ID!) {
     description
     git_ssh_uri
     deletedAt
+  }
+}
+"""
+mutation DeleteProjectByID($id: ID!) {
+  deletePestoProject(_id: $id) {
+    deletedProject
+    message
   }
 }

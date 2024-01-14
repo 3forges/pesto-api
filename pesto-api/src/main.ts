@@ -21,18 +21,27 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter(),
     {
+      // rawBody: true,
+      bodyParser: true,
       rawBody: true,
-      bodyParser: false,
+      // bodyParser: true,
+      /*
+      httpsOptions: {
+        
+      },
+      */
     },
   );
   app.enableCors();
   /**
-   * app.useBodyParser('text');
+   * By default, only application/json and application/x-www-form-urlencoded parsers are registered. If you want to register a different parser on the fly, you will need to do so explicitly.
    * */
-  app.useBodyParser('text/plain');
-  // app.useBodyParser('text');
   // app.useBodyParser('json');
   // app.useBodyParser('application/json');
+  // app.useBodyParser('application/x-www-form-urlencoded');
+  // app.useBodyParser('text/plain');
+  // app.useBodyParser('text');
+  // app.useBodyParser('application/json; charset=utf8');
 
   /**
    * swagger/openapi

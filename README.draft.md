@@ -172,7 +172,7 @@ Finally, you can now start the Pesto UI, see [the `Pesto UI` reporsitory](https:
 
 Here are the working verified queries : 
 
-### GraphQL API: working with _Pesto `Projects`_
+### Pesto Projects
 
 #### **Create a Project** Mutation (with variables)
 
@@ -290,18 +290,10 @@ The result of that update mutation in the appollo browser:
 
 #### Delete a Project Mutation
 
-Note this is a Very good example of nested response in a GraphQL Mutation
-
 ```GraphQL
 mutation DeleteProjectByID($id: ID!) {
   deletePestoProject(_id: $id) {
-    message
-    deletedProject {
-      _id
-      name
-      git_ssh_uri
-      description
-    }
+    _id
   }
 }
 ```
@@ -314,251 +306,140 @@ _Mutation Variables_ :
 }
 ```
 
-### GraphQL API: working with _Pesto `Content-Types`_
+### Pesto Content-Types
 
-TODO
+* Get all Content-Types Query:
+
+```GraphQL
+query GetAllProjectsExample {
+  getAllPestoProjects {
+    _id
+    name
+    git_ssh_uri
+  }
+}
+```
+
+* Get a project by its ID (without variable) : 
+
+```GraphQL
+query GetProjectExample {
+  pestoProject(_id: "6526bb5df88cd05417311b3c") {
+    name
+    description
+    createdAt
+    deletedAt
+  }
+}
+```
+
+* Get a project by its ID (with variable) :
+
+```GraphQL
+query GetProjectByID($id: ID!) {
+  pestoProject(_id: $id) {
+    name
+    description
+    createdAt
+    deletedAt
+  }
+}
+```
+
+_Query Variables_ :
+
+```GraphQL
+{ "id": "6526bb5df88cd05417311b3c" }
+```
+
+* Update a Project Name by ID Mutation (with variables) :
+
+```GraphQL
+mutation updateProjectByID($id: ID!, $name: String!, $git_ssh_uri: String!, $description: String!) {
+# mutation updateProjectName($id: ID!, $name: String!) {
+  updatePestoProject(projectUpdate: {
+    _id: $id,
+    name: $name,
+    # description: "bon on va voir",
+    # git_ssh_uri: "git@github.com:3forges/batiment.git",
+    description: $description,
+    git_ssh_uri: $git_ssh_uri,
+    git_service_provider: "github"
+  }) {
+    _id: _id
+    name: name
+    git_ssh_uri: git_ssh_uri
+    description: description
+    git_service_provider: git_service_provider
+  }
+}
+```
+
+_Mutation Variables_ :
+
+```GraphQL
+{
+  "id": "65a279c5b51cdf03d306bf78",
+  "name": "Je change le champs 'name' du projet  par mutation GraphQL",
+  "git_ssh_uri": "git@github.com:3forges/nouvelle_valeur_de_git_ssh_uri.git",
+  "description": "J'ai modifié la description de ce projet par le browser GraphQL Apollo"
+}
+```
+
+* Create a Project Mutation (with variables) :
+
+```GraphQL
+mutation createProject($name: String!, $git_ssh_uri: String!, $description: String!) {
+  createPestoProject(projectToCreate: {
+    name: $name,
+    description: $description,
+    git_ssh_uri: $git_ssh_uri,
+    git_service_provider: "github"
+  }){
+    _id: _id
+    name: name
+    git_ssh_uri: git_ssh_uri
+    description: description
+    git_service_provider: git_service_provider
+  }
+}
+```
+
+_Mutation Variables_ :
+
+```GraphQL
+{
+  "name": "pendentif",
+  "git_ssh_uri": "git@github.com:3forges/tourdivoire.git",
+  "description": "ce projet pesto a été créé par Mutaiton dan sle Browser apollo"
+}
+```
+
+![the mutation - apollo browser](./pesto-api/docs/images/graphql/mutations/createProjectMutation1.PNG)
+
+![verified mutation - apollo browser](./pesto-api/docs/images/graphql/mutations/createProjectMutation2.PNG)
+
+![verified mutation - pesto frontend](./pesto-api/docs/images/graphql/mutations/createProjectMutation3.PNG)
+
+* Delete a Project Mutation :
+
+```GraphQL
+mutation DeleteProjectByID($id: ID!) {
+  deletePestoProject(_id: $id) {
+    _id
+  }
+}
+```
+
+_Mutation Variables_ :
+
+```GraphQL
+{
+  "id": "655a9dab747edd9e5fe67c4a"
+}
+```
 
 ## Using the REST API
-
-### REST API: working with Pesto Projects
-
-#### Create a Project
-
-```bash
-export PESTO_API_HTTP_SCHEME="http" # or "https"
-export PESTO_API_HOST=api.pesto.io
-export PESTO_API_PORT=3000
-export PESTO_API_BASE_URL="${PESTO_API_HTTP_SCHEME}://${PESTO_API_HOST}:${PESTO_API_PORT}"
-
-# ---
-# This is how to create a new
-# "Pesto Project", with a curl :
-export PESTO_PRJ_GIT_SSH_URI='git@github.com:3forges/poc-redux-thunk.git'
-export PESTO_PRJ_NAME='astroprojectWiddershins'
-export PESTO_PRJ_DESC='Un premier projet pesto sur une base de projet astro, pour une doc Open API à la widdershins'
-
-# export PESTO_PRJ_DESC_URL_ENCODED='Un%20premier%20projet%20pesto%20sur%20une%20base%20de%20projet%20astro%2C%20pour%20une%20doc%20Open%20API%20%C3%A0%20la%20widdershins'
-
-export THE_PAYLOAD="{ 
-  \"name\" : \"${PESTO_PRJ_NAME}\", \"description\" : \"${PESTO_PRJ_DESC_URL_ENCODED}\", \"git_ssh_uri\" : \"${PESTO_PRJ_GIT_SSH_URI}\"
-}"
-
-
-export THE_PAYLOAD='{"name":"astroprojectWiddershins","description":"Un premier projet pesto sur une base de projet astro, pour une doc Open API à la widdershins","git_ssh_uri":"git@github.com:3forges/poc-redux-thunk.git"}'
-
-# echo "THE_PAYLOAD=[${THE_PAYLOAD}]"
-
-curl -iv -X POST -H 'Content-Type: application/json; charset=UTF-8' -d "${THE_PAYLOAD}" -H 'Accept: application/json; charset=UTF-8' ${PESTO_API_BASE_URL}/pesto-project | tail -n 1 | jq .
-
-# ---
-# Git bash for windows users:
-# -
-# Note that you might notice something, that some of 
-# the UTF-8 characters, might be turned into another 
-# character, in the pesto app. 
-# 
-# For example, the character "à", might be 
-# turned into a "�" character.
-# 
-# But when you create or update a new project using the
-# Pesto UI, the characters are preserved properly.
-# 
-# Similarly, The Characters are well preserved when
-# creating/updating a project using the Apollo GraphQL client.
-# 
-# - 
-# This might be caused by Git bash for windows itself, which
-# may have some issues with UTF-8
-# https://stackoverflow.com/questions/10651975/unicode-utf-8-with-git-bash
-# - 
-```
-
-#### **Get all projects**
-
-```bash
-export PESTO_API_HTTP_SCHEME="http" # or "https"
-export PESTO_API_HOST=api.pesto.io
-export PESTO_API_PORT=3000
-export PESTO_API_BASE_URL="${PESTO_API_HTTP_SCHEME}://${PESTO_API_HOST}:${PESTO_API_PORT}"
-
-# ---
-# This is how to list all 
-# "Pesto Projects", with a curl :
-
-curl -iv -X GET -H 'Content-Type: application/json' -H 'Accept: application/json' ${PESTO_API_BASE_URL}/pesto-project | tail -n 1 | jq .
-
-```
-
-#### **Get a project by ID**
-
-#### Get a project by Git SSH URI
-
-```bash
-export PESTO_API_HTTP_SCHEME="http" # or "https"
-export PESTO_API_HOST=api.pesto.io
-export PESTO_API_PORT=3000
-export PESTO_API_BASE_URL="${PESTO_API_HTTP_SCHEME}://${PESTO_API_HOST}:${PESTO_API_PORT}"
-
-# ---
-# Get newly created project by Git SSH URI
-export PESTO_PRJ_GIT_SSH_URI='git@github.com:3forges/awesome-obs.git'
-export PESTO_PRJ_GIT_SSH_URI='git@github.com:3forges/poc-redux-thunk.git'
-export PESTO_PRJ_GIT_SSH_URI='git@github.com:3forges/astro-widdershins.git'
-
-export PESTO_PRJ_GIT_SSH_URI_URL_ENCODED='git%40github.com%3A3forges%2Fawesome-obs.git'
-export PESTO_PRJ_GIT_SSH_URI_URL_ENCODED='git%40github.com%3A3forges%2Fpoc-redux-thunk.git'
-export PESTO_PRJ_GIT_SSH_URI_URL_ENCODED='git%40github.com%3A3forges%2Fastro-widdershins.git'
-
-curl -iv -X GET -H 'Content-Type: application/json' -H 'Accept: application/json' "${PESTO_API_BASE_URL}/pesto-project/uri/${PESTO_PRJ_GIT_SSH_URI_URL_ENCODED}" | tail -n 1 | jq .
-
-```
-
-#### **Update a Project** by ID
-
-TODO
-
-#### Delete a Project
-
-```bash
-export PESTO_API_HTTP_SCHEME="http" # or "https"
-export PESTO_API_HOST=api.pesto.io
-export PESTO_API_PORT=3000
-export PESTO_API_BASE_URL="${PESTO_API_HTTP_SCHEME}://${PESTO_API_HOST}:${PESTO_API_PORT}"
-
-export PESTO_PRJ_ID='65a437c050b3df1a9861e3a8'
-curl -iv -X DELETE -H 'Content-Type: application/json' -H 'Accept: application/json' "${PESTO_API_BASE_URL}/pesto-project/${PESTO_PRJ_ID}" | tail -n 1 | jq .
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 * Then you can test using the `Pesto API`:
   * First, you create a Project:
@@ -947,9 +828,43 @@ curl -iv -X GET -H 'Accept: application/json' http://localhost:3000/pesto-conten
 
 ```
 
-## Generate OpenAPI Docs
+* Left TODO:
 
-The Open API Documentation is served at export `http://<PESTO_API_HOST>:3000/api`
+```bash
+# ---
+# Left TODO : 
+#  + GET ALL BY PROJECT ID: cccc
+#  + UPDATE: cccc
+#  + DELETE: cccc
+# 
+# --- 
+# 
+```
+
+### Testing the API (E2E)
+
+Here are the scenarii I want to tests.
+
+_**Scenario 1**_
+
+- I create a new pesto project named `myfirstpestoproject`:
+  - it has a **`name`**, value `myfirstpestoproject`
+  - it has a **`description`**
+  - it has a **`git url`**
+  - it has a **`git service provider`**: `Gitlab` `Gitea`, or `Github`, or CustomGitService. _(custom git service is a service which is ran in private servers, using a different configuration than those of Github Gitea or Gitlab, so i will need the concept of a general Git Service Provider Config, which includes partial API definition, to define how to create a webhook, what is the payload of that webhook, how to integrate a given Git Service Provider event with the pipeline service)_.
+  - _[DEPRECATED]_ It has a list of `PestoContentType`s. A Content-Type can be created without any content yet
+  - _[DEPRECATED]_ It has a list of `PestoContent`s. No `PestoContent` can be created without an existing `PestoContentType`
+- I create a `PestoContentType` named `robe`, in the project named `myfirstpestoproject` : from project creation request, i keep the `_id` of the `myfirstpestoproject` created project, and use it as `project_id`
+- I create 2 `PestoContent` of type (`PestoContentType`) is `robe`, in the project `myfirstpestoproject`:
+  - One named `Robe d'été rouge manoukian`
+  - One other named `Robe mi-saison verte mango`
+  - when i create the content type, if the frontmatter in the HTTP POST request payload,is not valid against the JSonSchema of the associated (`content_type_id`) `PestoContentType` (there exists a `React` component called [`react-yaml-form`](https://github.com/MaximeGoyette/react-yaml-form), you give it a `yaml`, you get the form). ideally the validation should happen on client side, so when i fill in the form, when the `content_type_id` is selected, (drop down list), then the content type is fetched, the JSonSchema is used to validate the frontmatter edited by the user filling in the form. the validation is also triggered everytime the JSON is edited. an the rest endpoint also runs the jsonschema validation before updating the mongothrough redux toolkit rtk.
+- Now I want to list :
+  - all `PestoContent` in a given `PestoProject` project
+  - all `PestoContentType` of a given `PestoProject` project.
+  - all `PestoContent` of a given `PestoContentType`, in a given `PestoProject` project.
+
+## GEnerate OpenAPI Docs
 
 Run:
 
@@ -957,22 +872,19 @@ Run:
 pnpm run generate:docs
 ```
 
-You will get :
+You will get : 
+- The `openapi.jspn`
+- A well enriched markdown file, `./pesto-api\pesto.widdershins.md`, compatible with widdershins and reslate / eleventy
 
-* The `openapi.json`
-* A well enriched markdown file, `./pesto-api/pesto.widdershins.md`, which is no yet used to render a fully fledged static website, as beautiful docs to statically serve.
+## References
 
-### OpenAPI Documentation: Next TODO
+- The first tutorial I followed to spin the app : <https://dev.to/carlomigueldy/building-a-restful-api-with-nestjs-and-mongodb-mongoose-2165>
+- The second : <https://blog.logrocket.com/understanding-controllers-routes-nestjs/>
+- The third set of sources of informations I used, to be able to add Primary Key / Foreign Key relationship :
+  - <https://gist.github.com/jmora2612/6f82c537eb957102e925a433ae9f9a4c#file-products-schema-ts-L19>
+  - cc
 
-Ideas to serve the _widdershins_ docs:
+Other articles andsources i had a look on, about NestJS and Mongoose :
 
-* Idea 1:
-  * I generate the `./pesto-api/pesto.widdershins.md` file using `pnpm run generate:docs`.
-  * Then the problem is to render the `widdershins.md` file into HTML. Basically, historcally, only the Mermaid reslate tool can render that, see :
-    * <https://github.com/Mermade/reslate>
-    * <https://github.com/Mermade/widdershins>
-    * <https://github.com/Mermade/widdershins/issues/223>
-  * If reslate is too complicated/not well maintained, and not usable, then I think best is to create an astro website able to render beautifully the `widdershins.md`. I think it is achievable, because the generated `widdershins.md` is rather clean, and clear. Another option is to just use the `openapi.json` file, as an Astro data source, to generate the Astro Website. Maybe with 2 build steps: first generate many markdown files from the `openapi.json`, and then render all those MArkdown files as content files.
-  * Once I have a solution to render the `widdershins.md`, I can serve the static content using <https://github.com/nestjs/serve-static>
-  * Nota Bene: widdershins relies only on the content of the `openapi.json` file, So if i want to add examples, or anything in OpenAPI docs, I just need to change the `openapi.json`. To change the `openapi.json`, the best is to add annotations on the source code, using the annotations from the  `@nestjs/swagger`, in the Nest controllers.
-  * Nota Bene: the only astro theme I found about Open API documentation is not well supported, see <https://github.com/sarasate/gate>
+- <https://medium.com/@kruyvanna/getting-started-with-nestjs-and-mongodb-c81c1be49ac2>
+- cccc

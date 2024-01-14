@@ -33,6 +33,11 @@ type PestoProject {
   deletedAt: DateTime
 }
 
+type PestoProjectDeletionResponse {
+  deletedProject: PestoProject
+  message: String
+}
+
 type PestoContent {
   _id: ID!
   name: String!
@@ -52,7 +57,7 @@ type Query {
 }
 
 type Mutation {
-  deletePestoProject(_id: ID!): PestoProject
+  deletePestoProject(_id: ID!): PestoProjectDeletionResponse
   updatePestoProject(projectUpdate: UpdatePestoProjectPayload!): PestoProject!
   createPestoProject(projectToCreate: CreatePestoProjectPayload!): PestoProject!
 }

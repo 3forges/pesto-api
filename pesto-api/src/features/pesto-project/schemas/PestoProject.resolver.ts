@@ -10,7 +10,10 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 import { PestoProject } from './PestoProject.schema';
-import { PestoProjectService } from '../pesto-project.service';
+import {
+  PestoProjectDeletionResponse,
+  PestoProjectService,
+} from '../pesto-project.service';
 import { UpdatePestoProjectDto } from '../dto/update-pesto-project.dto';
 // import { PestoContent } from 'src/features/pesto-content/schemas/PestoContent.schema';
 import { InputType, Field } from '@nestjs/graphql';
@@ -68,11 +71,11 @@ export class PestoProjectsResolver {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @Mutation((returns: any) => PestoProject, { nullable: true })
+  @Mutation((returns: any) => PestoProjectDeletionResponse, { nullable: true })
   async deletePestoProject(
     @Args('_id', { type: () => ID }) id: string,
-  ): Promise<PestoProject> {
-    return this.pestoProjectService.delete(`${id}`);
+  ): Promise<PestoProjectDeletionResponse> {
+    return await this.pestoProjectService.delete(`${id}`);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

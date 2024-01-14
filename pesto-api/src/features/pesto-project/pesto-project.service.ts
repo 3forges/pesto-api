@@ -135,7 +135,7 @@ export class PestoProjectService {
        * not already exist, then only we create it:
        * No update is done through this method
        */
-      // We do not generate a project_id, becasue it is required to be provided by the request
+      // We do not generate a project_id, because it is geenrated either by Mongoose on MongoDB
       /*
       createPestoProjectDto.project_id = new mongoose.Types.ObjectId(
         createPestoProjectDto.project_id,
@@ -279,7 +279,31 @@ export class PestoProjectService {
     }
   }
 
-  async delete(id: string): Promise<PestoProject> {
-    return await this.model.findByIdAndDelete(id).exec();
+  async delete(id: string): Promise<PestoProjectDeletionResponse> {
+    const didIFindOne = await this.model.findOne({
+      // $or: [{ git_ssh_uri: createPestoProjectDto.git_ssh_uri }, { description: products.description }],
+      $or: [
+        { _id: id },
+        // { description: updatePestoProjectDto.description },
+      ],
+    });
+    if (!didIFindOne) {
+      const errMsg = `DATA SERVICE [DELETE BY ID] - No [PestoProject] with [_id] = [${id}]  was found in the database: Cannot delete non-existing record !`;
+      // throw `${errMsg}`;
+      console.warn(`${errMsg}`);
+      throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
+    }
+    return {
+      deletedProject: await this.model.findByIdAndDelete(id).exec(),
+      message: `Project successfully deleted`,
+    };
   }
+}
+import { Field, /* ID,*/ ObjectType } from '@nestjs/graphql';
+@ObjectType('PestoProjectDeletionResponse')
+export class PestoProjectDeletionResponse {
+  @Field({ nullable: true })
+  deletedProject: PestoProject;
+  @Field({ nullable: true })
+  message: string;
 }
