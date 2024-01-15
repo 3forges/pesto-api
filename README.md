@@ -158,11 +158,12 @@ pnpm i
 export PESTO_MONGO_HOST=mongo.pesto.io
 export PESTO_API_HOST=api.pesto.io
 
-# source ./../.env.sh
+
 
 # pnpm run ci:generate:env
 pnpm run ci:env
 
+source ./../.env.sh
 pnpm start
 ```
 
