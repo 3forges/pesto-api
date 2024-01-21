@@ -10,18 +10,18 @@ Here are the working verified queries :
 #### Create a _`Content Type`_ Mutation (with variables)
 
 ```GraphQL
-mutation createContentType($name: String!, $git_ssh_uri: String!, $description: String!) {
+mutation createContentType($name: String!, $project_id: ID!, $frontmatter_definition: String!, $description: String!) {
   createPestoContentType(contentTypeToCreate: {
     name: $name,
-    description: $description,
-    git_ssh_uri: $git_ssh_uri,
-    git_service_provider: "github"
+    project_id: $project_id,
+    frontmatter_definition: $frontmatter_definition,
+    description: $description
   }){
     _id: _id
     name: name
-    git_ssh_uri: git_ssh_uri
+    project_id: project_id
+    frontmatter_definition: frontmatter_definition
     description: description
-    git_service_provider: git_service_provider
   }
 }
 ```
@@ -30,9 +30,10 @@ _Mutation Variables_ :
 
 ```GraphQL
 {
-  "name": "pendentif",
-  "git_ssh_uri": "git@github.com:3forges/tourdivoire.git",
-  "description": "ce projet pesto a été créé par Mutaiton dans le Browser apollo"
+  "name": "chaussure à talons",
+  "project_id": "65a279c5b51cdf03d306bf78",
+  "frontmatter_definition": "ce content type pesto a été créé par Mutation dans le Browser apollo",
+  "description": "xxx"
 }
 ```
 
@@ -51,9 +52,9 @@ query GetAllContentTypesExample {
   getAllPestoContentTypes {
     _id
     name
+    project_id
+    frontmatter_definition
     description
-    git_ssh_uri
-    git_service_provider
   }
 }
 ```

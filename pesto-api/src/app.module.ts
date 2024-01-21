@@ -6,7 +6,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { AppService } from './app.service';
 import { AppController } from './app.controller';
 import { PestoContentTypeModule } from 'src/features/pesto-content-type/pesto-content-type.module';
-import { PestoContentModule } from './features/pesto-content/pesto-content.module';
+// import { PestoContentModule } from './features/pesto-content/pesto-content.module';
 import { PestoProjectModule } from './features/pesto-project/pesto-project.module';
 import { DirectiveLocation, GraphQLDirective } from 'graphql';
 import { upperDirectiveTransformer } from './common/directives/uppercase.directive';
@@ -25,7 +25,7 @@ console.log(` PESTO_MONGODB_URL = [${mongooseUrl}]`);
   imports: [
     MongooseModule.forRoot(mongooseUrl),
     PestoContentTypeModule,
-    PestoContentModule,
+    // PestoContentModule,
     PestoProjectModule,
     /*
     GraphQLModule.forRoot<ApolloDriverConfig>({

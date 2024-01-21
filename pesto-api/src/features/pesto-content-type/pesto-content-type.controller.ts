@@ -39,9 +39,9 @@ export class PestoContentTypeController {
     return await this.service.findOneByName(name);
   }
 
-  @Get('/uri/:git_ssh_uri')
-  async findByURI(@Param('git_ssh_uri') git_ssh_uri: string) {
-    return await this.service.findOneByGitSshUri(git_ssh_uri);
+  @Get('/project/:project_id')
+  async findByProjectID(@Param('project_id') project_id: string) {
+    return await this.service.findAllByProjectID(project_id);
   }
 
   /**
@@ -66,10 +66,10 @@ export class PestoContentTypeController {
     console.log(` >>>>>>>>>>>>>>>> DEBUT JSON RECU: `);
     console.log(jsonPayload);
     console.log(` >>>>>>>>>>>>>>>> FIN JSON PAYLOAD`);
+    console.log(createPestoContentType.project_id);
     console.log(createPestoContentType.description);
     console.log(createPestoContentType.name);
-    console.log(createPestoContentType.git_service_provider);
-    console.log(createPestoContentType.git_ssh_uri);
+    console.log(createPestoContentType.frontmatter_definition);
 
     return await this.service.create(createPestoContentType);
   }

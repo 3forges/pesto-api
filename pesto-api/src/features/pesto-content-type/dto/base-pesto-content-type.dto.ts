@@ -12,12 +12,10 @@ export class BasePestoContentTypeDto {
    */
   _id?: mongoose.Types.ObjectId;
   // @Prop({ required: true, unique: true })
+
+  project_id: mongoose.Types.ObjectId;
   name: string;
 
-  // @Prop({ required: true, unique: true })
-  git_ssh_uri: string;
-
-  // @Prop()
-  git_service_provider?: string;
+  frontmatter_definition: string;
   description?: string;
 }

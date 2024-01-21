@@ -6,11 +6,10 @@ directive @upper on FIELD_DEFINITION
 
 type PestoContentType {
   _id: ID
+  project_id: ID!
   name: String
-  git_ssh_uri: String
-  git_service_provider: String
+  frontmatter_definition: String
   description: String
-  completedAt: DateTime
   createdAt: DateTime
   deletedAt: DateTime
 }
@@ -23,17 +22,6 @@ scalar DateTime
 type PestoContentTypeDeletionResponse {
   deletedProject: PestoContentType
   message: String
-}
-
-type PestoContent {
-  _id: ID!
-  name: String!
-  project_id: ID!
-  content_type_id: ID!
-  text: String!
-  description: String!
-  createdAt: DateTime!
-  deletedAt: DateTime!
 }
 
 type PestoProject {
@@ -53,9 +41,9 @@ type PestoProjectDeletionResponse {
 }
 
 type Query {
-  pestoProject(_id: ID!): PestoProject
+  pestoContentType(_id: ID!): PestoContentType
   getAllPestoContentTypes: [PestoContentType!]!
-  pestoContent(_id: ID!): PestoContent
+  pestoProject(_id: ID!): PestoProject
   getAllPestoProjects: [PestoProject!]!
 }
 
@@ -70,17 +58,17 @@ type Mutation {
 
 input UpdatePestoContentTypePayload {
   _id: ID!
+  project_id: ID!
   name: String!
+  frontmatter_definition: String!
   description: String!
-  git_ssh_uri: String!
-  git_service_provider: String!
 }
 
 input CreatePestoContentTypePayload {
+  project_id: ID!
   name: String!
+  frontmatter_definition: String!
   description: String!
-  git_ssh_uri: String!
-  git_service_provider: String!
 }
 
 input UpdatePestoProjectPayload {

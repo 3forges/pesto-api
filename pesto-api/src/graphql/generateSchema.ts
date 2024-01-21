@@ -7,7 +7,7 @@ import {
 import { writeFileSync } from 'fs';
 import { printSchema } from 'graphql';
 import { PestoContentTypesResolver } from 'src/features/pesto-content-type/schemas/PestoContentType.resolver';
-import { PestoContentsResolver } from 'src/features/pesto-content/schemas/PestoContent.resolver';
+// import { PestoContentsResolver } from 'src/features/pesto-content/schemas/PestoContent.resolver';
 import { PestoProjectsResolver } from 'src/features/pesto-project/schemas/PestoProject.resolver';
 
 export const generateSchema = async () => {
@@ -28,7 +28,7 @@ export const generateSchema = async () => {
   const schema = await gqlSchemaFactory.create([
     PestoProjectsResolver,
     PestoContentTypesResolver,
-    PestoContentsResolver,
+    // PestoContentsResolver,
   ]);
   const outputPath = './src/generated.graphql.gql';
 
