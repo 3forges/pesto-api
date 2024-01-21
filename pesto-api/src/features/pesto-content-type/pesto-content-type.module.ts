@@ -6,6 +6,10 @@ import {
   PestoContentType,
   PestoContentTypeSchema,
 } from './schemas/PestoContentType.schema';
+import {
+  PestoProject,
+  PestoProjectSchema,
+} from './../pesto-project/schemas/PestoProject.schema';
 import { PestoContentTypesResolver } from './schemas/PestoContentType.resolver';
 
 @Module({
@@ -19,6 +23,7 @@ import { PestoContentTypesResolver } from './schemas/PestoContentType.resolver';
     // registers the controller into the module
     MongooseModule.forFeature([
       { name: PestoContentType.name, schema: PestoContentTypeSchema },
+      { name: PestoProject.name, schema: PestoProjectSchema },
     ]),
   ],
 })

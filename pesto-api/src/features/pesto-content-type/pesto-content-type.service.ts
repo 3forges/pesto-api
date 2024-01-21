@@ -9,12 +9,18 @@ import {
 } from './schemas/PestoContentType.schema';
 import { HttpException } from '@nestjs/common/exceptions';
 import { HttpStatus } from '@nestjs/common';
+import {
+  PestoProject,
+  PestoProjectDocument,
+} from './../pesto-project/schemas/PestoProject.schema';
 
 @Injectable()
 export class PestoContentTypeService {
   constructor(
     @InjectModel(PestoContentType.name)
     private readonly model: Model<PestoContentTypeDocument>,
+    @InjectModel(PestoProject.name)
+    private readonly projectsModel: Model<PestoProjectDocument>,
   ) {}
   /*
   constructor(
@@ -127,22 +133,45 @@ export class PestoContentTypeService {
       console.warn(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
     } else {
-      /**
-       * In the case the pesto content type does
-       * not already exist, then only we create it:
-       * No update is done through this method
-       */
-      // We do not generate a project_id, because it is geenrated either by Mongoose on MongoDB
-      /*
-      createPestoContentTypeDto.project_id = new mongoose.Types.ObjectId(
-        createPestoContentTypeDto.project_id,
-      );
-      */
-      // return await new this.model(createPestoContentTypeDto).save();
-      return await new this.model({
-        ...createPestoContentTypeDto,
-        createdAt: new Date(),
-      }).save();
+      const didIFindOneProject = await this.projectsModel.findOne({
+        // $or: [{ git_ssh_uri: createPestoProjectDto.git_ssh_uri }, { description: products.description }],
+        $or: [
+          { _id: createPestoContentTypeDto.project_id },
+          // { description: updatePestoProjectDto.description },
+        ],
+      });
+      if (!didIFindOneProject) {
+        const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] method - No new [PestoContentType] was created. You provided a [project_id] = [${createPestoContentTypeDto.project_id}] but no Pesto Project exist in the database with that ID! `;
+        // throw `${errMsg}`;
+        console.warn(`${errMsg}`);
+        throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
+      } else {
+        console.log(
+          `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] method - Creating the below Pesto Content Type :`,
+          didIFindOne,
+        );
+        console.log(
+          `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] method - Associated with the below Pesto Project :`,
+          didIFindOneProject,
+        );
+        /**
+         * In the case the pesto content type does
+         * not already exist, AND the [project_id] exists
+         * in the database, then only we create it:
+         * No update is done through this method
+         */
+        // We do not generate a project_id, because it is geenrated either by Mongoose on MongoDB
+        /*
+        createPestoContentTypeDto.project_id = new mongoose.Types.ObjectId(
+          createPestoContentTypeDto.project_id,
+        );
+        */
+        // return await new this.model(createPestoContentTypeDto).save();
+        return await new this.model({
+          ...createPestoContentTypeDto,
+          createdAt: new Date(),
+        }).save();
+      }
     }
   }
 
