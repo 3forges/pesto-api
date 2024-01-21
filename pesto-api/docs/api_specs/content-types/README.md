@@ -38,11 +38,11 @@ _Mutation Variables_ :
 
 The result of that create mutation in the appollo browser:
 
-![the mutation - apollo browser](./../../images/graphql/mutations/createProjectMutation1.PNG)
+![the mutation - apollo browser](./../../images/graphql/content-types/mutations/createContentTypeMutation1.PNG)
 
-![verified mutation - apollo browser](./../../images/graphql/mutations/createProjectMutation2.PNG)
+![verified mutation - apollo browser](./../../images/graphql/content-types/mutations/createContentTypeMutation2.PNG)
 
-![verified mutation - pesto frontend](./../../images/graphql/mutations/createProjectMutation3.PNG)
+![verified mutation - pesto frontend](./../../images/graphql/content-types/mutations/createContentTypeMutation3.PNG)
 
 #### Get all _`Content Type`s_ Query
 
@@ -62,7 +62,7 @@ query GetAllContentTypesExample {
 
 ```GraphQL
 query GetContentTypeByID($id: ID!) {
-  pestoProject(_id: $id) {
+  pestoContentType(_id: $id) {
     name
     description
     createdAt
@@ -81,8 +81,8 @@ _Query Variables_ :
 
 ```GraphQL
 mutation updateContentTypeByID($id: ID!, $name: String!, $git_ssh_uri: String!, $description: String!) {
-# mutation updateProjectName($id: ID!, $name: String!) {
-  updatePestoProject(projectUpdate: {
+# mutation updateContentTypeName($id: ID!, $name: String!) {
+  updatePestoContentType(projectUpdate: {
     _id: $id,
     name: $name,
     # description: "bon on va voir",
@@ -113,23 +113,23 @@ _Mutation Variables_ :
 
 The result of that update mutation in the appollo browser:
 
-![the mutation - apollo browser](./../../images/graphql/mutations/updateProjectMutation1.PNG)
+![the mutation - apollo browser](./../../images/graphql/content-types/mutations/updateContentTypeMutation1.PNG)
 
-![verified mutation - apollo browser](./../../images/graphql/mutations/updateProjectMutation2.PNG)
+![verified mutation - apollo browser](./../../images/graphql/content-types/mutations/updateContentTypeMutation2.PNG)
 
-![verified mutation with richer returned data - apollo browser](./../../images/graphql/mutations/updateProjectMutation4.PNG)
+![verified mutation with richer returned data - apollo browser](./../../images/graphql/content-types/mutations/updateContentTypeMutation4.PNG)
 
-![verified mutation - pesto frontend](./../../images/graphql/mutations/updateProjectMutation3.PNG)
+![verified mutation - pesto frontend](./../../images/graphql/content-types/mutations/updateContentTypeMutation3.PNG)
 
 #### Delete a _`Content Type`_ Mutation
 
 Note this is a Very good example of nested response in a GraphQL Mutation
 
 ```GraphQL
-mutation DeleteProjectByID($id: ID!) {
-  deletePestoProject(_id: $id) {
+mutation DeleteContentTypeByID($id: ID!) {
+  deletePestoContentType(_id: $id) {
     message
-    deletedProject {
+    deletedContentType {
       _id
       name
       git_ssh_uri
@@ -161,7 +161,7 @@ export PESTO_API_BASE_URL="${PESTO_API_HTTP_SCHEME}://${PESTO_API_HOST}:${PESTO_
 
 # ---
 # This is how to create a new
-# "Pesto Project", with a curl :
+# "Pesto ContentType", with a curl :
 export PESTO_PRJ_GIT_SSH_URI='git@github.com:3forges/poc-redux-thunk.git'
 export PESTO_PRJ_NAME='astroprojectWiddershins'
 export PESTO_PRJ_DESC='Un premier projet pesto sur une base de projet astro, pour une doc Open API à la widdershins'
@@ -212,7 +212,7 @@ export PESTO_API_BASE_URL="${PESTO_API_HTTP_SCHEME}://${PESTO_API_HOST}:${PESTO_
 
 # ---
 # This is how to list all 
-# "Pesto Projects", with a curl :
+# "Pesto ContentTypes", with a curl :
 
 curl -iv -X GET -H 'Content-Type: application/json' -H 'Accept: application/json' ${PESTO_API_BASE_URL}/pesto-content-type | tail -n 1 | jq .
 
@@ -416,7 +416,7 @@ export PESTO_API_BASE_URL="${PESTO_API_HTTP_SCHEME}://${PESTO_API_HOST}:${PESTO_
 #  + - + NEW VERY IMPORTANT :
 # ---
 # Ok now we are going to list all
-# [Pesto Content Types] for a given [Project ID]:
+# [Pesto Content Types] for a given [ContentType ID]:
 # ---
 #
 export PESTO_PRJ_ID="rubbishprjid3modified"

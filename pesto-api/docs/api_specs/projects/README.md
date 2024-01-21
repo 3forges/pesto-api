@@ -38,11 +38,11 @@ _Mutation Variables_ :
 
 The result of that create mutation in the appollo browser:
 
-![the mutation - apollo browser](./../../images/graphql/mutations/createProjectMutation1.PNG)
+![the mutation - apollo browser](./../../images/graphql/projects/mutations/createProjectMutation1.PNG)
 
-![verified mutation - apollo browser](./../../images/graphql/mutations/createProjectMutation2.PNG)
+![verified mutation - apollo browser](./../../images/graphql/projects/mutations/createProjectMutation2.PNG)
 
-![verified mutation - pesto frontend](./../../images/graphql/mutations/createProjectMutation3.PNG)
+![verified mutation - pesto frontend](./../../images/graphql/projects/mutations/createProjectMutation3.PNG)
 
 #### Get all _`Project`s_ Query
 
@@ -113,13 +113,13 @@ _Mutation Variables_ :
 
 The result of that update mutation in the appollo browser:
 
-![the mutation - apollo browser](./../../images/graphql/mutations/updateProjectMutation1.PNG)
+![the mutation - apollo browser](./../../images/graphql/projects/mutations/updateProjectMutation1.PNG)
 
-![verified mutation - apollo browser](./../../images/graphql/mutations/updateProjectMutation2.PNG)
+![verified mutation - apollo browser](./../../images/graphql/projects/mutations/updateProjectMutation2.PNG)
 
-![verified mutation with richer returned data - apollo browser](./../../images/graphql/mutations/updateProjectMutation4.PNG)
+![verified mutation with richer returned data - apollo browser](./../../images/graphql/projects/mutations/updateProjectMutation4.PNG)
 
-![verified mutation - pesto frontend](./../../images/graphql/mutations/updateProjectMutation3.PNG)
+![verified mutation - pesto frontend](./../../images/graphql/projects/mutations/updateProjectMutation3.PNG)
 
 #### Delete a _`Project`_ Mutation
 
