@@ -5,22 +5,36 @@
 directive @upper on FIELD_DEFINITION
 
 type PestoContentType {
-  _id: ID!
-  title: String!
-  project_id: ID!
-  frontmatter_schema: String!
-  frontmatter_format: String!
-  description: String!
-  identifier: String!
-  completedAt: DateTime!
-  createdAt: DateTime!
-  deletedAt: DateTime!
+  _id: ID
+  name: String
+  git_ssh_uri: String
+  git_service_provider: String
+  description: String
+  completedAt: DateTime
+  createdAt: DateTime
+  deletedAt: DateTime
 }
 
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+type PestoContentTypeDeletionResponse {
+  deletedProject: PestoContentType
+  message: String
+}
+
+type PestoContent {
+  _id: ID!
+  name: String!
+  project_id: ID!
+  content_type_id: ID!
+  text: String!
+  description: String!
+  createdAt: DateTime!
+  deletedAt: DateTime!
+}
 
 type PestoProject {
   _id: ID
@@ -38,28 +52,35 @@ type PestoProjectDeletionResponse {
   message: String
 }
 
-type PestoContent {
-  _id: ID!
-  name: String!
-  project_id: ID!
-  content_type_id: ID!
-  text: String!
-  description: String!
-  createdAt: DateTime!
-  deletedAt: DateTime!
-}
-
 type Query {
-  pestoContentType(_id: ID!): PestoContentType
   pestoProject(_id: ID!): PestoProject
-  getAllPestoProjects: [PestoProject!]!
+  getAllPestoContentTypes: [PestoContentType!]!
   pestoContent(_id: ID!): PestoContent
+  getAllPestoProjects: [PestoProject!]!
 }
 
 type Mutation {
+  deletePestoContentType(_id: ID!): PestoContentTypeDeletionResponse
+  updatePestoContentType(contentTypeUpdate: UpdatePestoContentTypePayload!): PestoContentType!
+  createPestoContentType(contentTypeToCreate: CreatePestoContentTypePayload!): PestoContentType!
   deletePestoProject(_id: ID!): PestoProjectDeletionResponse
   updatePestoProject(projectUpdate: UpdatePestoProjectPayload!): PestoProject!
   createPestoProject(projectToCreate: CreatePestoProjectPayload!): PestoProject!
+}
+
+input UpdatePestoContentTypePayload {
+  _id: ID!
+  name: String!
+  description: String!
+  git_ssh_uri: String!
+  git_service_provider: String!
+}
+
+input CreatePestoContentTypePayload {
+  name: String!
+  description: String!
+  git_ssh_uri: String!
+  git_service_provider: String!
 }
 
 input UpdatePestoProjectPayload {

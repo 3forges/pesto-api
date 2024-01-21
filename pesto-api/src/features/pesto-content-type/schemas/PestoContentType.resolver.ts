@@ -2,13 +2,50 @@ import {
   Args,
   // Int,
   ID,
+  Mutation,
+  // ObjectType,
   // Parent,
   Query,
   // ResolveField,
   Resolver,
 } from '@nestjs/graphql';
 import { PestoContentType } from './PestoContentType.schema';
-import { PestoContentTypeService } from '../pesto-content-type.service';
+import {
+  PestoContentTypeDeletionResponse,
+  PestoContentTypeService,
+} from '../pesto-content-type.service';
+import { UpdatePestoContentTypeDto } from '../dto/update-pesto-content-type.dto';
+// import { PestoContent } from 'src/features/pesto-content/schemas/PestoContent.schema';
+import { InputType, Field } from '@nestjs/graphql';
+import { Types } from 'mongoose';
+import { CreatePestoContentTypeDto } from '../dto/create-pesto-content-type.dto';
+
+@InputType()
+export class UpdatePestoContentTypePayload extends UpdatePestoContentTypeDto {
+  @Field(() => ID)
+  _id?: Types.ObjectId;
+  @Field()
+  name: string;
+  @Field()
+  description?: string;
+  @Field()
+  git_ssh_uri: string;
+  @Field()
+  git_service_provider?: string;
+}
+@InputType()
+export class CreatePestoContentTypePayload extends CreatePestoContentTypeDto {
+  // @Field(() => ID, { nullable: true })
+  // _id?: Types.ObjectId;
+  @Field()
+  name: string;
+  @Field()
+  description?: string;
+  @Field()
+  git_ssh_uri: string;
+  @Field()
+  git_service_provider?: string;
+}
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 /**
  * Examples of resolvers : https://gist.github.com/paramsinghvc/7b0c59821084c0c8df8b0c7af469b0bc
@@ -17,20 +54,57 @@ import { PestoContentTypeService } from '../pesto-content-type.service';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 @Resolver((of: any) => PestoContentType)
 export class PestoContentTypesResolver {
-  constructor(private pestoContentTypeService: PestoContentTypeService) {}
+  constructor(private pestoProjectService: PestoContentTypeService) {}
   // private postsService: PostsService,
-
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @Query((returns: any) => PestoContentType, { nullable: true })
-  async pestoContentType(@Args('_id', { type: () => ID }) id: string) {
-    return this.pestoContentTypeService.findOne(`${id.toString()}`);
+  async pestoProject(
+    @Args('_id', { type: () => ID }) id: string,
+  ): Promise<PestoContentType> {
+    return this.pestoProjectService.findOne(`${id}`);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  @Query((returns) => [PestoContentType])
+  async getAllPestoContentTypes(): Promise<PestoContentType[]> {
+    return this.pestoProjectService.findAll();
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  @Mutation((returns: any) => PestoContentTypeDeletionResponse, {
+    nullable: true,
+  })
+  async deletePestoContentType(
+    @Args('_id', { type: () => ID }) id: string,
+  ): Promise<PestoContentTypeDeletionResponse> {
+    return await this.pestoProjectService.delete(`${id}`);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  @Mutation((returns) => PestoContentType)
+  async updatePestoContentType(
+    @Args('contentTypeUpdate')
+    contentTypeUpdate: UpdatePestoContentTypePayload,
+  ) {
+    return this.pestoProjectService.update(
+      `${contentTypeUpdate._id}`,
+      contentTypeUpdate,
+    );
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  @Mutation((returns) => PestoContentType)
+  async createPestoContentType(
+    @Args('contentTypeToCreate')
+    contentTypeToCreate: CreatePestoContentTypePayload,
+  ) {
+    return this.pestoProjectService.create(contentTypeToCreate);
+  }
   /*
   @ResolveField()
-  async posts(@Parent() pestoContent: PestoContentType) {
-    const { id } = pestoContent;
-    return this.postsService.findAll({ pestoContentId: id })
+  async posts(@Parent() pestoProject: PestoContentType) {
+    const { id } = pestoProject;
+    return this.postsService.findAll({ pestoProjectId: id })
   }*/
   /**
    * description

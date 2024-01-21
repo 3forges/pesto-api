@@ -97,8 +97,8 @@ resource "graphql_mutation" "pesto_project_example1" {
   delete_mutation_variables = {
     "id" = "655bed2110e5a17e9d4fa4de"
   }
-  create_mutation = file("./grapqhql/mutations/createPestoProject.gql")
-  update_mutation = file("./grapqhql/mutations/updatePestoProjectByID.gql")
-  delete_mutation = file("./grapqhql/mutations/deletePestoProjectByID.gql")
-  read_query      = file("./grapqhql/queries/getPestoProjectByID.gql")
+  create_mutation = file("./grapqhql/projects/mutations/createPestoProject.gql")
+  update_mutation = file("./grapqhql/projects/mutations/updatePestoProjectByID.gql")
+  delete_mutation = file("./grapqhql/projects/mutations/deletePestoProjectByID.gql")
+  read_query      = file("./grapqhql/projects/queries/getPestoProjectByID.gql")
 }

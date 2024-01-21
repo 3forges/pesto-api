@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { CreatePestoContentTypeDto } from './dto/create-pesto-content-type.dto';
 import { UpdatePestoContentTypeDto } from './dto/update-pesto-content-type.dto';
 import {
@@ -9,19 +9,12 @@ import {
 } from './schemas/PestoContentType.schema';
 import { HttpException } from '@nestjs/common/exceptions';
 import { HttpStatus } from '@nestjs/common';
-import FRONTMATTER_FORMAT from './schemas/frontmatter.format';
-import {
-  PestoProject,
-  PestoProjectDocument,
-} from '../pesto-project/schemas/PestoProject.schema';
 
 @Injectable()
 export class PestoContentTypeService {
   constructor(
     @InjectModel(PestoContentType.name)
     private readonly model: Model<PestoContentTypeDocument>,
-    @InjectModel(PestoProject.name)
-    private readonly projectsModel: Model<PestoProjectDocument>,
   ) {}
   /*
   constructor(
@@ -34,7 +27,7 @@ export class PestoContentTypeService {
 
   async findOne(id: string): Promise<PestoContentType> {
     if (id == ``) {
-      const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [GET PestoContentType BY ID] method - It is impossible to find any [PestoContentType] with an empty string as ID, the provided ID is the empty string: /pesto-content-type/:id = [${id}]`;
+      const errMsg = `PESTO-PROJECT DATA SERVICE [GET PestoContentType BY ID] method - It is impossible to find any [PestoContentType] with an empty string as PROJECT ID, the provided PROJECT ID is the empty string: /pesto-content-type/:id = [${id}]`;
       // throw `${errMsg}`;
       console.warn(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
@@ -42,141 +35,97 @@ export class PestoContentTypeService {
     return await this.model.findById(id).exec();
   }
 
-  async findByProject(project_id: string): Promise<PestoContentType[]> {
-    if (project_id == ``) {
-      const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [GET PestoContentType BY PROJECT ID] method - It is impossible to find any [PestoContentType] with an empty string as PROJECT ID, the provided PROJECT ID is the empty string: /pesto-content-type/project/:id = [${project_id}]`;
+  async findOneByName(provided_name: string): Promise<PestoContentType> {
+    if (provided_name == ``) {
+      const errMsg = `PESTO-PROJECT DATA SERVICE [GET PestoContentType BY NAME] method - It is impossible to find any [PestoContentType] with an empty string as PROJECT NAME, the provided PROJECT NAME is the empty string: /pesto-content-type/name/:name = [${provided_name}]`;
       // throw `${errMsg}`;
       console.warn(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
     }
-    const didIFindOne = await this.model
-      .find<PestoContentType>({
-        // $or: [{ identifier: createPestoContentTypeDto.identifier }, { description: products.description }],
-        $or: [
-          { project_id: project_id },
-          // { description: createPestoContentTypeDto.description },
-        ],
-      })
-      .exec()
-      .then((selectedList) => {
-        /**
-         * @description
-         */
-        return selectedList;
-      });
-    console.log(
-      `PESTO-CONTENT-TYPE DATA SERVICE [GET PestoContentType BY PROJECT ID] method - Tried to find [PestoContentType]'s with Project ID [${project_id}], here are the results of the Mongoose Query : `,
-      didIFindOne,
-    );
-    if (!didIFindOne) {
-      const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [GET PestoContentType BY PROJECT ID] method - Failed to find any [PestoContentType] with Project ID [${project_id}]`;
-      // throw `${errMsg}`;
-      console.warn(`${errMsg}`);
-      throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
-    } else {
-      /**
-       * In the case the pesto content type does
-       * not already exist, then only we create it:
-       * No update is done through this method
-       */
-      // const toReturn: Promise<PestoContentType> = didIFindOne;
-      // return toReturn;
-      return didIFindOne;
-    }
-  }
-  applyDefaultValues(
-    createPestoContentTypeDto: CreatePestoContentTypeDto,
-  ) /*: CreatePestoContentTypeDto*/ {
-    if (!createPestoContentTypeDto.frontmatter_format) {
-      createPestoContentTypeDto.frontmatter_format = FRONTMATTER_FORMAT.JSON;
-    }
-
-    if (!createPestoContentTypeDto.frontmatter_format) {
-      createPestoContentTypeDto.frontmatter_format == FRONTMATTER_FORMAT.JSON;
-    }
-
-    if (!createPestoContentTypeDto.frontmatter_schema) {
-      if (
-        createPestoContentTypeDto.frontmatter_format == FRONTMATTER_FORMAT.JSON
-      ) {
-        createPestoContentTypeDto.frontmatter_schema = `{}`;
-      } else if (
-        createPestoContentTypeDto.frontmatter_format == FRONTMATTER_FORMAT.YAML
-      ) {
-        createPestoContentTypeDto.frontmatter_schema = ``;
-      } else {
-        const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] - [applyDefaultValues(createPestoContentTypeDto: CreatePestoContentTypeDto)] method - The frontmatter_format = [${createPestoContentTypeDto.frontmatter_format}] matches none of the {@FRONTMATTER_FORMAT} Enum values.`;
-        // throw `${errMsg}`;
-        console.warn(`${errMsg}`);
-        throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
-      }
-    }
-    // return createPestoContentTypeDto;
-  }
-
-  /**
-   * Creates a new PestoContentType
-   * @param createPestoContentTypeDto the dto sent by client request
-   * @returns nothing...?
-   */
-  async create(
-    createPestoContentTypeDto: CreatePestoContentTypeDto,
-  ): Promise<PestoContentType> {
-    this.applyDefaultValues(createPestoContentTypeDto);
-    console.log(
-      `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] method - After Applying default values to the DTO : `,
-      createPestoContentTypeDto,
-    );
     const didIFindOne = await this.model.findOne({
-      // $or: [{ identifier: createPestoContentTypeDto.identifier }, { description: products.description }],
-      $and: [
-        { identifier: createPestoContentTypeDto.identifier },
-        { project_id: createPestoContentTypeDto.project_id }, // two different projects can use same identifier
+      // $or: [{ git_ssh_uri: createPestoContentTypeDto.git_ssh_uri }, { description: products.description }],
+      $or: [
+        { name: provided_name },
+        // { description: createPestoContentTypeDto.description },
       ],
     });
 
-    const didIFindOnePrj = await this.projectsModel
-      .findOne({
-        // $or: [{ name: createPestoContentDto.name }, { description: products.description }],
-        $and: [
-          { _id: createPestoContentTypeDto.project_id },
-          // { description: createPestoContentDto.description },
-        ],
-      })
-      .exec();
     console.log(
-      `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] method - Found record [didIFindOnePrj]:`,
-      didIFindOnePrj,
+      `PESTO-PROJECT DATA SERVICE [GET PROJECT BY NAME] method - Found record [didIFindOne]:`,
+      didIFindOne,
     );
-    if (!didIFindOnePrj) {
-      const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] method - No new [PestoContentType] was created: No [PestoProject] of project_id = [${createPestoContentTypeDto.project_id}] was found. A PestoContentType cannot be created without an existing [PestoProject].`;
+    if (!didIFindOne) {
+      const errMsg = `PESTO-PROJECT DATA SERVICE [GET PROJECT BY NAME] method - No [PestoContentType] was found in Database, with name = [${provided_name}]`;
+      // throw `${errMsg}`;
+      console.warn(`${errMsg}`);
+      throw new HttpException(`${errMsg}`, HttpStatus.NOT_FOUND);
+    } /*else if (didIFindOne.$isEmpty) {
+      const errMsg = `PESTO-PROJECT DATA SERVICE [GET PROJECT BY NAME] method - No [PestoContentType] was found in Database, with name = [${provided_name}]`;
+      // throw `${errMsg}`;
+      console.warn(`${errMsg}`);
+      throw new HttpException(`${errMsg}`, HttpStatus.NOT_FOUND);
+    }*/ else {
+      return didIFindOne;
+    }
+  }
+  async findOneByGitSshUri(
+    provided_git_ssh_uri: string,
+  ): Promise<PestoContentType> {
+    if (provided_git_ssh_uri == ``) {
+      const errMsg = `PESTO-PROJECT DATA SERVICE [GET PestoContentType BY GIT SSH URI] method - It is impossible to find any [PestoContentType] with an empty string as GIT SSH URI, the provided PROJECT NAME is the empty string: /pesto-content-type/uri/:git_ssh_uri = [${provided_git_ssh_uri}]`;
       // throw `${errMsg}`;
       console.warn(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
-    } else {
-      const numberOfPestoPrjs =
-        await didIFindOnePrj.collection.countDocuments();
-      if (!(numberOfPestoPrjs > 0)) {
-        const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] method - No new [PestoContentType] was created: No [PestoProject] of project_id = [${createPestoContentTypeDto.project_id}] was found. A PestoContentType cannot be created without an existing [PestoProject].`;
-        // throw `${errMsg}`;
-        console.warn(`${errMsg}`);
-        throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
-      }
     }
+    const didIFindOne = await this.model.findOne({
+      // $or: [{ git_ssh_uri: createPestoContentTypeDto.git_ssh_uri }, { description: products.description }],
+      $or: [
+        { git_ssh_uri: provided_git_ssh_uri },
+        // { description: createPestoContentTypeDto.description },
+      ],
+    });
+
     console.log(
-      `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] method createPestoContentTypeDto - [${JSON.stringify(
+      `PESTO-PROJECT DATA SERVICE [GET PROJECT BY GIT SSH URI] method - Found record [didIFindOne]:`,
+      didIFindOne,
+    );
+    if (!didIFindOne) {
+      const errMsg = `PESTO-PROJECT DATA SERVICE [GET PROJECT BY GIT SSH URI] method - No [PestoContentType] was found in Database, with git_ssh_uri = [${provided_git_ssh_uri}]`;
+      // throw `${errMsg}`;
+      console.warn(`${errMsg}`);
+      throw new HttpException(`${errMsg}`, HttpStatus.NOT_FOUND);
+    } /*else if (didIFindOne.$isEmpty) {
+      const errMsg = `PESTO-PROJECT DATA SERVICE [GET PROJECT BY NAME] method - No [PestoContentType] was found in Database, with name = [${provided_name}]`;
+      // throw `${errMsg}`;
+      console.warn(`${errMsg}`);
+      throw new HttpException(`${errMsg}`, HttpStatus.NOT_FOUND);
+    }*/ else {
+      return didIFindOne;
+    }
+  }
+  async create(
+    createPestoContentTypeDto: CreatePestoContentTypeDto,
+  ): Promise<PestoContentType> {
+    const didIFindOne = await this.model.findOne({
+      // $or: [{ git_ssh_uri: createPestoContentTypeDto.git_ssh_uri }, { description: products.description }],
+      $or: [
+        { git_ssh_uri: createPestoContentTypeDto.git_ssh_uri },
+        // { description: createPestoContentTypeDto.description },
+      ],
+    });
+    console.log(
+      `PESTO-PROJECT DATA SERVICE [CREATE] method - [${JSON.stringify(
         createPestoContentTypeDto,
         null,
         4,
       )}]`,
     );
     console.log(
-      `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] method - Found record [didIFindOne]:`,
+      `PESTO-PROJECT DATA SERVICE [CREATE] method - Found record [didIFindOne]:`,
       didIFindOne,
     );
-
     if (didIFindOne) {
-      const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] method - No new [PestoContentType] was created. A PestoContentType already exists with identifier = [${createPestoContentTypeDto.identifier}] and project_id = [${createPestoContentTypeDto.project_id}]`;
+      const errMsg = `PESTO-PROJECT DATA SERVICE [CREATE] method - No new [PestoContentType] was created. A PestoContentType already exists with git_ssh_uri = [${createPestoContentTypeDto.git_ssh_uri}]`;
       // throw `${errMsg}`;
       console.warn(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
@@ -186,7 +135,7 @@ export class PestoContentTypeService {
        * not already exist, then only we create it:
        * No update is done through this method
        */
-      // We do not generate a project_id, becasue it is required to be provided by the request
+      // We do not generate a project_id, because it is geenrated either by Mongoose on MongoDB
       /*
       createPestoContentTypeDto.project_id = new mongoose.Types.ObjectId(
         createPestoContentTypeDto.project_id,
@@ -195,7 +144,6 @@ export class PestoContentTypeService {
       // return await new this.model(createPestoContentTypeDto).save();
       return await new this.model({
         ...createPestoContentTypeDto,
-        project_id: createPestoContentTypeDto.project_id,
         createdAt: new Date(),
       }).save();
     }
@@ -206,23 +154,24 @@ export class PestoContentTypeService {
     updatePestoContentTypeDto: UpdatePestoContentTypeDto,
   ): Promise<PestoContentType> {
     if (id == ``) {
-      const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [UPDATE PestoContentType BY ID] method - It is impossible to update any [PestoContentType] with an empty string as ID, the provided ID is the empty string: /pesto-content-type/:id = [${id}]`;
+      const errMsg = `PESTO-PROJECT DATA SERVICE [GET PestoContentType BY ID] method - It is impossible to update any [PestoContentType] with an empty string as PROJECT ID, the provided PROJECT ID is the empty string: /pesto-content-type/:id = [${id}]`;
       // throw `${errMsg}`;
       console.warn(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
     }
     const didIFindOne = await this.findOne(id);
     console.log(
-      `PESTO-CONTENT-TYPE DATA SERVICE [UPDATE BY ID] method - [${JSON.stringify(
+      `PESTO-PROJECT DATA SERVICE [before]-[UPDATE BY ID] method - Found record [didIFindOne]:`,
+      didIFindOne,
+    );
+    console.log(
+      `PESTO-PROJECT DATA SERVICE [before]-[UPDATE BY ID] method [updatePestoContentTypeDto] = - [${JSON.stringify(
         updatePestoContentTypeDto,
         null,
         4,
       )}]`,
     );
-    console.log(
-      `PESTO-CONTENT-TYPE DATA SERVICE [UPDATE BY ID] method - Found record [didIFindOne]:`,
-      didIFindOne,
-    );
+
     if (didIFindOne) {
       /**
        * Then I update the database from the DTO:
@@ -230,9 +179,49 @@ export class PestoContentTypeService {
        * if the record does not exist in the database
        */
       /**/
-      return await this.model
+      const toReturn = await this.model
         .findByIdAndUpdate(id, updatePestoContentTypeDto)
         .exec();
+      console.info(
+        `PESTO-PROJECT DATA SERVICE [AFTER SUCCESSFULLY]-[UPDATE BY ID] here is the Object returned by [Mongoose] 's [findByIdAndUpdate] : - [${JSON.stringify(
+          toReturn,
+          null,
+          4,
+        )}]`,
+      );
+      console.info(
+        `PESTO-PROJECT DATA SERVICE [AFTER SUCCESSFULLY]-[UPDATE BY ID] here is the Object returned by Pesto API : - [${JSON.stringify(
+          {
+            //_id: toReturn.id,
+            _id: toReturn._id,
+            //createdAt: toReturn.createdAt,
+            createdAt: updatePestoContentTypeDto.createdAt,
+            description: updatePestoContentTypeDto.description,
+            //name: toReturn.name,
+            name: updatePestoContentTypeDto.name,
+            //git_ssh_uri: toReturn.git_ssh_uri,
+            git_ssh_uri: updatePestoContentTypeDto.git_ssh_uri,
+            //git_service_provider: toReturn.git_service_provider,
+            git_service_provider:
+              updatePestoContentTypeDto.git_service_provider,
+          },
+          null,
+          4,
+        )}]`,
+      );
+      return {
+        //_id: toReturn.id,
+        _id: toReturn._id,
+        //createdAt: toReturn.createdAt,
+        createdAt: updatePestoContentTypeDto.createdAt,
+        description: updatePestoContentTypeDto.description,
+        //name: toReturn.name,
+        name: updatePestoContentTypeDto.name,
+        //git_ssh_uri: toReturn.git_ssh_uri,
+        git_ssh_uri: updatePestoContentTypeDto.git_ssh_uri,
+        //git_service_provider: toReturn.git_service_provider,
+        git_service_provider: updatePestoContentTypeDto.git_service_provider,
+      };
     } else {
       const errMsg = `DATA SERVICE [UPDATE BY ID] - No [PestoContentType] with [_id] = [${id}]  was found in the database: Cannot update non-existing record !`;
       // throw `${errMsg}`;
@@ -241,13 +230,81 @@ export class PestoContentTypeService {
     }
   }
 
-  async delete(id: string): Promise<PestoContentType> {
-    if (id == ``) {
-      const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [DELETE PestoContentType BY ID] method - It is impossible to delete any [PestoContentType] with an empty string as ID, the provided ID is the empty string: /pesto-content-type/:id = [${id}]`;
+  /**
+   * DO NOT USE THIS METHOD, THIS IS JUST AN EXPERIMENT, ONLY _ID SHOULD BE TAKEN AS PARAM FOR ANY CRUD OPS - because it acts as primary key PRIMARY KEY
+   * Tries to update a unique PestoContentType from its git_ssh_uri
+   * @param updatePestoContentTypeDto the DTO created from received from HTTP client request payload, to upadte the record in MongoDB
+   * @returns a Promise<mongoose.UpdateWriteOpResult> Object (could not yet find a way to return a {@Promise<PestoContentType> } Object )
+   */
+  async updateByGitSshUri(
+    provided_git_ssh_uri: string,
+    updatePestoContentTypeDto: UpdatePestoContentTypeDto,
+  ): Promise<mongoose.UpdateWriteOpResult> {
+    if (provided_git_ssh_uri == ``) {
+      const errMsg = `PESTO-PROJECT DATA SERVICE [UPDATE PestoContentType BY git_ssh_uri] method - It is impossible to update any [PestoContentType] with an empty string as GIT_SSH_URI, the provided GIT_SSH_URI is the empty string: /pesto-content-type/uri/:git_ssh_uri = [${provided_git_ssh_uri}]`;
       // throw `${errMsg}`;
       console.warn(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
     }
-    return await this.model.findByIdAndDelete(id).exec();
+    const didIFindOne = await this.model.findOne({
+      // $or: [{ git_ssh_uri: createPestoContentTypeDto.git_ssh_uri }, { description: products.description }],
+      $or: [
+        { git_ssh_uri: provided_git_ssh_uri },
+        // { description: updatePestoContentTypeDto.description },
+      ],
+    });
+    if (didIFindOne) {
+      /**
+       * Then I update the database from the DTO:
+       * The question here is how do I update only one object, by a custom property (here by 'git_ssh_uri')
+       */
+      /**/
+      return await this.model
+        .updateOne(
+          {
+            $or: [{ git_ssh_uri: updatePestoContentTypeDto.git_ssh_uri }],
+          },
+          updatePestoContentTypeDto,
+        )
+        .exec();
+      /*
+      return await this.model
+      .findByIdAndUpdate(updatePestoContentTypeDto.git_ssh_uri, updatePestoContentTypeDto)
+      .exec();
+      */
+    } else {
+      const errMsg = `DATA SERVICE [UPDATE BY GIT_SSH_URI] - No [PestoContentType] with git_ssh_uri = [${provided_git_ssh_uri}]  was found in the database: Cannot update non-existing record !`;
+      // throw `${errMsg}`;
+      console.warn(`${errMsg}`);
+      throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
+    }
   }
+
+  async delete(id: string): Promise<PestoContentTypeDeletionResponse> {
+    const didIFindOne = await this.model.findOne({
+      // $or: [{ git_ssh_uri: createPestoContentTypeDto.git_ssh_uri }, { description: products.description }],
+      $or: [
+        { _id: id },
+        // { description: updatePestoContentTypeDto.description },
+      ],
+    });
+    if (!didIFindOne) {
+      const errMsg = `DATA SERVICE [DELETE BY ID] - No [PestoContentType] with [_id] = [${id}]  was found in the database: Cannot delete non-existing record !`;
+      // throw `${errMsg}`;
+      console.warn(`${errMsg}`);
+      throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
+    }
+    return {
+      deletedProject: await this.model.findByIdAndDelete(id).exec(),
+      message: `Project successfully deleted`,
+    };
+  }
+}
+import { Field, /* ID,*/ ObjectType } from '@nestjs/graphql';
+@ObjectType('PestoContentTypeDeletionResponse')
+export class PestoContentTypeDeletionResponse {
+  @Field({ nullable: true })
+  deletedProject: PestoContentType;
+  @Field({ nullable: true })
+  message: string;
 }
