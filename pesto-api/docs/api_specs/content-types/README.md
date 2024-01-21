@@ -81,20 +81,20 @@ _Query Variables_ :
 #### Update a _`Content Type`_ by ID Mutation (with variables)
 
 ```GraphQL
-mutation updateContentTypeByID($id: ID!, $name: String!, $project_id: String!, $frontmatter_definition: ID!, $description: String!) {
+mutation updateContentTypeByID($id: ID!, $project_id: ID!, $name: String!, $frontmatter_definition: String!, $description: String!) {
 # mutation updateContentTypeName($id: ID!, $name: String!) {
   updatePestoContentType(contentTypeUpdate: {
     _id: $id,
-    name: $name
-    project_id: $project_id
-    frontmatter_definition: $frontmatter_definition
+    project_id: $project_id,
+    name: $name,
+    frontmatter_definition: $frontmatter_definition,
     description: $description
   }) {
-    _id: _id
-    name: name
-    project_id: project_id
-    frontmatter_definition: frontmatter_definition
-    description: description
+    _id
+    name
+    project_id
+    frontmatter_definition
+    description
   }
 }
 ```
@@ -104,9 +104,9 @@ _Mutation Variables_ :
 ```GraphQL
 {
   "id": "65a279c5b51cdf03d306bf78",
+  "project_id": "65a279c5b51cbf03d306bf78",
   "name": "Je change le champs 'name' du Pesto Content Type  par mutation GraphQL",
-  "project_id": "deadbeefdeadbeefdeadbeefdeadbeef",
-  "frontmatter_definition": "J'ai modifié le frontmatter de ce Pesto Content Type par le browser GraphQL Apollo"
+  "frontmatter_definition": "J'ai modifié le frontmatter de ce Pesto Content Type par le browser GraphQL Apollo",
   "description": "J'ai modifié la description de ce Pesto Content Type par le browser GraphQL Apollo"
 }
 ```
@@ -132,7 +132,8 @@ mutation DeleteContentTypeByID($id: ID!) {
     deletedContentType {
       _id
       name
-      git_ssh_uri
+      project_id
+      frontmatter_definition
       description
     }
   }

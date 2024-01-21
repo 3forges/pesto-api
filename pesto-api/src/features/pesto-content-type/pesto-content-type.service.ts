@@ -290,7 +290,7 @@ export class PestoContentTypeService {
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
     }
     return {
-      deletedProject: await this.model.findByIdAndDelete(id).exec(),
+      deletedContentType: await this.model.findByIdAndDelete(id).exec(),
       message: `Project successfully deleted`,
     };
   }
@@ -299,7 +299,7 @@ import { Field, /* ID,*/ ObjectType } from '@nestjs/graphql';
 @ObjectType('PestoContentTypeDeletionResponse')
 export class PestoContentTypeDeletionResponse {
   @Field({ nullable: true })
-  deletedProject: PestoContentType;
+  deletedContentType: PestoContentType;
   @Field({ nullable: true })
   message: string;
 }

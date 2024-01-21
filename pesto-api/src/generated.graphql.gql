@@ -31,7 +31,7 @@ type PestoProject {
 }
 
 type PestoContentTypeDeletionResponse {
-  deletedProject: PestoContentType
+  deletedContentType: PestoContentType
   message: String
 }
 
