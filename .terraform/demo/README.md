@@ -198,11 +198,16 @@ data.graphql_query.get_pesto_project_query: Read complete after 0s [id=681099646
 
 -->
 
-## Let's have fun now: Run Atlantis
+## Let's have fun now
 
 Ok now we will have fun:
 
 * Now, let's setup a minio, to store the terraform remote state into a minio bucket.
+* Then I will play with the modularization conept in Pesto (add Pesto Content Types) :
+  * a module will create pesto projects
+  * a different, separate module, will fetch the state of the pesto projects module, to attach the content types, to existing projects
+  * Then i will add pesto content in a third module
+  * I will also write terraform modules to setup consistent initials states for running automatd end to end tests on pesto, based on Tests Playbooks specifications (End to End tests, performance tests).
 * let's setup run atlantis to manage the state of my Pesto envrionment. This will help automating tests
 * Then, I will create terrafrom module that i will store into the citizen private terraform registry: simple modules, resuable for a series of different test setups. 
 * Then I will dive again into developing in Golang 2 different terraform providers :
