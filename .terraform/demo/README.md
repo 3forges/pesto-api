@@ -74,6 +74,7 @@ If you modify the graphQL files, you ahve to
 
 TODO
 
+<!-- 
 ## ANNEX: Old tests
 
 ```bash
@@ -195,8 +196,21 @@ data.graphql_query.get_pesto_project_query: Read complete after 0s [id=681099646
 
 ```
 
+-->
+
+## Let's have fun now: Run Atlantis
+
+Ok now we will have fun:
+
+* Now, let's setup a minio, to store the terraform remote state into a minio bucket.
+* let's setup run atlantis to manage the state of my Pesto envrionment. This will help automating tests
+* Then, I will create terrafrom module that i will store into the citizen private terraform registry: simple modules, resuable for a series of different test setups. 
+* Then I will dive again into developing in Golang 2 different terraform providers :
+  * a first one will be a graphQL one (it's soooo useful!). I will think about this: is it a good idea to delop a cloud provider using graphQL?
+  * Then I will develop a Pesto Specific terraform provider.
+
 ## References
 
-* Th GraphQL provider :
+* The GraphQL provider :
   * https://registry.terraform.io/providers/sullivtr/graphql/latest/docs
   * https://github.com/sullivtr/terraform-provider-graphql
