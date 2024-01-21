@@ -202,3 +202,13 @@ Ideas to serve the _widdershins_ docs:
   * Once I have a solution to render the `widdershins.md`, I can serve the static content using <https://github.com/nestjs/serve-static>
   * Nota Bene: widdershins relies only on the content of the `openapi.json` file, So if i want to add examples, or anything in OpenAPI docs, I just need to change the `openapi.json`. To change the `openapi.json`, the best is to add annotations on the source code, using the annotations from the  `@nestjs/swagger`, in the Nest controllers.
   * Nota Bene: the only astro theme I found about Open API documentation is not well supported, see <https://github.com/sarasate/gate>
+
+## ANNEX 😱: terraform a Pesto Project 😱
+
+It is now possible to fully manage the lifecycle of a Pesto Project using terraform, [check it out](./.terraform/demo/README.md).
+
+<!--
+oh putain c la gagne aujourd'hui: j'ai réussit à complètement terraformer un nombre illimité de pesto projects
+
+et ça marchera exactement pareil pour créer des pesto content types, et même des pesto contents: genre on  pourra déclencher carrément un déploiement de site avec terraform comme boum 😱
+-->

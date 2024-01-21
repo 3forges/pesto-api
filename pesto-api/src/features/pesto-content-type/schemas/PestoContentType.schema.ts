@@ -20,6 +20,10 @@ export class PestoContentType {
   /**
    * The foreign key to the pesto project
    * The API will check that this project ID exist
+   * About defining a foreign key with mongoose, why
+   * use [mongoose.Types.ObjectId],
+   * not [mongoose.Schema.Types.ObjectId] :
+   * cf. https://github.com/DefinitelyTyped/DefinitelyTyped/issues/12385#issuecomment-1124903485
    */
   @Field(() => ID, { nullable: false })
   @Prop({

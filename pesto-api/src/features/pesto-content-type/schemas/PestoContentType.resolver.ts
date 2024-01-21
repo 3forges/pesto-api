@@ -73,6 +73,13 @@ export class PestoContentTypesResolver {
   async getAllPestoContentTypes(): Promise<PestoContentType[]> {
     return this.pestoContentTypeService.findAll();
   }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  @Query((returns) => [PestoContentType])
+  async getAllPestoContentTypesByProjectID(
+    @Args('project_id', { type: () => ID }) project_id: string,
+  ): Promise<PestoContentType[]> {
+    return this.pestoContentTypeService.findAllByProjectID(project_id);
+  }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @Mutation((returns: any) => PestoContentTypeDeletionResponse, {

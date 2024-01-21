@@ -77,7 +77,7 @@ export class PestoContentTypeService {
     provided_project_id: string,
   ): Promise<PestoContentType[]> {
     if (provided_project_id == ``) {
-      const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [GET PESTOCONTENTTYPE BY PROJECT ID] method - It is impossible to find any [PestoContentType] with an empty string as [Pesto Project ID], the provided PROJECT ID is the empty string: /pesto-content-type/project/:project_id = [${provided_project_id}]`;
+      const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [GET PESTO-CONTENT-TYPE BY PROJECT ID] method - It is impossible to find any [PestoContentType] with an empty string as [Pesto Project ID], the provided PROJECT ID is the empty string: /pesto-content-type/project/:project_id = [${provided_project_id}]`;
       // throw `${errMsg}`;
       console.warn(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
@@ -90,20 +90,15 @@ export class PestoContentTypeService {
     });
 
     console.log(
-      `PESTO-CONTENT-TYPE DATA SERVICE [GET PESTOCONTENTTYPE BY PROJECT ID] method - Found record [foundContentTypes]:`,
+      `PESTO-CONTENT-TYPE DATA SERVICE [GET PESTO-CONTENT-TYPE BY PROJECT ID] method - Found record [foundContentTypes]:`,
       foundContentTypes,
     );
     if (!foundContentTypes) {
-      const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [GET PESTOCONTENTTYPE BY PROJECT ID] method - No [PestoContentType] was found in Database, with project_id = [${provided_project_id}]`;
+      const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [GET PESTO-CONTENT-TYPE BY PROJECT ID] method - No [PestoContentType] was found in Database, with project_id = [${provided_project_id}]`;
       // throw `${errMsg}`;
       console.warn(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_FOUND);
-    } /*else if (didIFindOne.$isEmpty) {
-      const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [GET PROJECT BY NAME] method - No [PestoContentType] was found in Database, with name = [${provided_name}]`;
-      // throw `${errMsg}`;
-      console.warn(`${errMsg}`);
-      throw new HttpException(`${errMsg}`, HttpStatus.NOT_FOUND);
-    }*/ else {
+    } else {
       return foundContentTypes;
     }
   }

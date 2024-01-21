@@ -43,6 +43,7 @@ type PestoProjectDeletionResponse {
 type Query {
   pestoContentType(_id: ID!): PestoContentType
   getAllPestoContentTypes: [PestoContentType!]!
+  getAllPestoContentTypesByProjectID(project_id: ID!): [PestoContentType!]!
   pestoProject(_id: ID!): PestoProject
   getAllPestoProjects: [PestoProject!]!
 }

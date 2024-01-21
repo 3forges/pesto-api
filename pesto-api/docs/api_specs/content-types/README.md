@@ -65,9 +65,9 @@ query GetAllContentTypesExample {
 query GetContentTypeByID($id: ID!) {
   pestoContentType(_id: $id) {
     name
+    project_id
+    frontmatter_definition
     description
-    createdAt
-    deletedAt
   }
 }
 ```
@@ -77,6 +77,28 @@ _Query Variables_ :
 ```GraphQL
 { "id": "6526bb5df88cd05417311b3c" }
 ```
+
+#### getAllPestoContentTypesByProjectID
+
+
+```GraphQL
+query GetAllPestoContentTypesByProjectID($project_id: ID!) {
+  getAllPestoContentTypesByProjectID(project_id: $project_id) {
+    name
+    project_id
+    frontmatter_definition
+    description
+  }
+}
+```
+
+_Query Variables_ :
+
+```GraphQL
+{ "project_id": "6526bb5df88cd05417311b3c" }
+```
+
+![result](./pesto-api/docs/images/graphql/content-types/queries/getAllContentTypesByProjectID.PNG)
 
 #### Update a _`Content Type`_ by ID Mutation (with variables)
 
@@ -162,19 +184,19 @@ export PESTO_API_BASE_URL="${PESTO_API_HTTP_SCHEME}://${PESTO_API_HOST}:${PESTO_
 
 # ---
 # This is how to create a new
-# "Pesto ContentType", with a curl :
-export PESTO_PRJ_GIT_SSH_URI='git@github.com:3forges/poc-redux-thunk.git'
+# "Pesto Content Type", with a curl :
+export PESTO_PRJ_FRONTMATTER='git@github.com:3forges/poc-redux-thunk.git'
 export PESTO_PRJ_NAME='astroprojectWiddershins'
 export PESTO_PRJ_DESC='Un premier projet pesto sur une base de projet astro, pour une doc Open API à la widdershins'
 
 # export PESTO_PRJ_DESC_URL_ENCODED='Un%20premier%20projet%20pesto%20sur%20une%20base%20de%20projet%20astro%2C%20pour%20une%20doc%20Open%20API%20%C3%A0%20la%20widdershins'
 
 export THE_PAYLOAD="{ 
-  \"name\" : \"${PESTO_PRJ_NAME}\", \"description\" : \"${PESTO_PRJ_DESC_URL_ENCODED}\", \"git_ssh_uri\" : \"${PESTO_PRJ_GIT_SSH_URI}\"
+  \"name\" : \"${PESTO_PRJ_NAME}\", \"description\" : \"${PESTO_PRJ_DESC_URL_ENCODED}\", \"frontmatter_definition\" : \"${PESTO_PRJ_GIT_SSH_URI}\"
 }"
 
 
-export THE_PAYLOAD='{"name":"astroprojectWiddershins","description":"Un premier projet pesto sur une base de projet astro, pour une doc Open API à la widdershins","git_ssh_uri":"git@github.com:3forges/poc-redux-thunk.git"}'
+export THE_PAYLOAD='{"name":"astroprojectWiddershins","description":"Un premier pesto content type, sur une base de projet astro","project_id":"xxxxxxxxxxx","frontmatter_definition":"xxxxxxxxxxx"}'
 
 # echo "THE_PAYLOAD=[${THE_PAYLOAD}]"
 
@@ -228,53 +250,11 @@ export PESTO_API_PORT=3000
 export PESTO_API_BASE_URL="${PESTO_API_HTTP_SCHEME}://${PESTO_API_HOST}:${PESTO_API_PORT}"
 
 
-export PESTO_PRJ_ID="65a279c5b51cdf03d306bf78"
+export PESTO_CONTENT_TYPE_ID="65a279c5b51cdf03d306bf78"
 
 # ---
-# Get newly created content type by name
-curl -iv -X GET -H 'Accept: application/json' "${PESTO_API_BASE_URL}/pesto-content-type/${PESTO_PRJ_ID}" | tail -n 1 | jq .
-```
-
-#### Get a _`Content Type`_ by `Git SSH URI`
-
-```bash
-export PESTO_API_HTTP_SCHEME="http" # or "https"
-export PESTO_API_HOST=api.pesto.io
-export PESTO_API_PORT=3000
-export PESTO_API_BASE_URL="${PESTO_API_HTTP_SCHEME}://${PESTO_API_HOST}:${PESTO_API_PORT}"
-
-# ---
-# Get newly created content type by Git SSH URI
-export PESTO_PRJ_GIT_SSH_URI='git@github.com:3forges/awesome-obs.git'
-export PESTO_PRJ_GIT_SSH_URI='git@github.com:3forges/poc-redux-thunk.git'
-export PESTO_PRJ_GIT_SSH_URI='git@github.com:3forges/astro-widdershins.git'
-
-export PESTO_PRJ_GIT_SSH_URI_URL_ENCODED='git%40github.com%3A3forges%2Fawesome-obs.git'
-export PESTO_PRJ_GIT_SSH_URI_URL_ENCODED='git%40github.com%3A3forges%2Fpoc-redux-thunk.git'
-export PESTO_PRJ_GIT_SSH_URI_URL_ENCODED='git%40github.com%3A3forges%2Fastro-widdershins.git'
-
-curl -iv -X GET -H 'Content-Type: application/json' -H 'Accept: application/json' "${PESTO_API_BASE_URL}/pesto-content-type/uri/${PESTO_PRJ_GIT_SSH_URI_URL_ENCODED}" | tail -n 1 | jq .
-
-```
-
-#### Get a _`Content Type`_ by `name`
-
-```bash
-export PESTO_API_HTTP_SCHEME="http" # or "https"
-export PESTO_API_HOST=api.pesto.io
-export PESTO_API_PORT=3000
-export PESTO_API_BASE_URL="${PESTO_API_HTTP_SCHEME}://${PESTO_API_HOST}:${PESTO_API_PORT}"
-
-
-export PESTO_PRJ_NAME="I changed the name of the content type, using curl"
-export URL_ENCODED_PESTO_PRJ_NAME="I%20changed%20the%20name%20of%20the%20content%2C%20type%2C%20using%20curl"
-# ---
-# Get newly created content type by name
-curl -iv -X GET -H 'Accept: application/json' "${PESTO_API_BASE_URL}/pesto-content-type/name/${URL_ENCODED_PESTO_PRJ_NAME}" | tail -n 1 | jq .
-
-
-
-
+# Get content type by ID
+curl -iv -X GET -H 'Accept: application/json' "${PESTO_API_BASE_URL}/pesto-content-type/${PESTO_CONTENT_TYPE_ID}" | tail -n 1 | jq .
 ```
 
 #### Update a _`Content Type`_** by `ID`
@@ -287,7 +267,7 @@ export PESTO_API_PORT=3000
 export PESTO_API_BASE_URL="${PESTO_API_HTTP_SCHEME}://${PESTO_API_HOST}:${PESTO_API_PORT}"
 
 
-export PESTO_PRJ_ID='65acf1e2fb664af546bf8bc9'
+export PESTO_CONTENT_TYPE_ID='65acf1e2fb664af546bf8bc9'
 
 # ---
 # Now we try and update the [description]
@@ -295,9 +275,9 @@ export PESTO_PRJ_ID='65acf1e2fb664af546bf8bc9'
 # Mongo Database
 # ---
 #
-curl -iv -X PUT -H 'Content-Type: application/json' -d "{\"description\" : \"I Changed the description of the content type using curl\"}" -H 'Accept: application/json' "${PESTO_API_BASE_URL}/pesto-content-type/${PESTO_PRJ_ID}" | tail -n 1 | jq .
+curl -iv -X PUT -H 'Content-Type: application/json' -d "{\"frontmatter\" : \"I Changed the frontmatter of the content type using curl\"}" -H 'Accept: application/json' "${PESTO_API_BASE_URL}/pesto-content-type/${PESTO_CONTENT_TYPE_ID}" | tail -n 1 | jq .
 
-curl -iv -X GET -H 'Content-Type: application/json' -H 'Accept: application/json' "${PESTO_API_BASE_URL}/pesto-content-type/uri/${GIT_SSH_URI_URL_ENCODED}" | tail -n 1 | jq .
+curl -iv -X GET -H 'Content-Type: application/json' -H 'Accept: application/json' "${PESTO_API_BASE_URL}/pesto-content-type/${PESTO_CONTENT_TYPE_ID}" | tail -n 1 | jq .
 
 # ---
 # Now we try and update the [name]
@@ -305,9 +285,9 @@ curl -iv -X GET -H 'Content-Type: application/json' -H 'Accept: application/json
 # Mongo Database
 # ---
 #
-curl -iv -X PUT -H 'Content-Type: application/json' -d "{\"name\" : \"I changed the name of the content type, using curl\"}" -H 'Accept: application/json' "${PESTO_API_BASE_URL}/pesto-content-type/${PESTO_PRJ_ID}" | tail -n 1 | jq .
+curl -iv -X PUT -H 'Content-Type: application/json' -d "{\"name\" : \"I changed the name of the content type, using curl\"}" -H 'Accept: application/json' "${PESTO_API_BASE_URL}/pesto-content-type/${PESTO_CONTENT_TYPE_ID}" | tail -n 1 | jq .
 
-curl -iv -X GET -H 'Content-Type: application/json' -H 'Accept: application/json' "${PESTO_API_BASE_URL}/pesto-content-type/uri/${GIT_SSH_URI_URL_ENCODED}" | tail -n 1 | jq .
+curl -iv -X GET -H 'Content-Type: application/json' -H 'Accept: application/json' "${PESTO_API_BASE_URL}/pesto-content-type/${PESTO_CONTENT_TYPE_ID}" | tail -n 1 | jq .
 
 
 ```
@@ -320,92 +300,11 @@ export PESTO_API_HOST=api.pesto.io
 export PESTO_API_PORT=3000
 export PESTO_API_BASE_URL="${PESTO_API_HTTP_SCHEME}://${PESTO_API_HOST}:${PESTO_API_PORT}"
 
-export PESTO_PRJ_ID='65a437c050b3df1a9861e3a8'
-curl -iv -X DELETE -H 'Content-Type: application/json' -H 'Accept: application/json' "${PESTO_API_BASE_URL}/pesto-content-type/${PESTO_PRJ_ID}" | tail -n 1 | jq .
+export PESTO_CONTENT_TYPE_ID='65a437c050b3df1a9861e3a8'
+curl -iv -X DELETE -H 'Content-Type: application/json' -H 'Accept: application/json' "${PESTO_API_BASE_URL}/pesto-content-type/${PESTO_CONTENT_TYPE_ID}" | tail -n 1 | jq .
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#### Get all  _`Content Type`s_ by Project `ID`
 
 ```bash
 export PESTO_API_HTTP_SCHEME="http" # or "https"
@@ -420,10 +319,7 @@ export PESTO_API_BASE_URL="${PESTO_API_HTTP_SCHEME}://${PESTO_API_HOST}:${PESTO_
 # [Pesto Content Types] for a given [ContentType ID]:
 # ---
 #
-export PESTO_PRJ_ID="rubbishprjid3modified"
-curl -iv -X GET -H 'Accept: application/json' "${PESTO_API_BASE_URL}/pesto-content-type/project/${PESTO_PRJ_ID}" | tail -n 1 | jq .
-
-export PESTO_PRJ_ID="rubbishprjid97modified"
+export PESTO_PRJ_ID="65ad3ef7cfe51bc67ad3adf7"
 curl -iv -X GET -H 'Accept: application/json' "${PESTO_API_BASE_URL}/pesto-content-type/project/${PESTO_PRJ_ID}" | tail -n 1 | jq .
 
 export PESTO_PRJ_ID="652180e1b90cf34b86350aa9"
