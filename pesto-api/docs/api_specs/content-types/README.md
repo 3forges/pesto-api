@@ -81,22 +81,20 @@ _Query Variables_ :
 #### Update a _`Content Type`_ by ID Mutation (with variables)
 
 ```GraphQL
-mutation updateContentTypeByID($id: ID!, $name: String!, $git_ssh_uri: String!, $description: String!) {
+mutation updateContentTypeByID($id: ID!, $name: String!, $project_id: String!, $frontmatter_definition: ID!, $description: String!) {
 # mutation updateContentTypeName($id: ID!, $name: String!) {
-  updatePestoContentType(projectUpdate: {
+  updatePestoContentType(contentTypeUpdate: {
     _id: $id,
-    name: $name,
-    # description: "bon on va voir",
-    # git_ssh_uri: "git@github.com:3forges/batiment.git",
-    description: $description,
-    git_ssh_uri: $git_ssh_uri,
-    git_service_provider: "github"
+    name: $name
+    project_id: $project_id
+    frontmatter_definition: $frontmatter_definition
+    description: $description
   }) {
     _id: _id
     name: name
-    git_ssh_uri: git_ssh_uri
+    project_id: project_id
+    frontmatter_definition: frontmatter_definition
     description: description
-    git_service_provider: git_service_provider
   }
 }
 ```
@@ -106,9 +104,10 @@ _Mutation Variables_ :
 ```GraphQL
 {
   "id": "65a279c5b51cdf03d306bf78",
-  "name": "Je change le champs 'name' du projet  par mutation GraphQL",
-  "git_ssh_uri": "git@github.com:3forges/nouvelle_valeur_de_git_ssh_uri.git",
-  "description": "J'ai modifié la description de ce projet par le browser GraphQL Apollo"
+  "name": "Je change le champs 'name' du Pesto Content Type  par mutation GraphQL",
+  "project_id": "deadbeefdeadbeefdeadbeefdeadbeef",
+  "frontmatter_definition": "J'ai modifié le frontmatter de ce Pesto Content Type par le browser GraphQL Apollo"
+  "description": "J'ai modifié la description de ce Pesto Content Type par le browser GraphQL Apollo"
 }
 ```
 

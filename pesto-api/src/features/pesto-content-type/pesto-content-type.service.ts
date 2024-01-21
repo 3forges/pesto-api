@@ -199,46 +199,75 @@ export class PestoContentTypeService {
     );
 
     if (didIFindOne) {
-      /**
-       * Then I update the database from the DTO:
-       * An HTTP response status code 406 is returned
-       * if the record does not exist in the database
-       */
-      /**/
-      const toReturn = await this.model
-        .findByIdAndUpdate(id, updatePestoContentTypeDto)
-        .exec();
-      console.info(
-        `PESTO-CONTENT-TYPE DATA SERVICE [AFTER SUCCESSFULLY]-[UPDATE BY ID] here is the Object returned by [Mongoose] 's [findByIdAndUpdate] : - [${JSON.stringify(
-          toReturn,
-          null,
-          4,
-        )}]`,
-      );
-      console.info(
-        `PESTO-CONTENT-TYPE DATA SERVICE [AFTER SUCCESSFULLY]-[UPDATE BY ID] here is the Object returned by Pesto API : - [${JSON.stringify(
-          {
-            _id: toReturn._id,
-            name: updatePestoContentTypeDto.name,
-            frontmatter_definition:
-              updatePestoContentTypeDto.frontmatter_definition,
-            project_id: updatePestoContentTypeDto.project_id,
-            createdAt: updatePestoContentTypeDto.createdAt,
-            description: updatePestoContentTypeDto.description,
-          },
-          null,
-          4,
-        )}]`,
-      );
-      return {
-        _id: toReturn._id,
-        name: updatePestoContentTypeDto.name,
-        frontmatter_definition:
-          updatePestoContentTypeDto.frontmatter_definition,
-        project_id: updatePestoContentTypeDto.project_id,
-        createdAt: updatePestoContentTypeDto.createdAt,
-        description: updatePestoContentTypeDto.description,
-      };
+      const didIFindOneProject = await this.projectsModel.findOne({
+        // $or: [{ git_ssh_uri: createPestoProjectDto.git_ssh_uri }, { description: products.description }],
+        $or: [
+          { _id: updatePestoContentTypeDto.project_id },
+          // { description: updatePestoProjectDto.description },
+        ],
+      });
+      if (!didIFindOneProject) {
+        const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [UPDATE] method - The [PestoContentType] was not updated. You are trying to update a Pesto Content Type in a project which does not exist anymore! The Pesto Content Type you provided has [project_id] = [${updatePestoContentTypeDto.project_id}] but no Pesto Project exist in the database with that ID! `;
+        // throw `${errMsg}`;
+        console.warn(`${errMsg}`);
+        throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
+      } else {
+        console.log(
+          `PESTO-CONTENT-TYPE DATA SERVICE [UPDATE] method - Updating the below Pesto Content Type :`,
+          didIFindOne,
+        );
+        console.log(
+          `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] method - Updating the Pesto Content Type for the below Pesto Project :`,
+          didIFindOneProject,
+        );
+        /**
+         * In the case the pesto content type does
+         * not already exist, AND the [project_id] exists
+         * in the database, then only we create it:
+         * No update is done through this method
+         */
+        // We do not generate a Pesto Content Type ID, because it is geenrated either by Mongoose on MongoDB
+        /**
+         * Then I update the database from the DTO:
+         * An HTTP response status code 406 is returned
+         * if the record does not exist in the database
+         */
+        /**/
+        const toReturn = await this.model
+          .findByIdAndUpdate(id, updatePestoContentTypeDto)
+          .exec();
+        console.info(
+          `PESTO-CONTENT-TYPE DATA SERVICE [AFTER SUCCESSFULLY]-[UPDATE BY ID] here is the Object returned by [Mongoose] 's [findByIdAndUpdate] : - [${JSON.stringify(
+            toReturn,
+            null,
+            4,
+          )}]`,
+        );
+        console.info(
+          `PESTO-CONTENT-TYPE DATA SERVICE [AFTER SUCCESSFULLY]-[UPDATE BY ID] here is the Object returned by Pesto API : - [${JSON.stringify(
+            {
+              _id: toReturn._id,
+              name: updatePestoContentTypeDto.name,
+              frontmatter_definition:
+                updatePestoContentTypeDto.frontmatter_definition,
+              project_id: updatePestoContentTypeDto.project_id,
+              createdAt: updatePestoContentTypeDto.createdAt,
+              description: updatePestoContentTypeDto.description,
+            },
+            null,
+            4,
+          )}]`,
+        );
+        return {
+          _id: toReturn._id,
+          name: updatePestoContentTypeDto.name,
+          frontmatter_definition:
+            updatePestoContentTypeDto.frontmatter_definition,
+          project_id: updatePestoContentTypeDto.project_id,
+          createdAt: updatePestoContentTypeDto.createdAt,
+          description: updatePestoContentTypeDto.description,
+        };
+      }
     } else {
       const errMsg = `DATA SERVICE [UPDATE BY ID] - No [PestoContentType] with [_id] = [${id}]  was found in the database: Cannot update non-existing record !`;
       // throw `${errMsg}`;
