@@ -19,6 +19,4 @@ echo "  env:"
 env
 echo "# --- # --- # --- # --- # --- # --- #"
 echo ""
-docker-compose down mongodb
-docker volume rm ${PESTO_DB_VOLUME} || true
-docker-compose up -d --force-recreate mongodb
+docker-compose down && $(docker volume rm ${PESTO_DB_VOLUME} || true) && docker-compose up -d --force-recreate mongodb
