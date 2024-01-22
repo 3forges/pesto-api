@@ -1,8 +1,8 @@
 # ---
 # 
-resource "graphql_mutation" "pesto_project_example3" {
+resource "graphql_mutation" "pesto_project_example3_kingkong" {
   mutation_variables = {
-    "name"                 = "project3 - That's a third Pesto project created with terraform"
+    "name"                 = "The King Kong - project3 - That's a third Pesto project created with terraform"
     "git_ssh_uri"          = "git@github.com:pesto/project3.git"
     "description"          = "Description of project3 - Et ceci est donc la description du troisième projet pesto créé avec terraform"
     "git_service_provider" = "gitAboo"

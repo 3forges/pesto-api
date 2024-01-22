@@ -13,6 +13,8 @@ Ok, now it all works, here is how to do it all:
 rm -f *.tfstate || true
 rm -f *.tfplan || true
 rm -f *.tf.plan || true
+rm -f .terraform.lock.hcl || true
+
 
 ```
 
@@ -22,7 +24,7 @@ rm -f *.tf.plan || true
 rm -f *.tfstate || true
 rm -f *.tfplan || true
 rm -f *.tf.plan || true
-
+rm -f .terraform.lock.hcl || true
 
 export TF_LOG=DEBUG
 
