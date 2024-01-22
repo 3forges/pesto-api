@@ -15,3 +15,7 @@
 .*.plan
 *.*.plan
 .*.*.plan
+
+*.tfstate
+*.tfplan
+*.tf.plan
