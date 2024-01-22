@@ -1,9 +1,0 @@
-query GetProjectByID($id: ID!) {
-  pestoProject(_id: $id) {
-    _id
-    name
-    description
-    createdAt
-    deletedAt
-  }
-}

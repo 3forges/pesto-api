@@ -21,9 +21,9 @@ resource "graphql_mutation" "pesto_project_example1" {
   mutation_variables = {
     # "id" = ""
     # "id"          = "655aa15ab32ce40270e9a306" # "${var.pesto_project_id}"
-    "name"        = "modifié OUIIIII Exemple VRAIMENT modifié avec la mutation [UpdateProject] de Projet Pesto numéro 2 : nom donné par terraform"
-    "git_ssh_uri" = "git@github.com:pesto/godzillaRocks-modifiée.git"
-    "description" = "modifié - Description de l'exemple de Projet Pesto numéro 1: définie par terraform aussi"
+    "name"                 = "modifié OUIIIII Exemple VRAIMENT modifié avec la mutation [UpdateProject] de Projet Pesto numéro 2 : nom donné par terraform"
+    "git_ssh_uri"          = "git@github.com:pesto/godzillaRocks-modifiée.git"
+    "description"          = "modifié - Description de l'exemple de Projet Pesto numéro 1: définie par terraform aussi"
     "git_service_provider" = "giteaKorea"
     # "phone" = "\"1234567890\"" // Interpret as string
     # "age" = "25" // This is interpreted as an integer
@@ -136,9 +136,9 @@ resource "graphql_mutation" "pesto_project_example2" {
   mutation_variables = {
     # "id" = ""
     # "id"          = "655aa15ab32ce40270e9a306" # "${var.pesto_project_id}"
-    "name"        = "modifié - That's a second Pesto project created with terraform"
-    "git_ssh_uri" = "git@github.com:pesto/butMothraRules-modifiiiieed.git"
-    "description" = "modifié - Et ceci est donc la description du second projet pesto créé avec terraform"
+    "name"                 = "modifié - That's a second Pesto project created with terraform"
+    "git_ssh_uri"          = "git@github.com:pesto/butMothraRules-modifiiiieed.git"
+    "description"          = "modifié - Et ceci est donc la description du second projet pesto créé avec terraform"
     "git_service_provider" = "gitchiRocks"
     # "phone" = "\"1234567890\"" // Interpret as string
     # "age" = "25" // This is interpreted as an integer

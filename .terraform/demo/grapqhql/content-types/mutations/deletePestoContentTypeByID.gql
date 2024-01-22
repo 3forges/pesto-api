@@ -1,0 +1,12 @@
+mutation DeleteContentTypeByID($id: ID!) {
+  deletePestoContentType(_id: $id) {
+    message
+    deletedContentType {
+      _id
+      name
+      project_id
+      frontmatter_definition
+      description
+    }
+  }
+}

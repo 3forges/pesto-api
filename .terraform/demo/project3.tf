@@ -2,9 +2,9 @@
 # 
 resource "graphql_mutation" "pesto_project_example3" {
   mutation_variables = {
-    "name"        = "project3 - That's a third Pesto project created with terraform"
-    "git_ssh_uri" = "git@github.com:pesto/project3.git"
-    "description" = "Description of project3 - Et ceci est donc la description du troisième projet pesto créé avec terraform"
+    "name"                 = "project3 - That's a third Pesto project created with terraform"
+    "git_ssh_uri"          = "git@github.com:pesto/project3.git"
+    "description"          = "Description of project3 - Et ceci est donc la description du troisième projet pesto créé avec terraform"
     "git_service_provider" = "gitAboo"
   }
   compute_from_create = true

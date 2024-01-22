@@ -12,6 +12,7 @@ Ok, now it all works, here is how to do it all:
 ```bash
 rm -f *.tfstate || true
 rm -f *.tfplan || true
+rm -f *.tf.plan || true
 
 ```
 
@@ -20,6 +21,8 @@ rm -f *.tfplan || true
 ```bash
 rm -f *.tfstate || true
 rm -f *.tfplan || true
+rm -f *.tf.plan || true
+
 
 export TF_LOG=DEBUG
 

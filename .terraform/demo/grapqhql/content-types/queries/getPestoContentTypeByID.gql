@@ -1,0 +1,8 @@
+query GetContentTypeByID($id: ID!) {
+  pestoContentType(_id: $id) {
+    name
+    project_id
+    frontmatter_definition
+    description
+  }
+}

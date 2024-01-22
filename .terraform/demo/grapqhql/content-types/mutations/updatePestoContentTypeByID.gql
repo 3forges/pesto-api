@@ -1,0 +1,16 @@
+mutation updateContentTypeByID($id: ID!, $project_id: ID!, $name: String!, $frontmatter_definition: String!, $description: String!) {
+# mutation updateContentTypeName($id: ID!, $name: String!) {
+  updatePestoContentType(contentTypeUpdate: {
+    _id: $id,
+    project_id: $project_id,
+    name: $name,
+    frontmatter_definition: $frontmatter_definition,
+    description: $description
+  }) {
+    _id
+    name
+    project_id
+    frontmatter_definition
+    description
+  }
+}
