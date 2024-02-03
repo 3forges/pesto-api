@@ -1,0 +1,49 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+directive @upper on FIELD_DEFINITION
+
+type PestoContentType {
+  _id: ID!
+  title: String!
+  project_id: ID!
+  frontmatter_schema: String!
+  frontmatter_format: String!
+  description: String!
+  identifier: String!
+  completedAt: DateTime!
+  createdAt: DateTime!
+  deletedAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type PestoProject {
+  _id: ID
+  name: String
+  git_ssh_uri: String
+  git_service_provider: String
+  description: String
+  completedAt: DateTime
+  createdAt: DateTime
+  deletedAt: DateTime
+}
+
+type PestoContent {
+  _id: ID!
+  name: String!
+  project_id: ID!
+  content_type_id: ID!
+  text: String!
+  description: String!
+  createdAt: DateTime!
+  deletedAt: DateTime!
+}
+
+type Query {
+  pestoProject(_id: ID!): PestoContent!
+}

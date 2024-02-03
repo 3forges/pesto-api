@@ -1,0 +1,88 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+directive @upper on FIELD_DEFINITION
+
+type PestoContentType {
+  _id: ID
+  project_id: ID!
+  name: String
+  frontmatter_definition: String
+  description: String
+  createdAt: DateTime
+  deletedAt: DateTime
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type PestoProject {
+  _id: ID
+  name: String
+  git_ssh_uri: String
+  git_service_provider: String
+  description: String
+  completedAt: DateTime
+  createdAt: DateTime
+  deletedAt: DateTime
+}
+
+type PestoContentTypeDeletionResponse {
+  deletedContentType: PestoContentType
+  message: String
+}
+
+type PestoProjectDeletionResponse {
+  deletedProject: PestoProject
+  message: String
+}
+
+type Query {
+  pestoContentType(_id: ID!): PestoContentType
+  getAllPestoContentTypes: [PestoContentType!]!
+  getAllPestoContentTypesByProjectID(project_id: ID!): [PestoContentType!]!
+  pestoProject(_id: ID!): PestoProject
+  getAllPestoProjects: [PestoProject!]!
+}
+
+type Mutation {
+  deletePestoContentType(_id: ID!): PestoContentTypeDeletionResponse
+  updatePestoContentType(contentTypeUpdate: UpdatePestoContentTypePayload!): PestoContentType!
+  createPestoContentType(contentTypeToCreate: CreatePestoContentTypePayload!): PestoContentType!
+  deletePestoProject(_id: ID!): PestoProjectDeletionResponse
+  updatePestoProject(projectUpdate: UpdatePestoProjectPayload!): PestoProject!
+  createPestoProject(projectToCreate: CreatePestoProjectPayload!): PestoProject!
+}
+
+input UpdatePestoContentTypePayload {
+  _id: ID!
+  project_id: ID!
+  name: String!
+  frontmatter_definition: String!
+  description: String!
+}
+
+input CreatePestoContentTypePayload {
+  project_id: ID!
+  name: String!
+  frontmatter_definition: String!
+  description: String!
+}
+
+input UpdatePestoProjectPayload {
+  _id: ID!
+  name: String!
+  description: String!
+  git_ssh_uri: String!
+  git_service_provider: String!
+}
+
+input CreatePestoProjectPayload {
+  name: String!
+  description: String!
+  git_ssh_uri: String!
+  git_service_provider: String!
+}

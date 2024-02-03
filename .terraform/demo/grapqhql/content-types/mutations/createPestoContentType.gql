@@ -1,0 +1,14 @@
+mutation createContentType($name: String!, $project_id: ID!, $frontmatter_definition: String!, $description: String!) {
+  createPestoContentType(contentTypeToCreate: {
+    name: $name,
+    project_id: $project_id,
+    frontmatter_definition: $frontmatter_definition,
+    description: $description
+  }){
+    _id: _id
+    name: name
+    project_id: project_id
+    frontmatter_definition: frontmatter_definition
+    description: description
+  }
+}

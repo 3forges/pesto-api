@@ -1,0 +1,82 @@
+version: '3.7'
+# - https://www.mongodb.com/compatibility/docker
+services:
+#   mymongohealthcheck:
+#     image: mongodb/mongodb-community-server:6.0-ubi8
+#     env_file: .env
+#     environment:
+#       # - CONN_STR=mongodb://user:pass@mongodb
+#       - CONN_STR=mongodb://${PESTO_MONGO_USER}:${PESTO_MONGO_SECRET}@mongo.pesto.io:27017/
+#     command: '/bin/bash -c "sleep 5; mongosh $$CONN_STR --eval \"show dbs;\""'
+#     depends_on:
+#       - mongodb
+#     networks:
+#       - pesto_net
+
+  pesto_dev:
+    build:
+      context: ./pesto-api/
+      dockerfile: dev.Dockerfile
+      # dockerfile: prod.Dockerfile
+      args:
+        PESTO_HOME: /usr/src/ops
+        PNPM_VERSION: 8.7.4
+    volumes:
+      - $PWD:/usr/src/app:ro
+    restart: always
+    stdin_open: true 
+    tty: true
+    environment:
+      - PESTO_HOME=/usr/src/ops
+    ports:
+        - '0.0.0.0:3000:3000'
+        - '0.0.0.0:9229:9229'
+    networks:
+      pesto_net:
+        aliases:
+          - api.pesto.io
+          - pesto.io
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongodb/mongodb-community-server:6.0-ubi8
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=pesto
+      - MONGO_INITDB_ROOT_PASSWORD=pesto
+    ports:
+      - '0.0.0.0:27017:27017'
+      # -
+      #  in /C/Windows/System32/drivers/etc/hosts
+      # -
+      # 192.168.218.202        mongo.pesto.io
+      # -
+      #  Then with Mongoose, use the MongoDBURL WITHOUT the 
+      #  Root username and password : 
+      #      mongodb://mongo.pesto.io:27017/
+      # --- 
+    volumes:
+      - pesto_data:/data/db
+    networks:
+      pesto_net:
+        aliases:
+          - mongo.pesto.io
+          - db.pesto.io
+
+volumes:
+  pesto_data:
+
+networks:
+  pesto_net:
+    driver: bridge
+
+
+
+
+
+
+
+
+
+# ------------------
