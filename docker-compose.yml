@@ -40,7 +40,8 @@ services:
       - mongodb
 
   mongodb:
-    image: mongodb/mongodb-community-server:6.0-ubi8
+    # image: mongodb/mongodb-community-server:6.0-ubi8
+    image: mongodb/mongodb-community-server:6.0
     restart: always
     environment:
       - MONGODB_INITDB_ROOT_USERNAME=pesto
