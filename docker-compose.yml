@@ -41,6 +41,7 @@ services:
 
   mongodb:
     # image: mongodb/mongodb-community-server:6.0-ubi8
+    # note: upgradin to latest tag of image fixed [Errno 13] Permission denied: '/tmp/docker-entrypoint-temp-config.json' issue 
     image: mongodb/mongodb-community-server
     restart: always
     environment:
