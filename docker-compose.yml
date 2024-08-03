@@ -45,7 +45,7 @@ services:
     restart: always
     environment:
       - MONGODB_INITDB_ROOT_USERNAME=pesto
-      - MONGODB_INITDB_ROOT_USERNAME=pesto
+      - MONGODB_INITDB_ROOT_PASSWORD=pesto
     ports:
       - '0.0.0.0:27017:27017'
       # -
