@@ -43,8 +43,8 @@ services:
     image: mongodb/mongodb-community-server:6.0-ubi8
     restart: always
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=pesto
-      - MONGO_INITDB_ROOT_PASSWORD=pesto
+      - MONGODB_INITDB_ROOT_USERNAME=pesto
+      - MONGODB_INITDB_ROOT_USERNAME=pesto
     ports:
       - '0.0.0.0:27017:27017'
       # -

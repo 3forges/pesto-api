@@ -23,10 +23,11 @@ To run `Pesto API`, with the `Pesto UI`, Locally, you need:
 
 # --- 
 # IP address of the VM on which the Mongo DB runs
-export IPADDR_OF_YOUR_VM="192.168.37.202"
+export IPADDR_OF_YOUR_VM="192.168.59.202"
+
 # --- 
 # IP address of the Machine on which the UI and API run
-export IPADDR_OF_YOUR_HWMACHINE="192.168.37.236"
+export IPADDR_OF_YOUR_HWMACHINE="192.168.59.236"
 # ---
 # Add the host for the machine hosting your MongoDB
 export PESTO_MONGO_HOST=mongo.pesto.io
@@ -46,8 +47,8 @@ echo "${IPADDR_OF_YOUR_HWMACHINE}      ${PESTO_API_FQDN}" | tee -a /c/Windows/Sy
 # -- UPDATING IP ADDRESS OF THE VM WHERE MONGO DB RUNS
 # --- # --- # --- # --- 
 # -- 
-export OLD_IPADDR_OF_YOUR_VM="192.168.174.202"
-export IPADDR_OF_YOUR_VM="192.168.37.202"
+export OLD_IPADDR_OF_YOUR_VM="192.168.232.202"
+export IPADDR_OF_YOUR_VM="192.168.196.202"
 sed -i "s#${OLD_IPADDR_OF_YOUR_VM}#${IPADDR_OF_YOUR_VM}#g" /c/Windows/System32/drivers/etc/hosts
 
 # --- # --- # --- # --- # --- # --- # --- # --- # --- #
@@ -56,8 +57,8 @@ sed -i "s#${OLD_IPADDR_OF_YOUR_VM}#${IPADDR_OF_YOUR_VM}#g" /c/Windows/System32/d
 # - WHERE I HAVE MY [VSCODE] and I 
 # - run locally the code in dev mode : 
 # - Pesto API and the frontend
-export OLD_IPADDR_OF_YOUR_HWMACHINE="192.168.225.236"
-export IPADDR_OF_YOUR_HWMACHINE="192.168.37.236"
+export OLD_IPADDR_OF_YOUR_HWMACHINE="192.168.37.236"
+export IPADDR_OF_YOUR_HWMACHINE="192.168.59.236"
 sed -i "s#${OLD_IPADDR_OF_YOUR_HWMACHINE}#${IPADDR_OF_YOUR_HWMACHINE}#g" /c/Windows/System32/drivers/etc/hosts
 
 ```
@@ -92,8 +93,8 @@ echo "${IPADDR_OF_YOUR_HWMACHINE}      ${PESTO_API_FQDN}" | sudo tee -a /etc/hos
 # --- # --- # --- # --- 
 # -- 
 export OLD_IPADDR_OF_YOUR_VM="192.168.129.202"
-export IPADDR_OF_YOUR_VM="192.168.37.202"
-sed -i "s#${OLD_IPADDR_OF_YOUR_VM}#${IPADDR_OF_YOUR_VM}#g" /etc/hosts
+export IPADDR_OF_YOUR_VM="192.168.59.202"
+sudo sed -i "s#${OLD_IPADDR_OF_YOUR_VM}#${IPADDR_OF_YOUR_VM}#g" /etc/hosts
 
 # --- # --- # --- # --- # --- # --- # --- # --- # --- #
 # -- UPDATING IP ADDRESS OF THE HARDWARE MACHINE 
@@ -101,9 +102,9 @@ sed -i "s#${OLD_IPADDR_OF_YOUR_VM}#${IPADDR_OF_YOUR_VM}#g" /etc/hosts
 # - WHERE I HAVE MY [VSCODE] and I 
 # - run locally the code in dev mode : 
 # - Pesto API and the frontend
-export OLD_IPADDR_OF_YOUR_HWMACHINE="192.168.225.202"
-export IPADDR_OF_YOUR_HWMACHINE="192.168.37.236"
-sed -i "s#${OLD_IPADDR_OF_YOUR_HWMACHINE}#${IPADDR_OF_YOUR_HWMACHINE}#g" /etc/hosts
+export OLD_IPADDR_OF_YOUR_HWMACHINE="192.168.37.236"
+export IPADDR_OF_YOUR_HWMACHINE="192.168.59.236"
+sudo sed -i "s#${OLD_IPADDR_OF_YOUR_HWMACHINE}#${IPADDR_OF_YOUR_HWMACHINE}#g" /etc/hosts
 
 ```
 
