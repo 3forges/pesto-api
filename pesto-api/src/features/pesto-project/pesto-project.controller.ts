@@ -15,9 +15,11 @@ import {
 import { CreatePestoProjectDto } from './dto/create-pesto-project.dto';
 import { UpdatePestoProjectDto } from './dto/update-pesto-project.dto';
 import {
+  PestoProjectCreationResponse,
   PestoProjectDeletionResponse,
   PestoProjectService,
 } from './pesto-project.service';
+// import { PestoProject } from './schemas/PestoProject.schema';
 //import { Request } from 'express';
 // import { FastifyRequest } from 'fastify';
 
@@ -27,6 +29,7 @@ export class PestoProjectController {
 
   @Get()
   async index() {
+    console.log(` >>>>>>>>>>>>>>>> YOU JUST FETCHED ALL PESTO PROJECTS: `);
     return await this.service.findAll();
   }
 
@@ -59,9 +62,12 @@ export class PestoProjectController {
   */
 
   @Post()
-  @HttpCode(204)
+  // @HttpCode(204) // IF HTTP code is 204, NestJS will not return the created object!, This makes sense due to semantics of HTTP 204: no content
+  @HttpCode(201)
   // async create(@Req() req: RawBodyRequest<FastifyRequest>) {
-  async create(@Body() createPestoProject: CreatePestoProjectDto) {
+  async create(
+    @Body() createPestoProject: CreatePestoProjectDto,
+  ): Promise<PestoProjectCreationResponse> {
     const jsonPayload = createPestoProject; // returns a `Buffer`.
     console.log(` >>>>>>>>>>>>>>>> DEBUT JSON RECU: `);
     console.log(jsonPayload);
@@ -71,7 +77,13 @@ export class PestoProjectController {
     console.log(createPestoProject.git_service_provider);
     console.log(createPestoProject.git_ssh_uri);
 
-    return await this.service.create(createPestoProject);
+    const finallyReturned = await this.service.create(createPestoProject);
+    console.log(
+      ` PESTO PROJECT REST CONTROLLER - CREATE -  >>>>>>>>>>>>>>>> finally returned Object: `,
+    );
+    console.log(finallyReturned);
+    console.log(` >>>>>>>>>>>>>>>> `);
+    return finallyReturned;
   }
 
   /**

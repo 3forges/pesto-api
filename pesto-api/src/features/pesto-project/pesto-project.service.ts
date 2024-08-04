@@ -105,7 +105,7 @@ export class PestoProjectService {
   }
   async create(
     createPestoProjectDto: CreatePestoProjectDto,
-  ): Promise<PestoProject> {
+  ): Promise<PestoProjectCreationResponse> {
     const didIFindOne = await this.model.findOne({
       // $or: [{ git_ssh_uri: createPestoProjectDto.git_ssh_uri }, { description: products.description }],
       $or: [
@@ -141,11 +141,23 @@ export class PestoProjectService {
         createPestoProjectDto.project_id,
       );
       */
-      // return await new this.model(createPestoProjectDto).save();
-      return await new this.model({
+      const createdProject = await new this.model({
         ...createPestoProjectDto,
         createdAt: new Date(),
       }).save();
+      const toReturn: PestoProjectCreationResponse = {
+        _id: createdProject._id,
+        name: createdProject.name,
+        git_ssh_uri: createdProject.git_ssh_uri,
+        git_service_provider: createdProject.git_service_provider,
+        description: createdProject.description,
+      };
+      console.log(
+        `PESTO-PROJECT DATA SERVICE [CREATE] method - final returned Object is:`,
+        toReturn,
+      );
+      // return await new this.model(createPestoProjectDto).save();
+      return toReturn;
     }
   }
 
@@ -306,4 +318,33 @@ export class PestoProjectDeletionResponse {
   deletedProject: PestoProject;
   @Field({ nullable: true })
   message: string;
+}
+
+@ObjectType('PestoProjectCreationResponse')
+export class PestoProjectCreationResponse {
+  @Field({ nullable: false })
+  _id: string;
+
+  @Field({ nullable: true })
+  name: string;
+
+  @Field({ nullable: true })
+  git_ssh_uri: string;
+
+  @Field({ nullable: true })
+  git_service_provider?: string;
+
+  @Field({ nullable: true })
+  description?: string;
+
+  /*
+  @Field({ nullable: true })
+  completedAt?: Date;
+
+  @Field({ nullable: true })
+  createdAt: Date;
+
+  @Field({ nullable: true })
+  deletedAt?: Date;
+  */
 }

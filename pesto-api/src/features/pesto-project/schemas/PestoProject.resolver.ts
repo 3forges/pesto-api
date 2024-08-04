@@ -11,6 +11,7 @@ import {
 } from '@nestjs/graphql';
 import { PestoProject } from './PestoProject.schema';
 import {
+  PestoProjectCreationResponse,
   PestoProjectDeletionResponse,
   PestoProjectService,
 } from '../pesto-project.service';
@@ -91,7 +92,7 @@ export class PestoProjectsResolver {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  @Mutation((returns) => PestoProject)
+  @Mutation((returns) => PestoProjectCreationResponse)
   async createPestoProject(
     @Args('projectToCreate')
     projectToCreate: CreatePestoProjectPayload,

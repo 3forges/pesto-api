@@ -40,6 +40,14 @@ type PestoProjectDeletionResponse {
   message: String
 }
 
+type PestoProjectCreationResponse {
+  _id: String!
+  name: String
+  git_ssh_uri: String
+  git_service_provider: String
+  description: String
+}
+
 type Query {
   pestoContentType(_id: ID!): PestoContentType
   getAllPestoContentTypes: [PestoContentType!]!
@@ -54,7 +62,7 @@ type Mutation {
   createPestoContentType(contentTypeToCreate: CreatePestoContentTypePayload!): PestoContentType!
   deletePestoProject(_id: ID!): PestoProjectDeletionResponse
   updatePestoProject(projectUpdate: UpdatePestoProjectPayload!): PestoProject!
-  createPestoProject(projectToCreate: CreatePestoProjectPayload!): PestoProject!
+  createPestoProject(projectToCreate: CreatePestoProjectPayload!): PestoProjectCreationResponse!
 }
 
 input UpdatePestoContentTypePayload {

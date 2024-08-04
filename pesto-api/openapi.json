@@ -15,31 +15,16 @@
         "/pesto-content-type": {
             "get": {
                 "operationId": "PestoContentTypeController_index",
-                "summary": "Get all PestoContentTypes",
                 "parameters": [],
                 "responses": {
                     "200": {
-                        "description": "Returns all of the PestoContentType s ",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/PestoContentType"
-                                    }
-                                }
-                            }
-                        }
+                        "description": ""
                     }
-                },
-                "tags": [
-                    "PestoContentType"
-                ]
+                }
             },
             "post": {
                 "operationId": "PestoContentTypeController_create",
-                "summary": "",
-                "description": "Create a {PestoContentType} of a given {PestoProject}",
+                "parameters": [],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -50,21 +35,16 @@
                         }
                     }
                 },
-                "parameters": [],
                 "responses": {
                     "204": {
                         "description": ""
                     }
-                },
-                "tags": [
-                    "PestoContentType"
-                ]
+                }
             }
         },
         "/pesto-content-type/{id}": {
             "get": {
                 "operationId": "PestoContentTypeController_find",
-                "summary": "Get a PestoContentType by ID ([_id] in MongoDB)",
                 "parameters": [
                     {
                         "name": "id",
@@ -77,22 +57,9 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Returns ae [PestoContentType] from its ID ([_id] in MongoDB)",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/PestoContentType"
-                                    }
-                                }
-                            }
-                        }
+                        "description": ""
                     }
-                },
-                "tags": [
-                    "PestoContentType"
-                ]
+                }
             },
             "put": {
                 "operationId": "PestoContentTypeController_update",
@@ -120,10 +87,7 @@
                     "200": {
                         "description": ""
                     }
-                },
-                "tags": [
-                    "PestoContentType"
-                ]
+                }
             },
             "delete": {
                 "operationId": "PestoContentTypeController_delete",
@@ -141,21 +105,32 @@
                     "200": {
                         "description": ""
                     }
-                },
-                "tags": [
-                    "PestoContentType"
-                ]
+                }
+            }
+        },
+        "/pesto-content-type/name/{name}": {
+            "get": {
+                "operationId": "PestoContentTypeController_findByName",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
             }
         },
         "/pesto-content-type/project/{project_id}": {
             "get": {
-                "operationId": "findByProject",
-                "summary": "",
-                "description": "Get all PestoContentType of a given PestoProject",
-                "requestBody": {
-                    "required": false,
-                    "content": {}
-                },
+                "operationId": "PestoContentTypeController_findByProjectID",
                 "parameters": [
                     {
                         "name": "project_id",
@@ -170,10 +145,7 @@
                     "200": {
                         "description": ""
                     }
-                },
-                "tags": [
-                    "PestoContentType"
-                ]
+                }
             }
         },
         "/pesto-project": {
@@ -311,122 +283,6 @@
                     }
                 }
             }
-        },
-        "/pesto-content": {
-            "get": {
-                "operationId": "PestoContentController_index",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": ""
-                    }
-                }
-            },
-            "post": {
-                "operationId": "PestoContentController_create",
-                "parameters": [],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/CreatePestoContentDto"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "204": {
-                        "description": ""
-                    }
-                }
-            }
-        },
-        "/pesto-content/{id}": {
-            "get": {
-                "operationId": "PestoContentController_find",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "required": true,
-                        "in": "path",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": ""
-                    }
-                }
-            },
-            "put": {
-                "operationId": "PestoContentController_update",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "required": true,
-                        "in": "path",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UpdatePestoContentDto"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": ""
-                    }
-                }
-            },
-            "delete": {
-                "operationId": "PestoContentController_delete",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "required": true,
-                        "in": "path",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": ""
-                    }
-                }
-            }
-        },
-        "/pesto-content/project/{project_id}": {
-            "get": {
-                "operationId": "PestoContentController_findByProject",
-                "parameters": [
-                    {
-                        "name": "project_id",
-                        "required": true,
-                        "in": "path",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": ""
-                    }
-                }
-            }
         }
     },
     "info": {
@@ -448,44 +304,6 @@
     "servers": [],
     "components": {
         "schemas": {
-            "FRONTMATTER_FORMAT": {
-                "type": "string",
-                "enum": [
-                    "JSON",
-                    "YAML"
-                ]
-            },
-            "PestoContentType": {
-                "type": "object",
-                "properties": {
-                    "frontmatter_schema": {
-                        "type": "function",
-                        "description": "The schema of the frontmatter, specified with an example (stringified) JSON, will be converted to a JSON Schema by the [quicktypes] framework",
-                        "example": "{ \"prix\" 45, devise: \"eur\", tailles_dispos: [{ \"xs\": \"Extra-small\", \"s\": \"small\", \"M\": \"medium\", \"L\": \"Large\", \"XL\": \"Extra-Large\", \"XXL\": \"Extra-Extra-Large\"  }] }"
-                    },
-                    "frontmatter_format": {
-                        "description": "The format of the frontmatter, either JSON, or YAML, for the PestoContentType",
-                        "example": "YAML",
-                        "$ref": "#/components/schemas/FRONTMATTER_FORMAT"
-                    },
-                    "description": {
-                        "type": "function",
-                        "description": "The description of this PestoContentType",
-                        "example": "This Content Type represents a pair of shoe, with its size, its color, its price, the trademark, the model."
-                    },
-                    "identifier": {
-                        "type": "function",
-                        "description": "The <code>identifier</code> to use as value of 'type: <identifier>' in the frontmatter of a markdown",
-                        "example": "trousers"
-                    }
-                },
-                "required": [
-                    "frontmatter_schema",
-                    "frontmatter_format",
-                    "description",
-                    "identifier"
-                ]
-            },
             "CreatePestoContentTypeDto": {
                 "type": "object",
                 "properties": {}
@@ -499,14 +317,6 @@
                 "properties": {}
             },
             "UpdatePestoProjectDto": {
-                "type": "object",
-                "properties": {}
-            },
-            "CreatePestoContentDto": {
-                "type": "object",
-                "properties": {}
-            },
-            "UpdatePestoContentDto": {
                 "type": "object",
                 "properties": {}
             }
