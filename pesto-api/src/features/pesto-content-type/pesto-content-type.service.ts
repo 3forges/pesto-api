@@ -73,6 +73,11 @@ export class PestoContentTypeService {
       return didIFindOne;
     }
   }
+  /**
+   * returns all content types which have a given [project_id] equal to {@provided_project_id }
+   * @param provided_project_id Id of the project for which you want to find content types
+   * @returns Array of all the content types which have a given [project_id] equal to {@provided_project_id }
+   */
   async findAllByProjectID(
     provided_project_id: string,
   ): Promise<PestoContentType[]> {
@@ -175,7 +180,7 @@ export class PestoContentTypeService {
     updatePestoContentTypeDto: UpdatePestoContentTypeDto,
   ): Promise<PestoContentType> {
     if (id == ``) {
-      const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [GET PestoContentType BY ID] method - It is impossible to update any [PestoContentType] with an empty string as PROJECT ID, the provided PROJECT ID is the empty string: /pesto-content-type/:id = [${id}]`;
+      const errMsg = `PESTO-CONTENT-TYPE DATA SERVICE [UPDATE PestoContentType BY ID] method - It is impossible to update any [PestoContentType] with an empty string as CONTENT TYPE ID, the provided CONTENT TYPE ID is the empty string: /pesto-content-type/:id = [${id}]`;
       // throw `${errMsg}`;
       console.warn(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
@@ -286,7 +291,7 @@ export class PestoContentTypeService {
     }
     return {
       deletedContentType: await this.model.findByIdAndDelete(id).exec(),
-      message: `Project successfully deleted`,
+      message: `Content Type successfully deleted`,
     };
   }
 }

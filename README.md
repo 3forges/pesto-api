@@ -47,8 +47,8 @@ echo "${IPADDR_OF_YOUR_HWMACHINE}      ${PESTO_API_FQDN}" | tee -a /c/Windows/Sy
 # -- UPDATING IP ADDRESS OF THE VM WHERE MONGO DB RUNS
 # --- # --- # --- # --- 
 # -- 
-export OLD_IPADDR_OF_YOUR_VM="192.168.232.202"
-export IPADDR_OF_YOUR_VM="192.168.196.202"
+export OLD_IPADDR_OF_YOUR_VM="192.168.45.202"
+export IPADDR_OF_YOUR_VM="192.168.247.202"
 sed -i "s#${OLD_IPADDR_OF_YOUR_VM}#${IPADDR_OF_YOUR_VM}#g" /c/Windows/System32/drivers/etc/hosts
 
 # --- # --- # --- # --- # --- # --- # --- # --- # --- #
@@ -57,8 +57,8 @@ sed -i "s#${OLD_IPADDR_OF_YOUR_VM}#${IPADDR_OF_YOUR_VM}#g" /c/Windows/System32/d
 # - WHERE I HAVE MY [VSCODE] and I 
 # - run locally the code in dev mode : 
 # - Pesto API and the frontend
-export OLD_IPADDR_OF_YOUR_HWMACHINE="192.168.227.236"
-export IPADDR_OF_YOUR_HWMACHINE="192.168.196.236"
+export OLD_IPADDR_OF_YOUR_HWMACHINE="192.168.45.237"
+export IPADDR_OF_YOUR_HWMACHINE="192.168.247.236"
 sed -i "s#${OLD_IPADDR_OF_YOUR_HWMACHINE}#${IPADDR_OF_YOUR_HWMACHINE}#g" /c/Windows/System32/drivers/etc/hosts
 
 ```
@@ -92,8 +92,8 @@ echo "${IPADDR_OF_YOUR_HWMACHINE}      ${PESTO_API_FQDN}" | sudo tee -a /etc/hos
 # -- UPDATING IP ADDRESS OF THE VM WHERE MONGO DB RUNS
 # --- # --- # --- # --- 
 # -- 
-export OLD_IPADDR_OF_YOUR_VM="192.168.129.202"
-export IPADDR_OF_YOUR_VM="192.168.59.202"
+export OLD_IPADDR_OF_YOUR_VM="192.168.59.202"
+export IPADDR_OF_YOUR_VM="192.168.247.202"
 sudo sed -i "s#${OLD_IPADDR_OF_YOUR_VM}#${IPADDR_OF_YOUR_VM}#g" /etc/hosts
 
 # --- # --- # --- # --- # --- # --- # --- # --- # --- #

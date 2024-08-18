@@ -35,6 +35,22 @@ type PestoContentTypeDeletionResponse {
   message: String
 }
 
+type PestoContent {
+  _id: ID
+  project_id: ID!
+  content_type_id: ID!
+  name: String
+  frontmatter: String
+  markdown_content: String
+  createdAt: DateTime
+  deletedAt: DateTime
+}
+
+type PestoContentDeletionResponse {
+  deletedContentType: PestoContent
+  message: String
+}
+
 type PestoProjectDeletionResponse {
   deletedProject: PestoProject
   message: String
@@ -49,9 +65,12 @@ type PestoProjectCreationResponse {
 }
 
 type Query {
-  pestoContentType(_id: ID!): PestoContentType
+  pestoContentType(_id: ID!): PestoContent
   getAllPestoContentTypes: [PestoContentType!]!
   getAllPestoContentTypesByProjectID(project_id: ID!): [PestoContentType!]!
+  getAllPestoContents: [PestoContent!]!
+  getAllPestoContentsByProjectID(project_id: ID!): [PestoContent!]!
+  getAllPestoContentsByContentTypeID(content_type_id: ID!): [PestoContent!]!
   pestoProject(_id: ID!): PestoProject
   getAllPestoProjects: [PestoProject!]!
 }
@@ -60,6 +79,9 @@ type Mutation {
   deletePestoContentType(_id: ID!): PestoContentTypeDeletionResponse
   updatePestoContentType(contentTypeUpdate: UpdatePestoContentTypePayload!): PestoContentType!
   createPestoContentType(contentTypeToCreate: CreatePestoContentTypePayload!): PestoContentType!
+  deletePestoContent(_id: ID!): PestoContentDeletionResponse
+  updatePestoContent(contentUpdate: UpdatePestoContentPayload!): PestoContent!
+  createPestoContent(contentToCreate: CreatePestoContentPayload!): PestoContent!
   deletePestoProject(_id: ID!): PestoProjectDeletionResponse
   updatePestoProject(projectUpdate: UpdatePestoProjectPayload!): PestoProject!
   createPestoProject(projectToCreate: CreatePestoProjectPayload!): PestoProjectCreationResponse!
@@ -78,6 +100,23 @@ input CreatePestoContentTypePayload {
   name: String!
   frontmatter_definition: String!
   description: String!
+}
+
+input UpdatePestoContentPayload {
+  _id: ID!
+  project_id: ID!
+  content_type_id: ID!
+  name: String!
+  frontmatter: String!
+  markdown_content: String!
+}
+
+input CreatePestoContentPayload {
+  project_id: ID!
+  content_type_id: ID!
+  name: String!
+  frontmatter: String!
+  markdown_content: String!
 }
 
 input UpdatePestoProjectPayload {

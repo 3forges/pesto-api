@@ -12,18 +12,18 @@ import {
   // RawBodyRequest,
   // Req,
 } from '@nestjs/common';
-import { CreatePestoContentTypeDto } from './dto/create-pesto-content-type.dto';
-import { UpdatePestoContentTypeDto } from './dto/update-pesto-content-type.dto';
+import { CreatePestoContentDto } from './dto/create-pesto-content.dto';
+import { UpdatePestoContentDto } from './dto/update-pesto-content.dto';
 import {
-  PestoContentTypeDeletionResponse,
-  PestoContentTypeService,
-} from './pesto-content-type.service';
+  PestoContentDeletionResponse,
+  PestoContentService,
+} from './pesto-content.service';
 //import { Request } from 'express';
 // import { FastifyRequest } from 'fastify';
 
-@Controller('pesto-content-type')
-export class PestoContentTypeController {
-  constructor(private readonly service: PestoContentTypeService) {}
+@Controller('pesto-content')
+export class PestoContentController {
+  constructor(private readonly service: PestoContentService) {}
 
   @Get()
   async index() {
@@ -44,15 +44,20 @@ export class PestoContentTypeController {
     return await this.service.findAllByProjectID(project_id);
   }
 
+  @Get('/content-type/:content_type_id')
+  async findByContentTypeID(@Param('content_type_id') content_type_id: string) {
+    return await this.service.findAllByContentTypeID(content_type_id);
+  }
+
   /**
   @Post()
   @HttpCode(204)
-  async create(@Body() createPestoContentType: CreatePestoContentTypeDto) {
+  async create(@Body() createPestoContent: CreatePestoContentDto) {
     console.log(
-      `Et voici le body reçu dans le [[/pesto-content-type] POST] : [${createPestoContentType}] `,
+      `Et voici le body reçu dans le [[/pesto-content-type] POST] : [${createPestoContent}] `,
     );
-    console.log(createPestoContentType);
-    return await this.service.create(createPestoContentType);
+    console.log(createPestoContent);
+    return await this.service.create(createPestoContent);
   }
 
 
@@ -61,23 +66,24 @@ export class PestoContentTypeController {
   @Post()
   @HttpCode(204)
   // async create(@Req() req: RawBodyRequest<FastifyRequest>) {
-  async create(@Body() createPestoContentType: CreatePestoContentTypeDto) {
-    const jsonPayload = createPestoContentType; // returns a `Buffer`.
+  async create(@Body() createPestoContent: CreatePestoContentDto) {
+    const jsonPayload = createPestoContent; // returns a `Buffer`.
     console.log(` >>>>>>>>>>>>>>>> DEBUT JSON RECU: `);
-    console.log(jsonPayload);
+    console.log(JSON.stringify(jsonPayload, null, 4));
     console.log(` >>>>>>>>>>>>>>>> FIN JSON PAYLOAD`);
-    console.log(createPestoContentType.project_id);
-    console.log(createPestoContentType.description);
-    console.log(createPestoContentType.name);
-    console.log(createPestoContentType.frontmatter_definition);
+    console.log(createPestoContent.project_id);
+    console.log(createPestoContent.content_type_id);
+    console.log(createPestoContent.markdown_content);
+    console.log(createPestoContent.name);
+    console.log(createPestoContent.frontmatter);
 
-    return await this.service.create(createPestoContentType);
+    return await this.service.create(createPestoContent);
   }
 
   /**
    * @param id l'Id du type de contenu à modifier
-   * @param updatePestoContentType la payload de la requête reçue
-   * @returns Un tableau formé du PestoContentType modifié
+   * @param updatePestoContent la payload de la requête reçue
+   * @returns Un tableau formé du PestoContent modifié
    *
    * @example
    *       export EG_PAYLOAD='{
@@ -99,19 +105,17 @@ export class PestoContentTypeController {
   @UsePipes(new ValidationPipe({ transform: true }))
   async update(
     @Param('id') id: string,
-    @Body() updatePestoContentType: UpdatePestoContentTypeDto,
+    @Body() updatePestoContent: UpdatePestoContentDto,
   ) {
     console.log(
-      ` PESTO CONTENT TYPE REST CONTROLLER - PUT - received payload :`,
-      updatePestoContentType,
+      ` PESTO CONTENT REST CONTROLLER - PUT - received payload :`,
+      updatePestoContent,
     );
-    return await this.service.update(id, updatePestoContentType);
+    return await this.service.update(id, updatePestoContent);
   }
 
   @Delete(':id')
-  async delete(
-    @Param('id') id: string,
-  ): Promise<PestoContentTypeDeletionResponse> {
+  async delete(@Param('id') id: string): Promise<PestoContentDeletionResponse> {
     console.log(`Ouais ok c'est le DELETE [${id}]`);
     return await this.service.delete(id);
   }
