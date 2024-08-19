@@ -1,4 +1,5 @@
-import { Logger, Module } from '@nestjs/common';
+import { Logger as NestJsLogger, Module } from '@nestjs/common';
+import { Logger } from 'winston';
 import { PestoContentController } from './pesto-content.controller';
 import { PestoContentService } from './pesto-content.service';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -27,6 +28,7 @@ import { WinstonModule } from 'nest-winston';
     // PestoContentListResolver,
     PestoContentTypeService,
     Logger,
+    NestJsLogger,
   ],
   imports: [
     // registers the controller into the module

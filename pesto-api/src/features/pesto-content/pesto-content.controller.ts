@@ -9,7 +9,7 @@ import {
   HttpCode,
   UsePipes,
   ValidationPipe,
-  // Logger,
+  Logger as NestJsLogger,
   Inject,
   // RawBodyRequest,
   // Req,
@@ -21,7 +21,7 @@ import {
   PestoContentDeletionResponse,
   PestoContentService,
 } from './pesto-content.service';
-import { PestoContentTypeService } from '../pesto-content-type/pesto-content-type.service';
+// import { PestoContentTypeService } from '../pesto-content-type/pesto-content-type.service';
 // import { PestoContentType } from '../pesto-content-type/schemas/PestoContentType.schema';
 //import { Request } from 'express';
 // import { FastifyRequest } from 'fastify';
@@ -29,10 +29,10 @@ import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 
 @Controller('pesto-content')
 export class PestoContentController {
-  //private readonly logger = new Logger(PestoContentController.name);
+  private readonly nestJslogger = new NestJsLogger(PestoContentController.name);
   constructor(
     private readonly service: PestoContentService,
-    private readonly contentTypeService: PestoContentTypeService,
+    // private readonly contentTypeService: PestoContentTypeService,
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
   ) {}
 
@@ -79,18 +79,18 @@ export class PestoContentController {
   */
 
   @Post()
-  @HttpCode(204)
+  @HttpCode(201)
   // async create(@Req() req: RawBodyRequest<FastifyRequest>) {
   async create(@Body() createPestoContent: CreatePestoContentDto) {
     const jsonPayload = createPestoContent; // returns a `Buffer`.
-    this.logger.verbose(` >>>>>>>>>>>>>>>> DEBUT JSON RECU: `);
-    this.logger.verbose(JSON.stringify(jsonPayload, null, 4));
-    this.logger.verbose(` >>>>>>>>>>>>>>>> FIN JSON PAYLOAD`);
-    this.logger.verbose(createPestoContent.project_id);
-    this.logger.verbose(createPestoContent.content_type_id);
-    this.logger.verbose(createPestoContent.markdown_content);
-    this.logger.verbose(createPestoContent.name);
-    this.logger.verbose(createPestoContent.frontmatter);
+    this.nestJslogger.verbose(` >>>>>>>>>>>>>>>> DEBUT JSON RECU: `);
+    this.nestJslogger.verbose(JSON.stringify(jsonPayload, null, 4));
+    this.nestJslogger.verbose(` >>>>>>>>>>>>>>>> FIN JSON PAYLOAD`);
+    this.nestJslogger.verbose(createPestoContent.project_id);
+    this.nestJslogger.verbose(createPestoContent.content_type_id);
+    this.nestJslogger.verbose(createPestoContent.markdown_content);
+    this.nestJslogger.verbose(createPestoContent.name);
+    this.nestJslogger.verbose(createPestoContent.frontmatter);
 
     return await this.service.create(createPestoContent);
   }
