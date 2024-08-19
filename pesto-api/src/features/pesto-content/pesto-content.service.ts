@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Logger, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreatePestoContentDto } from './dto/create-pesto-content.dto';
@@ -21,6 +21,7 @@ import {
 
 @Injectable()
 export class PestoContentService {
+  private readonly logger = new Logger(PestoContentService.name);
   constructor(
     @InjectModel(PestoContent.name)
     private readonly model: Model<PestoContentDocument>,
@@ -35,6 +36,8 @@ export class PestoContentService {
     private readonly model: Model<PestoContentDocument>,
   ) {} */
   async findAll(): Promise<PestoContent[]> {
+    // eslint-disable-next-line prettier/prettier
+    this.logger.verbose(`[PestoContent service] - [findAll()]`)
     return await this.model.find().exec();
   }
 
@@ -42,7 +45,7 @@ export class PestoContentService {
     if (id == ``) {
       const errMsg = `PESTO-CONTENT DATA SERVICE [GET PestoContent BY ID] method - It is impossible to find any [PestoContent] with an empty string as PROJECT ID, the provided PROJECT ID is the empty string: /pesto-content-type/:id = [${id}]`;
       // throw `${errMsg}`;
-      console.warn(`${errMsg}`);
+      this.logger.verbose(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
     }
     return await this.model.findById(id).exec();
@@ -52,7 +55,7 @@ export class PestoContentService {
     if (provided_name == ``) {
       const errMsg = `PESTO-CONTENT DATA SERVICE [GET PestoContent BY NAME] method - It is impossible to find any [PestoContent] with an empty string as PROJECT NAME, the provided PROJECT NAME is the empty string: /pesto-content-type/name/:name = [${provided_name}]`;
       // throw `${errMsg}`;
-      console.warn(`${errMsg}`);
+      this.logger.verbose(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
     }
     const didIFindOne = await this.model.findOne({
@@ -62,19 +65,19 @@ export class PestoContentService {
       ],
     });
 
-    console.log(
+    this.logger.verbose(
       `PESTO-CONTENT DATA SERVICE [GET PROJECT BY NAME] method - Found record [didIFindOne]:`,
       didIFindOne,
     );
     if (!didIFindOne) {
       const errMsg = `PESTO-CONTENT DATA SERVICE [GET PROJECT BY NAME] method - No [PestoContent] was found in Database, with name = [${provided_name}]`;
       // throw `${errMsg}`;
-      console.warn(`${errMsg}`);
+      this.logger.verbose(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_FOUND);
     } /*else if (didIFindOne.$isEmpty) {
       const errMsg = `PESTO-CONTENT DATA SERVICE [GET PROJECT BY NAME] method - No [PestoContent] was found in Database, with name = [${provided_name}]`;
       // throw `${errMsg}`;
-      console.warn(`${errMsg}`);
+      this.logger.verbose(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_FOUND);
     }*/ else {
       return didIFindOne;
@@ -91,7 +94,7 @@ export class PestoContentService {
     if (provided_project_id == ``) {
       const errMsg = `PESTO-CONTENT DATA SERVICE [GET PESTO-CONTENT BY PROJECT ID] method - It is impossible to find any [PestoContent] with an empty string as [Pesto Project ID], the provided PROJECT ID is the empty string: /pesto-content-type/project/:project_id = [${provided_project_id}]`;
       // throw `${errMsg}`;
-      console.warn(`${errMsg}`);
+      this.logger.verbose(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
     }
     const foundContentTypes = await this.model.find({
@@ -101,14 +104,12 @@ export class PestoContentService {
       ],
     });
 
-    console.log(
-      `PESTO-CONTENT DATA SERVICE [GET PESTO-CONTENT BY PROJECT ID] method - Found record [foundContentTypes]:`,
-      foundContentTypes,
-    );
+    // eslint-disable-next-line prettier/prettier
+    this.logger.verbose(`PESTO-CONTENT DATA SERVICE [GET PESTO-CONTENT BY PROJECT ID] method - Found record [foundContentTypes]: [${JSON.stringify(foundContentTypes, null, 4)}]`);
     if (!foundContentTypes) {
       const errMsg = `PESTO-CONTENT DATA SERVICE [GET PESTO-CONTENT BY PROJECT ID] method - No [PestoContent] was found in Database, with project_id = [${provided_project_id}]`;
       // throw `${errMsg}`;
-      console.warn(`${errMsg}`);
+      this.logger.verbose(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_FOUND);
     } else {
       return foundContentTypes;
@@ -125,7 +126,7 @@ export class PestoContentService {
     if (provided_content_type_id == ``) {
       const errMsg = `PESTO-CONTENT DATA SERVICE [GET PESTO-CONTENT BY PROJECT ID] method - It is impossible to find any [PestoContent] with an empty string as [Pesto Content Type ID], the provided PROJECT ID is the empty string: /pesto-content/content-type/:provided_content_type_id = [${provided_content_type_id}]`;
       // throw `${errMsg}`;
-      console.warn(`${errMsg}`);
+      this.logger.verbose(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
     }
     const foundContents = await this.model.find({
@@ -135,14 +136,14 @@ export class PestoContentService {
       ],
     });
 
-    console.log(
+    this.logger.verbose(
       `PESTO-CONTENT DATA SERVICE [GET PESTO-CONTENT BY CONTENT-TYPE ID] method - Found record [foundContents]:`,
       foundContents,
     );
     if (!foundContents) {
       const errMsg = `PESTO-CONTENT DATA SERVICE [GET PESTO-CONTENT BY CONTENT-TYPE ID] method - No [PestoContent] was found in Database, with content_type_id = [${provided_content_type_id}]`;
       // throw `${errMsg}`;
-      console.warn(`${errMsg}`);
+      this.logger.verbose(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_FOUND);
     } else {
       return foundContents;
@@ -158,21 +159,16 @@ export class PestoContentService {
         { project_id: createPestoContentDto.project_id },
       ],
     });
-    console.log(
-      `PESTO-CONTENT DATA SERVICE [CREATE] method - [${JSON.stringify(
-        createPestoContentDto,
-        null,
-        4,
-      )}]`,
-    );
-    console.log(
+    // eslint-disable-next-line prettier/prettier
+    this.logger.verbose(`PESTO-CONTENT DATA SERVICE [CREATE] method - [${JSON.stringify(createPestoContentDto,null,4)}]`);
+    this.logger.verbose(
       `PESTO-CONTENT DATA SERVICE [CREATE] method - Found record [didIFindOne]:`,
       didIFindOne,
     );
     if (didIFindOne) {
       const errMsg = `PESTO-CONTENT DATA SERVICE [CREATE] method - No new [PestoContent] was created. A PestoContent already exists with name = [${createPestoContentDto.name}] and project_id = [${createPestoContentDto.project_id}]`;
       // throw `${errMsg}`;
-      console.warn(`${errMsg}`);
+      this.logger.verbose(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
     } else {
       const didIFindOneProject = await this.projectsModel
@@ -187,14 +183,14 @@ export class PestoContentService {
       if (!didIFindOneProject) {
         const errMsg = `PESTO-CONTENT DATA SERVICE [CREATE] method - No new [PestoContent] was created. You provided a [project_id] = [${createPestoContentDto.project_id}] but no Pesto Project exist in the database with that ID! `;
         // throw `${errMsg}`;
-        console.warn(`${errMsg}`);
+        this.logger.verbose(`${errMsg}`);
         throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
       } else {
-        console.log(
+        this.logger.verbose(
           `PESTO-CONTENT DATA SERVICE [CREATE] method - Creating the below Pesto Content Type :`,
           didIFindOne,
         );
-        console.log(
+        this.logger.verbose(
           `PESTO-CONTENT DATA SERVICE [CREATE] method - Associated with the below Pesto Project :`,
           didIFindOneProject,
         );
@@ -212,14 +208,14 @@ export class PestoContentService {
         if (!didIFindOneContentType) {
           const errMsg = `PESTO-CONTENT DATA SERVICE [CREATE] method - No new [PestoContent] was created. You provided a [content_type_id] = [${createPestoContentDto.content_type_id}] but no Pesto Content Type exists in the database with that ID! `;
           // throw `${errMsg}`;
-          console.warn(`${errMsg}`);
+          this.logger.verbose(`${errMsg}`);
           throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
         } else {
-          console.log(
+          this.logger.verbose(
             `PESTO-CONTENT DATA SERVICE [CREATE] method - Creating the below Pesto Content Type :`,
             didIFindOne,
           );
-          console.log(
+          this.logger.verbose(
             `PESTO-CONTENT DATA SERVICE [CREATE] method - Associated with the below Pesto Project :`,
             didIFindOneProject,
           );
@@ -252,21 +248,17 @@ export class PestoContentService {
     if (id == ``) {
       const errMsg = `PESTO-CONTENT DATA SERVICE [UPADATE PestoContent BY ID] method - It is impossible to update any [PestoContent] with an empty string as CONTENT ID, the provided CONTENT ID is the empty string: /pesto-content-type/:id = [${id}]`;
       // throw `${errMsg}`;
-      console.warn(`${errMsg}`);
+      this.logger.verbose(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
     }
     const didIFindOne = await this.findOne(id);
-    console.log(
+    this.logger.verbose(
       `PESTO-CONTENT DATA SERVICE [before]-[UPDATE BY ID] method - Found record [didIFindOne]:`,
       didIFindOne,
     );
-    console.log(
-      `PESTO-CONTENT DATA SERVICE [before]-[UPDATE BY ID] method [updatePestoContentDto] = - [${JSON.stringify(
-        updatePestoContentDto,
-        null,
-        4,
-      )}]`,
-    );
+
+    // eslint-disable-next-line prettier/prettier
+    this.logger.verbose(`PESTO-CONTENT DATA SERVICE [before]-[UPDATE BY ID] method [updatePestoContentDto] = - [${JSON.stringify(updatePestoContentDto,null,4)}]`);
 
     if (didIFindOne) {
       const didIFindOneProject = await this.projectsModel.findOne({
@@ -286,20 +278,20 @@ export class PestoContentService {
       if (!didIFindOneProject) {
         const errMsg = `PESTO-CONTENT DATA SERVICE [UPDATE] method - The [PestoContent] was not updated. You are trying to update a Pesto Content in a project which does not exist anymore! The Pesto Content Type you provided has [project_id] = [${updatePestoContentDto.project_id}] but no Pesto Project exist in the database with that ID! `;
         // throw `${errMsg}`;
-        console.warn(`${errMsg}`);
+        this.logger.verbose(`${errMsg}`);
         throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
       } else if (!didIFindOneContentType) {
         const errMsg = `PESTO-CONTENT DATA SERVICE [UPDATE] method - The [PestoContent] was not updated. You are trying to update a Pesto Content asociated to a Content Type which does not exist anymore: [content_type_id] = [${updatePestoContentDto.content_type_id}] but no Pesto Content Type exists in the database with that ID! `;
         // throw `${errMsg}`;
-        console.warn(`${errMsg}`);
+        this.logger.verbose(`${errMsg}`);
         throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
       } else {
-        console.log(
-          `PESTO-CONTENT DATA SERVICE [UPDATE] method - Updating the below Pesto Content Type :`,
+        this.logger.verbose(
+          `PESTO-CONTENT DATA SERVICE [UPDATE] method - Updating the below Pesto Content :`,
           didIFindOne,
         );
-        console.log(
-          `PESTO-CONTENT DATA SERVICE [CREATE] method - Updating the Pesto Content Type for the below Pesto Project :`,
+        this.logger.verbose(
+          `PESTO-CONTENT DATA SERVICE [UPDATE] method - Updating the Pesto Content for the below Pesto Project :`,
           didIFindOneProject,
         );
         /**
@@ -318,42 +310,34 @@ export class PestoContentService {
         const toReturn = await this.model
           .findByIdAndUpdate(id, updatePestoContentDto)
           .exec();
-        console.info(
+        this.logger.verbose(
           `PESTO-CONTENT DATA SERVICE [AFTER SUCCESSFULLY]-[UPDATE BY ID] here is the Object returned by [Mongoose] 's [findByIdAndUpdate] : - [${JSON.stringify(
             toReturn,
             null,
             4,
           )}]`,
         );
-        console.info(
+        this.logger.verbose(
           `PESTO-CONTENT DATA SERVICE [AFTER SUCCESSFULLY]-[UPDATE BY ID] here is the Object returned by Pesto API : - [${JSON.stringify(
             {
               _id: toReturn._id,
-              name: updatePestoContentDto.name,
-              frontmatter: updatePestoContentDto.frontmatter,
-              project_id: updatePestoContentDto.project_id,
-              content_type_id: updatePestoContentDto.content_type_id,
-              createdAt: updatePestoContentDto.createdAt,
-              markdown_content: updatePestoContentDto.markdown_content,
+              name: toReturn.name,
+              frontmatter: toReturn.frontmatter,
+              project_id: toReturn.project_id,
+              content_type_id: toReturn.content_type_id,
+              createdAt: toReturn.createdAt,
+              markdown_content: toReturn.markdown_content,
             },
             null,
             4,
           )}]`,
         );
-        return {
-          _id: toReturn._id,
-          name: updatePestoContentDto.name,
-          frontmatter: updatePestoContentDto.frontmatter,
-          project_id: updatePestoContentDto.project_id,
-          content_type_id: updatePestoContentDto.content_type_id,
-          createdAt: updatePestoContentDto.createdAt,
-          markdown_content: updatePestoContentDto.markdown_content,
-        };
+        return toReturn;
       }
     } else {
-      const errMsg = `DATA SERVICE [UPDATE BY ID] - No [PestoContent] with [_id] = [${id}]  was found in the database: Cannot update non-existing record !`;
+      const errMsg = `DATA SERVICE [UPDATE BY ID] - No [PestoContent] with [_id] = [${id}]  was found in the database: Cannot update non-existing Pesto COntent record !`;
       // throw `${errMsg}`;
-      console.warn(`${errMsg}`);
+      this.logger.verbose(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
     }
   }
@@ -368,7 +352,7 @@ export class PestoContentService {
     if (!didIFindOne) {
       const errMsg = `DATA SERVICE [DELETE BY ID] - No [PestoContent] with [_id] = [${id}]  was found in the database: Cannot delete non-existing record !`;
       // throw `${errMsg}`;
-      console.warn(`${errMsg}`);
+      this.logger.verbose(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.NOT_ACCEPTABLE);
     }
     return {

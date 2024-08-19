@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { PestoContentController } from './pesto-content.controller';
 import { PestoContentService } from './pesto-content.service';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -16,6 +16,8 @@ import {
 } from '../pesto-content-type/schemas/PestoContentType.schema';
 
 import { PestoContentsResolver } from './schemas/PestoContent.resolver';
+import { PestoContentTypeService } from '../pesto-content-type/pesto-content-type.service';
+import { WinstonModule } from 'nest-winston';
 
 @Module({
   controllers: [PestoContentController],
@@ -23,9 +25,14 @@ import { PestoContentsResolver } from './schemas/PestoContent.resolver';
     PestoContentService,
     PestoContentsResolver,
     // PestoContentListResolver,
+    PestoContentTypeService,
+    Logger,
   ],
   imports: [
     // registers the controller into the module
+    WinstonModule.forRoot({
+      // options
+    }),
     MongooseModule.forFeature([
       { name: PestoContent.name, schema: PestoContentSchema },
       { name: PestoProject.name, schema: PestoProjectSchema },

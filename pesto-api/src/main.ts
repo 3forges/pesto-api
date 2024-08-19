@@ -7,6 +7,9 @@ import {
 import { AppModule } from './app.module';
 
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { Logger } from '@nestjs/common';
+
+const logger = new Logger(`Pesto API EntryPoint`);
 
 async function bootstrap() {
   /*
@@ -21,6 +24,8 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter(),
     {
+      // logger: console,
+      logger: ['warn', 'debug', 'fatal', 'log', 'error', 'verbose'],
       // rawBody: true,
       bodyParser: true,
       rawBody: true,
@@ -61,7 +66,7 @@ async function bootstrap() {
 
   // const pestoApiHost: string = `${process.env.PESTO_API_HOST}` || '0.0.0.0';
   const pestoApiHost: string = process.env.PESTO_API_HOST || '0.0.0.0';
-  console.log(` PESTO_API_HOST = [${pestoApiHost}]`);
+  logger.verbose(` PESTO_API_HOST = [${pestoApiHost}]`);
   await app.listen(3000, pestoApiHost);
 }
 bootstrap();

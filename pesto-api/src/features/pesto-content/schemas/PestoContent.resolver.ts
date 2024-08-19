@@ -67,7 +67,7 @@ export class PestoContentsResolver {
   // private postsService: PostsService,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   @Query((returns: any) => PestoContent, { nullable: true })
-  async pestoContentType(
+  async pestoContent(
     @Args('_id', { type: () => ID }) id: string,
   ): Promise<PestoContent> {
     return this.pestoContentService.findOne(`${id}`);

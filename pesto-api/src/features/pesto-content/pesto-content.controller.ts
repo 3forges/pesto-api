@@ -9,21 +9,32 @@ import {
   HttpCode,
   UsePipes,
   ValidationPipe,
+  // Logger,
+  Inject,
   // RawBodyRequest,
   // Req,
 } from '@nestjs/common';
+import { Logger } from 'winston';
 import { CreatePestoContentDto } from './dto/create-pesto-content.dto';
 import { UpdatePestoContentDto } from './dto/update-pesto-content.dto';
 import {
   PestoContentDeletionResponse,
   PestoContentService,
 } from './pesto-content.service';
+import { PestoContentTypeService } from '../pesto-content-type/pesto-content-type.service';
+import { PestoContentType } from '../pesto-content-type/schemas/PestoContentType.schema';
 //import { Request } from 'express';
 // import { FastifyRequest } from 'fastify';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 
 @Controller('pesto-content')
 export class PestoContentController {
-  constructor(private readonly service: PestoContentService) {}
+  //private readonly logger = new Logger(PestoContentController.name);
+  constructor(
+    private readonly service: PestoContentService,
+    private readonly contentTypeService: PestoContentTypeService,
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+  ) {}
 
   @Get()
   async index() {
@@ -53,10 +64,10 @@ export class PestoContentController {
   @Post()
   @HttpCode(204)
   async create(@Body() createPestoContent: CreatePestoContentDto) {
-    console.log(
+    this.logger.verbose(
       `Et voici le body reçu dans le [[/pesto-content-type] POST] : [${createPestoContent}] `,
     );
-    console.log(createPestoContent);
+    this.logger.verbose(createPestoContent);
     return await this.service.create(createPestoContent);
   }
 
@@ -68,14 +79,14 @@ export class PestoContentController {
   // async create(@Req() req: RawBodyRequest<FastifyRequest>) {
   async create(@Body() createPestoContent: CreatePestoContentDto) {
     const jsonPayload = createPestoContent; // returns a `Buffer`.
-    console.log(` >>>>>>>>>>>>>>>> DEBUT JSON RECU: `);
-    console.log(JSON.stringify(jsonPayload, null, 4));
-    console.log(` >>>>>>>>>>>>>>>> FIN JSON PAYLOAD`);
-    console.log(createPestoContent.project_id);
-    console.log(createPestoContent.content_type_id);
-    console.log(createPestoContent.markdown_content);
-    console.log(createPestoContent.name);
-    console.log(createPestoContent.frontmatter);
+    this.logger.verbose(` >>>>>>>>>>>>>>>> DEBUT JSON RECU: `);
+    this.logger.verbose(JSON.stringify(jsonPayload, null, 4));
+    this.logger.verbose(` >>>>>>>>>>>>>>>> FIN JSON PAYLOAD`);
+    this.logger.verbose(createPestoContent.project_id);
+    this.logger.verbose(createPestoContent.content_type_id);
+    this.logger.verbose(createPestoContent.markdown_content);
+    this.logger.verbose(createPestoContent.name);
+    this.logger.verbose(createPestoContent.frontmatter);
 
     return await this.service.create(createPestoContent);
   }
@@ -107,16 +118,57 @@ export class PestoContentController {
     @Param('id') id: string,
     @Body() updatePestoContent: UpdatePestoContentDto,
   ) {
-    console.log(
-      ` PESTO CONTENT REST CONTROLLER - PUT - received payload :`,
-      updatePestoContent,
+    /*
+    this.logger.verbose(
+      ` PESTO CONTENT REST CONTROLLER - PUT - received payload : [${JSON.stringify(
+        updatePestoContent,
+        null,
+        4,
+      )}]`,
     );
+    */
+    // eslint-disable-next-line prettier/prettier
+    this.logger.verbose(` PESTO CONTENT REST CONTROLLER - PUT - received payload : [${JSON.stringify(updatePestoContent,null,4)}]`);
+    // eslint-disable-next-line prettier/prettier
+    this.logger.verbose(` PESTO CONTENT REST CONTROLLER - PUT - received payload : [${JSON.stringify(updatePestoContent,null,4)}]`);
+    // eslint-disable-next-line prettier/prettier
+    throw new Error('PESTO CONTENT REST CONTROLLER - PUT - I FORCE STOPPING UPDATE IN CONTROLLER')
+    const associatedContentType: PestoContentType =
+      await this.contentTypeService.findOne(
+        `${updatePestoContent.content_type_id}`,
+      );
+    /*
+    this.logger.verbose(
+      ` PESTO CONTENT REST CONTROLLER - PUT - associatedContentType :`,
+      JSON.stringify(associatedContentType, null, 4),
+    );
+    */
+    /*
+    this.logger.verbose(
+      ` PESTO CONTENT REST CONTROLLER - PUT - [associatedContentType.project_id] :`,
+      `${associatedContentType.project_id}`,
+    );
+    */
+    /*
+    this.logger.verbose(
+      ` PESTO CONTENT REST CONTROLLER - PUT - [updatePestoContent.project_id] :`,
+      `${updatePestoContent.project_id}`,
+    );
+    */
+    if (
+      `${associatedContentType.project_id}` !=
+      `${updatePestoContent.project_id}`
+    ) {
+      throw new Error(
+        `PESTO CONTENT REST CONTROLLER - PUT - Error checking the constraint that [project_id] of [updatePestoContent] and [associatedContentType] must be equal! so Pesto Content will NOT be updated`,
+      );
+    }
     return await this.service.update(id, updatePestoContent);
   }
 
   @Delete(':id')
   async delete(@Param('id') id: string): Promise<PestoContentDeletionResponse> {
-    console.log(`Ouais ok c'est le DELETE [${id}]`);
+    this.logger.verbose(`Ouais ok c'est le DELETE [${id}]`);
     return await this.service.delete(id);
   }
 }

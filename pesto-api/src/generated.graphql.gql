@@ -65,9 +65,10 @@ type PestoProjectCreationResponse {
 }
 
 type Query {
-  pestoContentType(_id: ID!): PestoContent
+  pestoContentType(_id: ID!): PestoContentType
   getAllPestoContentTypes: [PestoContentType!]!
   getAllPestoContentTypesByProjectID(project_id: ID!): [PestoContentType!]!
+  pestoContent(_id: ID!): PestoContent
   getAllPestoContents: [PestoContent!]!
   getAllPestoContentsByProjectID(project_id: ID!): [PestoContent!]!
   getAllPestoContentsByContentTypeID(content_type_id: ID!): [PestoContent!]!
