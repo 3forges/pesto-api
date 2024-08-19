@@ -22,7 +22,7 @@ import {
   PestoContentService,
 } from './pesto-content.service';
 import { PestoContentTypeService } from '../pesto-content-type/pesto-content-type.service';
-import { PestoContentType } from '../pesto-content-type/schemas/PestoContentType.schema';
+// import { PestoContentType } from '../pesto-content-type/schemas/PestoContentType.schema';
 //import { Request } from 'express';
 // import { FastifyRequest } from 'fastify';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
@@ -38,6 +38,10 @@ export class PestoContentController {
 
   @Get()
   async index() {
+    // eslint-disable-next-line prettier/prettier
+    await this.service.doSomething(`[PESTO CONTENT REST CONTROLLER - GET index()]`);
+    // eslint-disable-next-line prettier/prettier
+    this.service.doSomethingSync(`[PESTO CONTENT REST CONTROLLER - GET index()]`);
     return await this.service.findAll();
   }
 
@@ -127,16 +131,21 @@ export class PestoContentController {
       )}]`,
     );
     */
+    await this.service.doSomething(`[PESTO CONTENT REST CONTROLLER - PUT]`);
+    this.service.doSomethingSync(`[PESTO CONTENT REST CONTROLLER - PUT]`);
     // eslint-disable-next-line prettier/prettier
-    this.logger.verbose(` PESTO CONTENT REST CONTROLLER - PUT - received payload : [${JSON.stringify(updatePestoContent,null,4)}]`);
+    //this.logger.verbose(` PESTO CONTENT REST CONTROLLER - PUT - received payload : [${JSON.stringify(updatePestoContent,null,4)}]`);
     // eslint-disable-next-line prettier/prettier
-    this.logger.verbose(` PESTO CONTENT REST CONTROLLER - PUT - received payload : [${JSON.stringify(updatePestoContent,null,4)}]`);
+    //this.logger.verbose(` PESTO CONTENT REST CONTROLLER - PUT - received payload : [${JSON.stringify(updatePestoContent,null,4)}]`);
     // eslint-disable-next-line prettier/prettier
-    throw new Error('PESTO CONTENT REST CONTROLLER - PUT - I FORCE STOPPING UPDATE IN CONTROLLER')
+    //throw new Error('PESTO CONTENT REST CONTROLLER - PUT - I FORCE STOPPING UPDATE IN CONTROLLER')
+
+    /*
     const associatedContentType: PestoContentType =
       await this.contentTypeService.findOne(
         `${updatePestoContent.content_type_id}`,
       );
+    */
     /*
     this.logger.verbose(
       ` PESTO CONTENT REST CONTROLLER - PUT - associatedContentType :`,
@@ -155,6 +164,8 @@ export class PestoContentController {
       `${updatePestoContent.project_id}`,
     );
     */
+
+    /*
     if (
       `${associatedContentType.project_id}` !=
       `${updatePestoContent.project_id}`
@@ -163,6 +174,7 @@ export class PestoContentController {
         `PESTO CONTENT REST CONTROLLER - PUT - Error checking the constraint that [project_id] of [updatePestoContent] and [associatedContentType] must be equal! so Pesto Content will NOT be updated`,
       );
     }
+    */
     return await this.service.update(id, updatePestoContent);
   }
 

@@ -33,9 +33,11 @@ logger.verbose(` PESTO_MONGODB_URL = [${mongooseUrl}]`);
     WinstonModule.forRoot({
       transports: [
         // new winston.transports.Stream({
+        /*
         new winston.transports.Stream({
           stream: process.stdout,
         }),
+        */
         new winston.transports.Console({
           format: winston.format.combine(
             winston.format.timestamp(),

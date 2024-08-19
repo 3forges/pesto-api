@@ -18,7 +18,7 @@ import {
   PestoContentType,
   PestoContentTypeDocument,
 } from '../pesto-content-type/schemas/PestoContentType.schema';
-
+import * as fs from 'fs';
 @Injectable()
 export class PestoContentService {
   private readonly logger = new Logger(PestoContentService.name);
@@ -359,6 +359,33 @@ export class PestoContentService {
       deletedContentType: await this.model.findByIdAndDelete(id).exec(),
       message: `Content successfully deleted`,
     };
+  }
+  /**
+   * Tests methods
+   */
+  async doSomething(callerMessage: string): Promise<void> {
+    const tesMsg = `APP SERVICE [doSomething] - I am an asynchrone service method defined in the app service, and called by [${callerMessage}] !`;
+    // throw `${errMsg}`;
+    this.logger.verbose(`${tesMsg}`);
+    // eslint-disable-next-line prettier/prettier
+    // throw new Error('APP SERVICE [doSomething] - I am an error thrown in the data service method')
+    await fs.writeFile(
+      `file_${callerMessage}.txt`,
+      `APP SERVICE [doSomething] - I am an asynchrone service method defined in the app service, and called by [${callerMessage}] !`,
+      function (err) {
+        if (err) {
+          return this.logger.error(err);
+        }
+        this.logger.verbose('APP SERVICE [doSomething] - File created!');
+      }.bind(this),
+    );
+  }
+  doSomethingSync(callerMessage: string): void {
+    const tesMsg = `APP SERVICE [doSomethingSync] - I am a synchrone service method in the app service, and called by [${callerMessage}] !`;
+    // throw `${errMsg}`;
+    this.logger.verbose(`${tesMsg}`);
+    // eslint-disable-next-line prettier/prettier
+    // throw new Error('APP SERVICE [doSomething] - I am an error thrown in the data service method')
   }
 }
 
