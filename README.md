@@ -166,6 +166,7 @@ pnpm run ci:env
 
 source ./../.env.sh
 pnpm start
+# rm -fr ./dist && pnpm build && pnpm run generate:graphql && pnpm start
 ```
 
 Finally, you can now start the Pesto UI, see [the `Pesto UI` reporsitory](https://github.com/3forges/pesto-ui).

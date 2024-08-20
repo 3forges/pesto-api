@@ -131,8 +131,18 @@ export class PestoContentController {
       )}]`,
     );
     */
+    /**
+     * I have no clue why yet, but those two below
+     * are not ever excuted, even if the REST endpoint
+     * works perfectly well as expected.
+     */
     await this.service.doSomething(`[PESTO CONTENT REST CONTROLLER - PUT]`);
     this.service.doSomethingSync(`[PESTO CONTENT REST CONTROLLER - PUT]`);
+    /**
+     * I do not have a clue why yet, but the below
+     * log line never appears into the logs
+     */
+    this.logger.verbose(``);
     // eslint-disable-next-line prettier/prettier
     //this.logger.verbose(` PESTO CONTENT REST CONTROLLER - PUT - received payload : [${JSON.stringify(updatePestoContent,null,4)}]`);
     // eslint-disable-next-line prettier/prettier
