@@ -59,7 +59,8 @@ export class PestoContentTypeController {
   */
 
   @Post()
-  @HttpCode(204)
+  // @HttpCode(204) // IF HTTP code is 204, NestJS will not return the created object!, This makes sense due to semantics of HTTP 204: no content
+  @HttpCode(201)
   // async create(@Req() req: RawBodyRequest<FastifyRequest>) {
   async create(@Body() createPestoContentType: CreatePestoContentTypeDto) {
     const jsonPayload = createPestoContentType; // returns a `Buffer`.
