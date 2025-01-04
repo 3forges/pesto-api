@@ -148,7 +148,7 @@ export class PestoContentTypeService {
       } else {
         console.log(
           `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] method - Creating the below Pesto Content Type :`,
-          didIFindOne,
+          createPestoContentTypeDto,
         );
         console.log(
           `PESTO-CONTENT-TYPE DATA SERVICE [CREATE] method - Associated with the below Pesto Project :`,

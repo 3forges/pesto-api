@@ -112,7 +112,9 @@ export class PestoContentTypeController {
   async delete(
     @Param('id') id: string,
   ): Promise<PestoContentTypeDeletionResponse> {
-    console.log(`Ouais ok c'est le DELETE [${id}]`);
+    console.log(
+      `PESTO CONTENT TYPE REST CONTROLLER - Ouais ok c'est le DELETE [${id}]`,
+    );
     return await this.service.delete(id);
   }
 }

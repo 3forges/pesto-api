@@ -57,8 +57,8 @@ sed -i "s#${OLD_IPADDR_OF_YOUR_VM}#${IPADDR_OF_YOUR_VM}#g" /c/Windows/System32/d
 # - WHERE I HAVE MY [VSCODE] and I 
 # - run locally the code in dev mode : 
 # - Pesto API and the frontend
-export OLD_IPADDR_OF_YOUR_HWMACHINE="192.168.45.237"
-export IPADDR_OF_YOUR_HWMACHINE="192.168.247.236"
+export OLD_IPADDR_OF_YOUR_HWMACHINE="192.168.247.236"
+export IPADDR_OF_YOUR_HWMACHINE="192.168.236.236"
 sed -i "s#${OLD_IPADDR_OF_YOUR_HWMACHINE}#${IPADDR_OF_YOUR_HWMACHINE}#g" /c/Windows/System32/drivers/etc/hosts
 
 ```
