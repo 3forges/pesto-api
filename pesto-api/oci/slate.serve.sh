@@ -34,7 +34,7 @@ git clone https://github.com/slatedocs/slate ${DOCS_DIST}
 
 cd ${DOCS_DIST}
 
-git checkout ${SLATE_VERSION}
+git checkout v${SLATE_VERSION}
 
 ls -alh ${DOCS_DIST}/source
 
