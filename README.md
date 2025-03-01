@@ -190,7 +190,7 @@ You will get :
 * The `openapi.json`
 * A well enriched markdown file, `./pesto-api/pesto.widdershins.md`, which is no yet used to render a fully fledged static website, as beautiful docs to statically serve.
 
-Then you can:
+Then you can (requires docker):
 
 ```bash
 pnpm run slate:docs:build
