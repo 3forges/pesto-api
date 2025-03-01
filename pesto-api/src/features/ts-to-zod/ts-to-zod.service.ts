@@ -19,6 +19,9 @@ export class TsToZodService {
   ): Promise<{ schema: string; error: string }> {
     const filePath =
       path.join(tmpDir, crypto.randomBytes(16).toString('hex')) + '.ts';
+    console.log(
+      `TS-TO-ZOD SERVICE [convertToZod] method - filePath = [${filePath}]`,
+    );
     try {
       const schemaGenerator = generate({
         // sourceText: `export interface whatever {
@@ -32,19 +35,25 @@ export class TsToZodService {
       });
       // schemaGenerator.transformedSourceText
       console.log(
-        `JBL DEBUG: schemaGenerator.transformedSourceText [${schemaGenerator.transformedSourceText}]`,
+        `TS-TO-ZOD SERVICE [convertToZod] method - schemaGenerator.transformedSourceText [${schemaGenerator.transformedSourceText}]`,
       );
       schemaGenerator.transformedSourceText;
       console.log(
-        `JBL DEBUG: schemaGenerator.transformedSourceText [${schemaGenerator.transformedSourceText}]`,
+        `TS-TO-ZOD SERVICE [convertToZod] method - schemaGenerator.transformedSourceText [${schemaGenerator.transformedSourceText}]`,
       );
 
-      const schema = schemaGenerator.getZodSchemasFile(filePath);
+      const nonFormatttedZodschema =
+        schemaGenerator.getZodSchemasFile(filePath);
       console.log(
-        `JBL DEBUG: schemaGenerator.getZodSchemasFile returns [${schema}]`,
+        `TS-TO-ZOD SERVICE [convertToZod] method - schemaGenerator.getZodSchemasFile returns [${nonFormatttedZodschema}]`,
       );
-      const formattedSchema = schema.split(/\r?\n/).slice(1).join('\n');
-      console.log(`JBL DEBUG: formattedSchema = [${formattedSchema}]`);
+      const formattedSchema = nonFormatttedZodschema
+        .split(/\r?\n/)
+        .slice(1)
+        .join('\n');
+      console.log(
+        `TS-TO-ZOD SERVICE [convertToZod] method - formattedSchema = [${formattedSchema}]`,
+      );
 
       return { schema: formattedSchema, error: schemaGenerator.errors[0] };
     } catch (error) {

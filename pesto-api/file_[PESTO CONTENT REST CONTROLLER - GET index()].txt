@@ -1,1 +1,0 @@
-APP SERVICE [doSomething] - I am an asynchrone service method defined in the app service, and called by [[PESTO CONTENT REST CONTROLLER - GET index()]] !
