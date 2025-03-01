@@ -36,9 +36,9 @@ cd ${DOCS_DIST}
 
 git checkout "v${SLATE_VERSION}"
 
-ls -alh ${DOCS_DIST}/source
+ls -alh ./source
 
-cat ${WHERE_I_WAS}/${WIDDERSHINS_MD} | tee ${DOCS_DIST}/source/index.html.md
+cat ${WHERE_I_WAS}/${WIDDERSHINS_MD} | tee ./source/index.html.md
 
 
 docker pull slatedocs/slate
