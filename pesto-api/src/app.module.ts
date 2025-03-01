@@ -8,6 +8,8 @@ import { AppController } from './app.controller';
 import { PestoContentTypeModule } from './features/pesto-content-type/pesto-content-type.module';
 import { PestoContentModule } from './features/pesto-content/pesto-content.module';
 import { PestoProjectModule } from './features/pesto-project/pesto-project.module';
+// import { TsToZodModule } from './features/ts-to-zod/ts-to-zod.module';
+import { TsToZodModule } from './features/ts-to-zod/ts-to-zod.module';
 import { DirectiveLocation, GraphQLDirective } from 'graphql';
 import { upperDirectiveTransformer } from './common/directives/uppercase.directive';
 import { LoggerMiddleware } from './logger.middleware';
@@ -58,6 +60,7 @@ logger.verbose(` PESTO_MONGODB_URL = [${mongooseUrl}]`);
     PestoContentTypeModule,
     PestoContentModule,
     PestoProjectModule,
+    TsToZodModule,
     /*
     GraphQLModule.forRoot<ApolloDriverConfig>({
       // autoSchemaFile: 'src/graphql.ts',

@@ -190,6 +190,13 @@ You will get :
 * The `openapi.json`
 * A well enriched markdown file, `./pesto-api/pesto.widdershins.md`, which is no yet used to render a fully fledged static website, as beautiful docs to statically serve.
 
+Then you can:
+
+```bash
+pnpm run slate:docs:build
+pnpm run slate:docs:serve
+```
+
 ### OpenAPI Documentation: Next TODO
 
 Ideas to serve the _widdershins_ docs:

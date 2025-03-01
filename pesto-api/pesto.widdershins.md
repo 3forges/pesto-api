@@ -30,6 +30,24 @@ Base URLs:
 
 <h1 id="pesto-api-default">Default</h1>
 
+## AppController_getCheerUp
+
+<a id="opIdAppController_getCheerUp"></a>
+
+> Code samples
+
+`GET /cheerup`
+
+<h3 id="appcontroller_getcheerup-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|none|None|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
 ## AppController_getHello
 
 <a id="opIdAppController_getHello"></a>
@@ -90,7 +108,7 @@ This operation does not require authentication
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|204|[No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)|none|None|
+|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|none|None|
 
 <aside class="success">
 This operation does not require authentication
@@ -265,7 +283,7 @@ This operation does not require authentication
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|204|[No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)|none|None|
+|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|none|None|
 
 <aside class="success">
 This operation does not require authentication
@@ -389,6 +407,24 @@ This operation does not require authentication
 |git_ssh_uri|path|string|true|none|
 
 <h3 id="pestoprojectcontroller_findbyuri-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|none|None|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## TsToZodController_create
+
+<a id="opIdTsToZodController_create"></a>
+
+> Code samples
+
+`GET /ts-to-zod`
+
+<h3 id="tstozodcontroller_create-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|

@@ -13,7 +13,7 @@
     "db:scratch": "bash -c ./oci/dev/db_scratch.sh"
   },
   "dependencies": {
-  },
-  "devDependencies": {
+    "crypto": "^1.0.1",
+    "ts-to-zod": "^3.15.0"
   }
 }

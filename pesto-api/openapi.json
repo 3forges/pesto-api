@@ -1,6 +1,17 @@
 {
     "openapi": "3.0.0",
     "paths": {
+        "/cheerup": {
+            "get": {
+                "operationId": "AppController_getCheerUp",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/": {
             "get": {
                 "operationId": "AppController_getHello",
@@ -36,7 +47,7 @@
                     }
                 },
                 "responses": {
-                    "204": {
+                    "201": {
                         "description": ""
                     }
                 }
@@ -172,7 +183,7 @@
                     }
                 },
                 "responses": {
-                    "204": {
+                    "201": {
                         "description": ""
                     }
                 }
@@ -277,6 +288,17 @@
                         }
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/ts-to-zod": {
+            "get": {
+                "operationId": "TsToZodController_create",
+                "parameters": [],
                 "responses": {
                     "200": {
                         "description": ""
