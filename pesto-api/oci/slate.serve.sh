@@ -1,11 +1,13 @@
 #!/bin/bash
 
+set -e
+
 # --
 #  https://github.com/slatedocs/slate/wiki/Using-Slate-in-Docker#getting-started
 # --
 # 
-export DOCS_DIST=./docs_dist/
-export WIDDERSHINS_MD=${WIDDERSHINS_MD:-"./pesto.widdershins.md"}
+export DOCS_DIST="./slate_widdershins_docs"
+export WIDDERSHINS_MD=${WIDDERSHINS_MD:-"pesto.widdershins.md"}
 export SLATE_VERSION="2.13.1"
 
 
@@ -21,28 +23,27 @@ echo "# --- # --- # --- "
 echo "# --- # --- # --- # --- "
 
 
+if [ -d ${DOCS_DIST} ]; then
+  rm -fr ${DOCS_DIST}
+fi;
+mkdir -p ${DOCS_DIST}
 
+export WHERE_I_WAS=$(pwd)
 git clone https://github.com/slatedocs/slate ${DOCS_DIST}
+
 
 cd ${DOCS_DIST}
 
 git checkout ${SLATE_VERSION}
 
-if [ -f ./index.html.md ]; then
-  rm ./index.html.md
-fi;
+ls -alh ${DOCS_DIST}/source
 
+cat ${WHERE_I_WAS}/${WIDDERSHINS_MD} | tee ${DOCS_DIST}/source/index.html.md
 
-cp ${WIDDERSHINS_MD} ./index.html.md
-cp ./index.html.md ${DOCS_DIST}/source/
-
-if [ -f ./index.html.md ]; then
-  rm ./index.html.md
-fi;
 
 docker pull slatedocs/slate
 
-docker run --rm --name slate -p 0.0.0.0:4567:4567 -v $(pwd)/source:/srv/slate/source slatedocs/slate serve
+docker run --rm --name slate -p 0.0.0.0:4567:4567 -v $PWD/source/index.html.md:/srv/slate/source/index.html.md slatedocs/slate serve
 
 echo "# --- "
 echo "# --- # --- "
