@@ -55,7 +55,10 @@ export class TsToZodService {
         `TS-TO-ZOD SERVICE [convertToZod] method - formattedSchema = [${formattedSchema}]`,
       );
 
-      return { schema: formattedSchema, error: schemaGenerator.errors[0] };
+      return {
+        schema: formattedSchema,
+        error: schemaGenerator.errors[0],
+      };
     } catch (error) {
       let catchedErrorMessage = 'Unknown Error';
       if (error instanceof Error) catchedErrorMessage = error.message;
