@@ -12,6 +12,7 @@ import { PestoContentTypeModule } from 'src/features/pesto-content-type/pesto-co
 // import { PestoContentModule } from './features/pesto-content/pesto-content.module';
 import { PestoProjectModule } from './features/pesto-project/pesto-project.module';
 import { TsToZodModule } from './features/ts-to-zod/ts-to-zod.module';
+import { TsToJSonSchemaModule } from './features/ts-to-jsonschema/ts-to-jsonschema.module';
 
 /*
 const mongooseUrl: string =
@@ -69,6 +70,7 @@ import {
     // PestoContentModule,
     PestoProjectModule,
     TsToZodModule,
+    TsToJSonSchemaModule,
   ],
   // imports: [PestoContentTypeModule],
   // exports: [PestoContentTypeModule],

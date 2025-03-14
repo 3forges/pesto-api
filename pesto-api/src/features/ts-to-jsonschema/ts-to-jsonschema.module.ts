@@ -6,4 +6,4 @@ import { TsToJSonSchemaService } from './ts-to-jsonschema.service';
   controllers: [TsToJSonSchemaController],
   providers: [TsToJSonSchemaService],
 })
-export class TsToZodModule {}
+export class TsToJSonSchemaModule {}

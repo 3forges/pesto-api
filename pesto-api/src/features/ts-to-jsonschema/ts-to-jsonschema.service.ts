@@ -1,14 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { HttpException } from '@nestjs/common/exceptions';
 import { HttpStatus } from '@nestjs/common';
-
-import * as tsj from 'ts-json-schema-generator'
+/**
+ * See example at: https://github.com/3forges/poc-frontmatter-schema/blob/46c167a4055bceae79a38f03f4270c9b03310b3a/src/examples/five.ts#L41C27-L41C36
+ */
+import * as tsj from 'ts-json-schema-generator';
 import * as fs from 'fs';
 // my-constructor-parser.ts
-import { SubNodeParser } from "ts-json-schema-generator";
-// use typescript exported by TJS to avoid version conflict
-/////////import ts from "ts-json-schema-generator";
-import { createProgram, createParser, SchemaGenerator, createFormatter } from "ts-json-schema-generator";
 
 import path from 'path';
 import crypto from 'crypto';
@@ -23,72 +21,59 @@ export class TsToJSonSchemaService {
   constructor() {}
   async convertToJSonSchema(
     tsInterfaceAsStr: string,
-  ): Promise<{ schema: string; error: string }> {
-    
-    const tsInterfaceName = tsInterfaceAsStr.substring(0, tsInterfaceAsStr.indexOf("{") + 1).replace(`{`, ``).replace(`export`, ``).replace(`interface`, ``).trim();
-
-    const tmpDir = os.tmpdir?.();
+  ): Promise<{ schema: string }> {
+    const tsInterfaceName = tsInterfaceAsStr
+      .substring(0, tsInterfaceAsStr.indexOf('{') + 1)
+      .replace(`{`, ``)
+      .replace(`export`, ``)
+      .replace(`interface`, ``)
+      .trim();
     const tsInterfacefilePath =
       path.join(tmpDir, crypto.randomBytes(16).toString('hex')) + '.ts';
-    const jsonSchemafilePath =
-      path.join(tmpDir, crypto.randomBytes(16).toString('hex')) + '.schema.json';
-    const tsconfigfilePath =
-      path.join(tmpDir, crypto.randomBytes(16).toString('hex')) + '.tsconfig.json';
-    console.log(
-      `TS-TO-JSONSCHEMA SERVICE [convertToJSonSchema] method - tsInterfacefilePath = [${tsInterfacefilePath}]`,
-    );
-    console.log(
-      `TS-TO-JSONSCHEMA SERVICE [convertToJSonSchema] method - tsInterfacefilePath = [${tsInterfacefilePath}]`,
-    );
+    //const jsonSchemafilePath =
+    //  path.join(tmpDir, crypto.randomBytes(16).toString('hex')) +
+    //  '.schema.json';
+    //const tsconfigfilePath =
+    //  path.join(tmpDir, crypto.randomBytes(16).toString('hex')) +
+    //  '.tsconfig.json';
+    try {
+      fs.writeFileSync(tsInterfacefilePath, tsInterfaceAsStr);
+      console.log(
+        `TS-TO-JSONSCHEMA SERVICE [convertToJSonSchema] method - tsInterfaceAsStr = [${tsInterfaceAsStr}] was sucessfully saved to [${tsInterfacefilePath}]`,
+      );
+    } catch (error) {
+      let catchedErrorMessage = 'Unknown Error';
+      if (error instanceof Error) catchedErrorMessage = error.message;
+      // throw new Error(`${e.message}`)
+      //throw new Error(`An error occured `);
+      const errMsg = `TS-TO-JSONSCHEMA SERVICE [convertToJSonSchema] method - an error occured while saving [${tsInterfaceAsStr}] to filesystem in [${tsInterfacefilePath}]. The Error message is : [${catchedErrorMessage}]`;
+      // throw `${errMsg}`;
+      console.warn(`${errMsg}`);
+      throw new HttpException(`${errMsg}`, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
     /** @type {import('ts-json-schema-generator/dist/src/Config').Config} */
     const config = {
-      path: tsInterfacefilePath,// "./.tests_assets/bigIceCreamData.ts",
-      tsconfig: tsconfigfilePath,// "./.tests_assets/tsconfig.json",
+      path: tsInterfacefilePath, // "./.tests_assets/bigIceCreamData.ts",
+      //tsconfig: tsconfigfilePath, // "./.tests_assets/tsconfig.json",
       type: `${tsInterfaceName}`, // Or <type-name> if you want to generate schema for that one type only
     };
+    let schemaToReturn = null;
+    let schemaString = ``;
     try {
-      const schemaGenerator = generate({
-        // sourceText: `export interface whatever {
-        //       name: string,
-        //       surname?: string,
-        //       date_of_birth: date
-        //   }`,
-        sourceText: tsInterfaceAsStr,
-        keepComments: false,
-        skipParseJSDoc: true,
-      });
-      // schemaGenerator.transformedSourceText
+      schemaToReturn = tsj.createGenerator(config).createSchema(config.type);
+      schemaString = JSON.stringify(schemaToReturn, null, 2);
       console.log(
-        `TS-TO-JSONSCHEMA SERVICE [convertToJSonSchema] method - schemaGenerator.transformedSourceText [${schemaGenerator.transformedSourceText}]`,
+        `TS-TO-JSONSCHEMA SERVICE [convertToJSonSchema] method - returned schema is: [${schemaString}]`,
       );
-      schemaGenerator.transformedSourceText;
-      console.log(
-        `TS-TO-JSONSCHEMA SERVICE [convertToJSonSchema] method - schemaGenerator.transformedSourceText [${schemaGenerator.transformedSourceText}]`,
-      );
-
-      const nonFormatttedZodschema =
-        schemaGenerator.getZodSchemasFile(filePath);
-      console.log(
-        `TS-TO-JSONSCHEMA SERVICE [convertToJSonSchema] method - schemaGenerator.getZodSchemasFile returns [${nonFormatttedZodschema}]`,
-      );
-      const formattedSchema = nonFormatttedZodschema
-        .split(/\r?\n/)
-        .slice(1)
-        .join('\n');
-      console.log(
-        `TS-TO-JSONSCHEMA SERVICE [convertToJSonSchema] method - formattedSchema = [${formattedSchema}]`,
-      );
-
       return {
-        schema: formattedSchema,
-        error: schemaGenerator.errors[0],
+        schema: schemaToReturn,
       };
     } catch (error) {
       let catchedErrorMessage = 'Unknown Error';
       if (error instanceof Error) catchedErrorMessage = error.message;
       // throw new Error(`${e.message}`)
       //throw new Error(`An error occured `);
-      const errMsg = `TS-TO-JSONSCHEMA SERVICE [convertToJSonSchema] method - converting interface [${tsInterfaceAsStr}] to zod schema resulted in an error: [${catchedErrorMessage}]`;
+      const errMsg = `TS-TO-JSONSCHEMA SERVICE [convertToJSonSchema] method - converting interface [${tsInterfaceAsStr}] to json schema resulted in an error: [${catchedErrorMessage}]`;
       // throw `${errMsg}`;
       console.warn(`${errMsg}`);
       throw new HttpException(`${errMsg}`, HttpStatus.INTERNAL_SERVER_ERROR);

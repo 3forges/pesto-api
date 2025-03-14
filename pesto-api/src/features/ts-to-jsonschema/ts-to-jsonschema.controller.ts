@@ -45,21 +45,24 @@ export class TsToJSonSchemaController {
   // @HttpCode(201)
   @HttpCode(200)
   // async create(@Req() req: RawBodyRequest<FastifyRequest>) {
-  async convertToZod(
+  async convertToJSonSchema(
     @Body() tsInterfaceToConvertPayload: { tsInterfaceAsStr: string },
   ) {
     const jsonPayload: { tsInterfaceAsStr: string } =
       tsInterfaceToConvertPayload; // returns a `Buffer`.
-    console.log(` >>> [TsToJSonSchemaController] >>>>>>>>>>>>>>>> DEBUT JSON RECU: `);
-    // console.log(jsonPayload);
+    console.log(
+      ` >>> [TsToJSonSchemaController] >>>>>>>>>>>>>>>> DEBUT JSON RECU: `,
+    );
     console.log(
       ` >>> [TsToJSonSchemaController] >>>>>>>>>>>>>>>> JSON.stringify(jsonPayload, null, 2) is:`,
     );
     console.log(JSON.stringify(jsonPayload, null, 2));
-    console.log(` >>> [TsToJSonSchemaController] >>>>>>>>>>>>>>>> FIN JSON PAYLOAD`);
+    console.log(
+      ` >>> [TsToJSonSchemaController] >>>>>>>>>>>>>>>> FIN JSON PAYLOAD`,
+    );
     console.log(
       ` >>> [TsToJSonSchemaController] >>>>>>>>>>>>>>>> jsonPayload.tsInterfaceAsStr is ${jsonPayload.tsInterfaceAsStr}`,
     );
-    return await this.service.convertToZod(jsonPayload.tsInterfaceAsStr);
+    return await this.service.convertToJSonSchema(jsonPayload.tsInterfaceAsStr);
   }
 }
